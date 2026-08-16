@@ -1,0 +1,409 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\elfak\\baze_projekat\\bb\\Banka\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{B6BF4988-3C1D-4E08-AAC1-3E030558E723}|Banka\\Banka.csproj|d:\\elfak\\baze_projekat\\bb\\banka\\banka\\mapiranja\\povezanipaketiuslugamap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B6BF4988-3C1D-4E08-AAC1-3E030558E723}|Banka\\Banka.csproj|solutionrelative:banka\\mapiranja\\povezanipaketiuslugamap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B6BF4988-3C1D-4E08-AAC1-3E030558E723}|Banka\\Banka.csproj|d:\\elfak\\baze_projekat\\bb\\banka\\banka\\entiteti\\racun.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B6BF4988-3C1D-4E08-AAC1-3E030558E723}|Banka\\Banka.csproj|solutionrelative:banka\\entiteti\\racun.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B6BF4988-3C1D-4E08-AAC1-3E030558E723}|Banka\\Banka.csproj|d:\\elfak\\baze_projekat\\bb\\banka\\banka\\mapiranja\\racunmap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B6BF4988-3C1D-4E08-AAC1-3E030558E723}|Banka\\Banka.csproj|solutionrelative:banka\\mapiranja\\racunmap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B6BF4988-3C1D-4E08-AAC1-3E030558E723}|Banka\\Banka.csproj|d:\\elfak\\baze_projekat\\bb\\banka\\banka\\entiteti\\povezanipaketiusluga.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B6BF4988-3C1D-4E08-AAC1-3E030558E723}|Banka\\Banka.csproj|solutionrelative:banka\\entiteti\\povezanipaketiusluga.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B6BF4988-3C1D-4E08-AAC1-3E030558E723}|Banka\\Banka.csproj|d:\\elfak\\baze_projekat\\bb\\banka\\banka\\entiteti\\dozvoljenevalute.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B6BF4988-3C1D-4E08-AAC1-3E030558E723}|Banka\\Banka.csproj|solutionrelative:banka\\entiteti\\dozvoljenevalute.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B6BF4988-3C1D-4E08-AAC1-3E030558E723}|Banka\\Banka.csproj|d:\\elfak\\baze_projekat\\bb\\banka\\banka\\mapiranja\\klijentmap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B6BF4988-3C1D-4E08-AAC1-3E030558E723}|Banka\\Banka.csproj|solutionrelative:banka\\mapiranja\\klijentmap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B6BF4988-3C1D-4E08-AAC1-3E030558E723}|Banka\\Banka.csproj|D:\\elfak\\baze_projekat\\bb\\Banka\\banka\\entiteti\\klijent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B6BF4988-3C1D-4E08-AAC1-3E030558E723}|Banka\\Banka.csproj|solutionrelative:banka\\entiteti\\klijent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B6BF4988-3C1D-4E08-AAC1-3E030558E723}|Banka\\Banka.csproj|d:\\elfak\\baze_projekat\\bb\\banka\\banka\\mapiranja\\dozvoljenevalutemap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B6BF4988-3C1D-4E08-AAC1-3E030558E723}|Banka\\Banka.csproj|solutionrelative:banka\\mapiranja\\dozvoljenevalutemap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B6BF4988-3C1D-4E08-AAC1-3E030558E723}|Banka\\Banka.csproj|d:\\elfak\\baze_projekat\\bb\\banka\\banka\\mapiranja\\telefonklijentmap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B6BF4988-3C1D-4E08-AAC1-3E030558E723}|Banka\\Banka.csproj|solutionrelative:banka\\mapiranja\\telefonklijentmap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B6BF4988-3C1D-4E08-AAC1-3E030558E723}|Banka\\Banka.csproj|d:\\elfak\\baze_projekat\\bb\\banka\\banka\\entiteti\\telefonklijenta.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B6BF4988-3C1D-4E08-AAC1-3E030558E723}|Banka\\Banka.csproj|solutionrelative:banka\\entiteti\\telefonklijenta.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B6BF4988-3C1D-4E08-AAC1-3E030558E723}|Banka\\Banka.csproj|d:\\elfak\\baze_projekat\\bb\\banka\\banka\\mapiranja\\ziroracunmap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B6BF4988-3C1D-4E08-AAC1-3E030558E723}|Banka\\Banka.csproj|solutionrelative:banka\\mapiranja\\ziroracunmap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B6BF4988-3C1D-4E08-AAC1-3E030558E723}|Banka\\Banka.csproj|d:\\elfak\\baze_projekat\\bb\\banka\\banka\\mapiranja\\devizniracunmap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B6BF4988-3C1D-4E08-AAC1-3E030558E723}|Banka\\Banka.csproj|solutionrelative:banka\\mapiranja\\devizniracunmap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B6BF4988-3C1D-4E08-AAC1-3E030558E723}|Banka\\Banka.csproj|d:\\elfak\\baze_projekat\\bb\\banka\\banka\\mapiranja\\stedniracunmap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B6BF4988-3C1D-4E08-AAC1-3E030558E723}|Banka\\Banka.csproj|solutionrelative:banka\\mapiranja\\stedniracunmap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B6BF4988-3C1D-4E08-AAC1-3E030558E723}|Banka\\Banka.csproj|d:\\elfak\\baze_projekat\\bb\\banka\\banka\\mapiranja\\tekuciracunmap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B6BF4988-3C1D-4E08-AAC1-3E030558E723}|Banka\\Banka.csproj|solutionrelative:banka\\mapiranja\\tekuciracunmap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B6BF4988-3C1D-4E08-AAC1-3E030558E723}|Banka\\Banka.csproj|d:\\elfak\\baze_projekat\\bb\\banka\\banka\\entiteti\\ziroracun.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B6BF4988-3C1D-4E08-AAC1-3E030558E723}|Banka\\Banka.csproj|solutionrelative:banka\\entiteti\\ziroracun.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B6BF4988-3C1D-4E08-AAC1-3E030558E723}|Banka\\Banka.csproj|d:\\elfak\\baze_projekat\\bb\\banka\\banka\\entiteti\\devizniracun.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B6BF4988-3C1D-4E08-AAC1-3E030558E723}|Banka\\Banka.csproj|solutionrelative:banka\\entiteti\\devizniracun.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B6BF4988-3C1D-4E08-AAC1-3E030558E723}|Banka\\Banka.csproj|d:\\elfak\\baze_projekat\\bb\\banka\\banka\\entiteti\\stedniracun.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B6BF4988-3C1D-4E08-AAC1-3E030558E723}|Banka\\Banka.csproj|solutionrelative:banka\\entiteti\\stedniracun.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B6BF4988-3C1D-4E08-AAC1-3E030558E723}|Banka\\Banka.csproj|d:\\elfak\\baze_projekat\\bb\\banka\\banka\\entiteti\\tekuciracun.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B6BF4988-3C1D-4E08-AAC1-3E030558E723}|Banka\\Banka.csproj|solutionrelative:banka\\entiteti\\tekuciracun.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B6BF4988-3C1D-4E08-AAC1-3E030558E723}|Banka\\Banka.csproj|D:\\elfak\\baze_projekat\\bb\\Banka\\banka\\mapiranja\\fizickolicemap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B6BF4988-3C1D-4E08-AAC1-3E030558E723}|Banka\\Banka.csproj|solutionrelative:banka\\mapiranja\\fizickolicemap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B6BF4988-3C1D-4E08-AAC1-3E030558E723}|Banka\\Banka.csproj|d:\\elfak\\baze_projekat\\bb\\banka\\banka\\entiteti\\fizickolice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B6BF4988-3C1D-4E08-AAC1-3E030558E723}|Banka\\Banka.csproj|solutionrelative:banka\\entiteti\\fizickolice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B6BF4988-3C1D-4E08-AAC1-3E030558E723}|Banka\\Banka.csproj|D:\\elfak\\baze_projekat\\bb\\Banka\\banka\\entiteti\\pravnolice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B6BF4988-3C1D-4E08-AAC1-3E030558E723}|Banka\\Banka.csproj|solutionrelative:banka\\entiteti\\pravnolice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B6BF4988-3C1D-4E08-AAC1-3E030558E723}|Banka\\Banka.csproj|d:\\elfak\\baze_projekat\\bb\\banka\\banka\\mapiranja\\pravnolicemap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B6BF4988-3C1D-4E08-AAC1-3E030558E723}|Banka\\Banka.csproj|solutionrelative:banka\\mapiranja\\pravnolicemap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B6BF4988-3C1D-4E08-AAC1-3E030558E723}|Banka\\Banka.csproj|D:\\elfak\\baze_projekat\\bb\\Banka\\banka\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{B6BF4988-3C1D-4E08-AAC1-3E030558E723}|Banka\\Banka.csproj|solutionrelative:banka\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "PovezaniPaketiUslugaMap.cs",
+              "DocumentMoniker": "D:\\elfak\\baze_projekat\\bb\\Banka\\Banka\\Mapiranja\\PovezaniPaketiUslugaMap.cs",
+              "RelativeDocumentMoniker": "Banka\\Mapiranja\\PovezaniPaketiUslugaMap.cs",
+              "ToolTip": "D:\\elfak\\baze_projekat\\bb\\Banka\\Banka\\Mapiranja\\PovezaniPaketiUslugaMap.cs",
+              "RelativeToolTip": "Banka\\Mapiranja\\PovezaniPaketiUslugaMap.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-16T18:54:25.926Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "PovezaniPaketiUsluga.cs",
+              "DocumentMoniker": "D:\\elfak\\baze_projekat\\bb\\Banka\\Banka\\Entiteti\\PovezaniPaketiUsluga.cs",
+              "RelativeDocumentMoniker": "Banka\\Entiteti\\PovezaniPaketiUsluga.cs",
+              "ToolTip": "D:\\elfak\\baze_projekat\\bb\\Banka\\Banka\\Entiteti\\PovezaniPaketiUsluga.cs",
+              "RelativeToolTip": "Banka\\Entiteti\\PovezaniPaketiUsluga.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-16T18:49:12.475Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "DozvoljeneValuteMap.cs",
+              "DocumentMoniker": "D:\\elfak\\baze_projekat\\bb\\Banka\\Banka\\Mapiranja\\DozvoljeneValuteMap.cs",
+              "RelativeDocumentMoniker": "Banka\\Mapiranja\\DozvoljeneValuteMap.cs",
+              "ToolTip": "D:\\elfak\\baze_projekat\\bb\\Banka\\Banka\\Mapiranja\\DozvoljeneValuteMap.cs",
+              "RelativeToolTip": "Banka\\Mapiranja\\DozvoljeneValuteMap.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAA/AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-16T18:33:28.463Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "DozvoljeneValute.cs",
+              "DocumentMoniker": "D:\\elfak\\baze_projekat\\bb\\Banka\\Banka\\Entiteti\\DozvoljeneValute.cs",
+              "RelativeDocumentMoniker": "Banka\\Entiteti\\DozvoljeneValute.cs",
+              "ToolTip": "D:\\elfak\\baze_projekat\\bb\\Banka\\Banka\\Entiteti\\DozvoljeneValute.cs",
+              "RelativeToolTip": "Banka\\Entiteti\\DozvoljeneValute.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAYwB8AAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-16T18:31:17.533Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "TelefonKlijentMap.cs",
+              "DocumentMoniker": "D:\\elfak\\baze_projekat\\bb\\Banka\\Banka\\Mapiranja\\TelefonKlijentMap.cs",
+              "RelativeDocumentMoniker": "Banka\\Mapiranja\\TelefonKlijentMap.cs",
+              "ToolTip": "D:\\elfak\\baze_projekat\\bb\\Banka\\Banka\\Mapiranja\\TelefonKlijentMap.cs",
+              "RelativeToolTip": "Banka\\Mapiranja\\TelefonKlijentMap.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-16T18:20:35.144Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "TelefonKlijenta.cs",
+              "DocumentMoniker": "D:\\elfak\\baze_projekat\\bb\\Banka\\Banka\\Entiteti\\TelefonKlijenta.cs",
+              "RelativeDocumentMoniker": "Banka\\Entiteti\\TelefonKlijenta.cs",
+              "ToolTip": "D:\\elfak\\baze_projekat\\bb\\Banka\\Banka\\Entiteti\\TelefonKlijenta.cs",
+              "RelativeToolTip": "Banka\\Entiteti\\TelefonKlijenta.cs",
+              "ViewState": "AgIAABkAAAAAAAAAAAAYwCEAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-16T15:35:20.889Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "ZiroRacunMap.cs",
+              "DocumentMoniker": "D:\\elfak\\baze_projekat\\bb\\Banka\\Banka\\Mapiranja\\ZiroRacunMap.cs",
+              "RelativeDocumentMoniker": "Banka\\Mapiranja\\ZiroRacunMap.cs",
+              "ToolTip": "D:\\elfak\\baze_projekat\\bb\\Banka\\Banka\\Mapiranja\\ZiroRacunMap.cs",
+              "RelativeToolTip": "Banka\\Mapiranja\\ZiroRacunMap.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-16T15:33:31.016Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "DevizniRacunMap.cs",
+              "DocumentMoniker": "D:\\elfak\\baze_projekat\\bb\\Banka\\Banka\\Mapiranja\\DevizniRacunMap.cs",
+              "RelativeDocumentMoniker": "Banka\\Mapiranja\\DevizniRacunMap.cs",
+              "ToolTip": "D:\\elfak\\baze_projekat\\bb\\Banka\\Banka\\Mapiranja\\DevizniRacunMap.cs",
+              "RelativeToolTip": "Banka\\Mapiranja\\DevizniRacunMap.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-16T15:29:17.064Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "StedniRacunMap.cs",
+              "DocumentMoniker": "D:\\elfak\\baze_projekat\\bb\\Banka\\Banka\\Mapiranja\\StedniRacunMap.cs",
+              "RelativeDocumentMoniker": "Banka\\Mapiranja\\StedniRacunMap.cs",
+              "ToolTip": "D:\\elfak\\baze_projekat\\bb\\Banka\\Banka\\Mapiranja\\StedniRacunMap.cs",
+              "RelativeToolTip": "Banka\\Mapiranja\\StedniRacunMap.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-16T15:24:16.712Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "TekuciRacunMap.cs",
+              "DocumentMoniker": "D:\\elfak\\baze_projekat\\bb\\Banka\\Banka\\Mapiranja\\TekuciRacunMap.cs",
+              "RelativeDocumentMoniker": "Banka\\Mapiranja\\TekuciRacunMap.cs",
+              "ToolTip": "D:\\elfak\\baze_projekat\\bb\\Banka\\Banka\\Mapiranja\\TekuciRacunMap.cs",
+              "RelativeToolTip": "Banka\\Mapiranja\\TekuciRacunMap.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-16T15:15:08.234Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "ZiroRacun.cs",
+              "DocumentMoniker": "D:\\elfak\\baze_projekat\\bb\\Banka\\Banka\\Entiteti\\ZiroRacun.cs",
+              "RelativeDocumentMoniker": "Banka\\Entiteti\\ZiroRacun.cs",
+              "ToolTip": "D:\\elfak\\baze_projekat\\bb\\Banka\\Banka\\Entiteti\\ZiroRacun.cs",
+              "RelativeToolTip": "Banka\\Entiteti\\ZiroRacun.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAA3AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-16T15:10:32.251Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "DevizniRacun.cs",
+              "DocumentMoniker": "D:\\elfak\\baze_projekat\\bb\\Banka\\Banka\\Entiteti\\DevizniRacun.cs",
+              "RelativeDocumentMoniker": "Banka\\Entiteti\\DevizniRacun.cs",
+              "ToolTip": "D:\\elfak\\baze_projekat\\bb\\Banka\\Banka\\Entiteti\\DevizniRacun.cs",
+              "RelativeToolTip": "Banka\\Entiteti\\DevizniRacun.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-16T15:10:18.533Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "StedniRacun.cs",
+              "DocumentMoniker": "D:\\elfak\\baze_projekat\\bb\\Banka\\Banka\\Entiteti\\StedniRacun.cs",
+              "RelativeDocumentMoniker": "Banka\\Entiteti\\StedniRacun.cs",
+              "ToolTip": "D:\\elfak\\baze_projekat\\bb\\Banka\\Banka\\Entiteti\\StedniRacun.cs",
+              "RelativeToolTip": "Banka\\Entiteti\\StedniRacun.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-16T15:10:02.77Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "TekuciRacun.cs",
+              "DocumentMoniker": "D:\\elfak\\baze_projekat\\bb\\Banka\\Banka\\Entiteti\\TekuciRacun.cs",
+              "RelativeDocumentMoniker": "Banka\\Entiteti\\TekuciRacun.cs",
+              "ToolTip": "D:\\elfak\\baze_projekat\\bb\\Banka\\Banka\\Entiteti\\TekuciRacun.cs",
+              "RelativeToolTip": "Banka\\Entiteti\\TekuciRacun.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAzAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-16T15:09:35.509Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "RacunMap.cs",
+              "DocumentMoniker": "D:\\elfak\\baze_projekat\\bb\\Banka\\Banka\\Mapiranja\\RacunMap.cs",
+              "RelativeDocumentMoniker": "Banka\\Mapiranja\\RacunMap.cs",
+              "ToolTip": "D:\\elfak\\baze_projekat\\bb\\Banka\\Banka\\Mapiranja\\RacunMap.cs",
+              "RelativeToolTip": "Banka\\Mapiranja\\RacunMap.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAQwCQAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-16T15:04:22.812Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Racun.cs",
+              "DocumentMoniker": "D:\\elfak\\baze_projekat\\bb\\Banka\\Banka\\Entiteti\\Racun.cs",
+              "RelativeDocumentMoniker": "Banka\\Entiteti\\Racun.cs",
+              "ToolTip": "D:\\elfak\\baze_projekat\\bb\\Banka\\Banka\\Entiteti\\Racun.cs",
+              "RelativeToolTip": "Banka\\Entiteti\\Racun.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAA9wBcAAABzAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-16T14:58:23.369Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "PravnoLice.cs",
+              "DocumentMoniker": "D:\\elfak\\baze_projekat\\bb\\Banka\\Banka\\Entiteti\\PravnoLice.cs",
+              "RelativeDocumentMoniker": "Banka\\Entiteti\\PravnoLice.cs",
+              "ToolTip": "D:\\elfak\\baze_projekat\\bb\\Banka\\Banka\\Entiteti\\PravnoLice.cs",
+              "RelativeToolTip": "Banka\\Entiteti\\PravnoLice.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-15T18:18:50.946Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "FizickoLice.cs",
+              "DocumentMoniker": "D:\\elfak\\baze_projekat\\bb\\Banka\\Banka\\Entiteti\\FizickoLice.cs",
+              "RelativeDocumentMoniker": "Banka\\Entiteti\\FizickoLice.cs",
+              "ToolTip": "D:\\elfak\\baze_projekat\\bb\\Banka\\Banka\\Entiteti\\FizickoLice.cs",
+              "RelativeToolTip": "Banka\\Entiteti\\FizickoLice.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-15T18:09:08.836Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "FizickoLiceMap.cs",
+              "DocumentMoniker": "D:\\elfak\\baze_projekat\\bb\\Banka\\Banka\\Mapiranja\\FizickoLiceMap.cs",
+              "RelativeDocumentMoniker": "Banka\\Mapiranja\\FizickoLiceMap.cs",
+              "ToolTip": "D:\\elfak\\baze_projekat\\bb\\Banka\\Banka\\Mapiranja\\FizickoLiceMap.cs",
+              "RelativeToolTip": "Banka\\Mapiranja\\FizickoLiceMap.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAAA8AAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-15T18:45:58.908Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "PravnoLiceMap.cs",
+              "DocumentMoniker": "D:\\elfak\\baze_projekat\\bb\\Banka\\Banka\\Mapiranja\\PravnoLiceMap.cs",
+              "RelativeDocumentMoniker": "Banka\\Mapiranja\\PravnoLiceMap.cs",
+              "ToolTip": "D:\\elfak\\baze_projekat\\bb\\Banka\\Banka\\Mapiranja\\PravnoLiceMap.cs",
+              "RelativeToolTip": "Banka\\Mapiranja\\PravnoLiceMap.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-15T18:46:10.845Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "KlijentMap.cs",
+              "DocumentMoniker": "D:\\elfak\\baze_projekat\\bb\\Banka\\Banka\\Mapiranja\\KlijentMap.cs",
+              "RelativeDocumentMoniker": "Banka\\Mapiranja\\KlijentMap.cs",
+              "ToolTip": "D:\\elfak\\baze_projekat\\bb\\Banka\\Banka\\Mapiranja\\KlijentMap.cs",
+              "RelativeToolTip": "Banka\\Mapiranja\\KlijentMap.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB8AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-16T18:42:31.669Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Klijent.cs",
+              "DocumentMoniker": "D:\\elfak\\baze_projekat\\bb\\Banka\\Banka\\Entiteti\\Klijent.cs",
+              "RelativeDocumentMoniker": "Banka\\Entiteti\\Klijent.cs",
+              "ToolTip": "D:\\elfak\\baze_projekat\\bb\\Banka\\Banka\\Entiteti\\Klijent.cs",
+              "RelativeToolTip": "Banka\\Entiteti\\Klijent.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAYwBEAAABjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-15T17:57:02.813Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "Form1.cs [Design]",
+              "DocumentMoniker": "D:\\elfak\\baze_projekat\\bb\\Banka\\Banka\\Form1.cs",
+              "RelativeDocumentMoniker": "Banka\\Form1.cs",
+              "ToolTip": "D:\\elfak\\baze_projekat\\bb\\Banka\\Banka\\Form1.cs [Design]",
+              "RelativeToolTip": "Banka\\Form1.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-14T12:09:31.333Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
