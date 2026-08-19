@@ -22,6 +22,10 @@ namespace Banka.Entiteti
         public virtual PredmetObracuna PredmetObracuna { get; set; }
         public virtual IList<DozvoljeneValute> DozvoljeneValute { get; set; } = new List<DozvoljeneValute>();
         public virtual IList<PovezaniPaketiUsluga> PovezaniPaketi { get; set; } = new List<PovezaniPaketiUsluga>();
-        public Racun() { }
+        public Racun() 
+        {
+            DozvoljeneValute = new List<DozvoljeneValute>();
+            PovezaniPaketi = new List<PovezaniPaketiUsluga>();
+        }
     }
 }

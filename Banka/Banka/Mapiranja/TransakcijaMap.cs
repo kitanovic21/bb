@@ -14,12 +14,10 @@ namespace Banka.Mapiranja
         {
             Table("TRANSAKCIJA");
 
-            // Kompozitni primarni ključ
             CompositeId()
                 .KeyProperty(x => x.KodTransakcije, "KOD_TRANSAKCIJE")
                 .KeyReference(x => x.Racun, "BROJ_RACUNA");
 
-            // Standardna polja
             Map(x => x.TipTransakcije, "TIP_TRANSAKCIJE");
             Map(x => x.Referenca, "REFERENCA");
             Map(x => x.Iznos, "IZNOS");
@@ -31,7 +29,6 @@ namespace Banka.Mapiranja
             Map(x => x.Datum, "DATUM");
             Map(x => x.Vreme, "VREME");
 
-            // Drugi strani ključ ka tabeli RACUN (ID_NA_KOJI_RACUN) - može biti NULL
             References(x => x.NaKojiRacun, "ID_NA_KOJI_RACUN").Nullable();
         }
     }

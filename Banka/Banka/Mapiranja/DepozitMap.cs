@@ -26,12 +26,10 @@ namespace Banka.Mapiranja
             Map(x => x.Status, "STATUS");
             Map(x => x.KamatnaStopa, "KAMATNA_STOPA");
 
-            // Obavezni strani ključevi
             References(x => x.Klijent, "ID_KLIJENTA");
             References(x => x.PredmetObracuna, "ID_PREDMETA_OBRACUNA");
 
-            // Opcioni strani ključ (može biti NULL)
-            References(x => x.Racun, "ID_RACUNA").Nullable();
+            References(x => x.Racun, "ID_RACUNA");
         }
     }
 }

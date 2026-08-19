@@ -8,11 +8,8 @@ namespace Banka.Entiteti
 {
     public class Transakcija
     {
-        // Komponente kompozitnog primarnog ključa
         public virtual int KodTransakcije { get; set; }
         public virtual Racun Racun { get; set; }
-
-        // Obični atributi
         public virtual string TipTransakcije { get; set; }
         public virtual string Referenca { get; set; }
         public virtual double Iznos { get; set; }
@@ -23,8 +20,6 @@ namespace Banka.Entiteti
         public virtual string Status { get; set; }
         public virtual DateTime Datum { get; set; }
         public virtual string Vreme { get; set; }
-
-        // Drugi strani ključ ka računima (opcioni - id_na_koji_racun)
         public virtual Racun NaKojiRacun { get; set; }
 
         public Transakcija() { }

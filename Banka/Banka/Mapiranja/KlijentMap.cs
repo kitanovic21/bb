@@ -27,6 +27,10 @@ namespace Banka.Mapiranja
                 .KeyColumn("ID_KLIJENTA")
                 .Inverse()
                 .Cascade.AllDeleteOrphan();
+            HasMany(x => x.Racuni)
+                .KeyColumn("BROJ_RACUNA")
+                .Inverse()
+                .Cascade.AllDeleteOrphan();
         }
     }
 }

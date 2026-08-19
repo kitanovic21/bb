@@ -24,6 +24,9 @@ namespace Banka.Entiteti
         public virtual Racun Racun { get; set; }
         public virtual PredmetObracuna PredmetObracuna { get; set; }
 
-        public Kredit() { }
+        public Kredit() 
+        {
+
+        }
     }
 }

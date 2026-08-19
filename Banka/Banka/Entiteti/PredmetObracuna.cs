@@ -11,6 +11,9 @@ namespace Banka.Entiteti
         public virtual int ID { get; set; }
         public virtual IList<Kamata> Kamate { get; set; } = new List<Kamata>();
 
-        public PredmetObracuna() { }
+        public PredmetObracuna() 
+        {
+            Kamate = new List<Kamata>();
+        }
     }
 }

@@ -16,9 +16,13 @@ namespace Banka.Entiteti
         public virtual string Email { get; set; }
         public virtual string Komentar { get; set; }
         public virtual IList<TelefonKlijenta> Telefoni { get; set; } = new List<TelefonKlijenta>();
+        public virtual IList<Racun> Racuni { get; set; } = new List<Racun>();
+
 
         public Klijent()
         {
+            Telefoni = new List<TelefonKlijenta>();
+            Racuni = new List<Racun>();
 
         }
     }
