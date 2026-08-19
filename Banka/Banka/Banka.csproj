@@ -125,11 +125,17 @@
     <Compile Include="Entiteti\TelefonKlijenta.cs" />
     <Compile Include="Entiteti\Transakcija.cs" />
     <Compile Include="Entiteti\ZiroRacun.cs" />
-    <Compile Include="Form1.cs">
+    <Compile Include="Forme\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
+    <Compile Include="Forme\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forme\KlijentiForma.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forme\KlijentiForma.Designer.cs">
+      <DependentUpon>KlijentiForma.cs</DependentUpon>
     </Compile>
     <Compile Include="Mapiranja\DepozitMap.cs" />
     <Compile Include="Mapiranja\DevizniRacunMap.cs" />
@@ -150,6 +156,12 @@
     <Compile Include="Mapiranja\ZiroRacunMap.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Forme\Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forme\KlijentiForma.resx">
+      <DependentUpon>KlijentiForma.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
