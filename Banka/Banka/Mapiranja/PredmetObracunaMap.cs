@@ -15,6 +15,11 @@ namespace Banka.Mapiranja
             Table("PREDMET_OBRACUNA");
 
             Id(x => x.ID, "ID").GeneratedBy.Assigned();// assigned zato sto nema autoincrement
+
+            HasMany(x => x.Kamate)
+                .KeyColumn("ID_PREDMETA_OBRACUNA")
+                .Inverse()
+                .Cascade.AllDeleteOrphan();
         }
     }
 }

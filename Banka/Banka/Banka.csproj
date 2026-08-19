@@ -108,17 +108,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataLayer.cs" />
+    <Compile Include="Entiteti\Depozit.cs" />
     <Compile Include="Entiteti\DevizniRacun.cs" />
     <Compile Include="Entiteti\DozvoljeneValute.cs" />
     <Compile Include="Entiteti\FizickoLice.cs" />
+    <Compile Include="Entiteti\Kamata.cs" />
     <Compile Include="Entiteti\Klijent.cs" />
+    <Compile Include="Entiteti\Kredit.cs" />
     <Compile Include="Entiteti\PovezaniPaketiUsluga.cs" />
     <Compile Include="Entiteti\PravnoLice.cs" />
     <Compile Include="Entiteti\PredmetObracuna.cs" />
     <Compile Include="Entiteti\Racun.cs" />
+    <Compile Include="Entiteti\SigurnosnaKontrola.cs" />
     <Compile Include="Entiteti\StedniRacun.cs" />
     <Compile Include="Entiteti\TekuciRacun.cs" />
     <Compile Include="Entiteti\TelefonKlijenta.cs" />
+    <Compile Include="Entiteti\Transakcija.cs" />
     <Compile Include="Entiteti\ZiroRacun.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
@@ -126,17 +131,22 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Mapiranja\DepozitMap.cs" />
     <Compile Include="Mapiranja\DevizniRacunMap.cs" />
     <Compile Include="Mapiranja\DozvoljeneValuteMap.cs" />
     <Compile Include="Mapiranja\FizickoLiceMap.cs" />
+    <Compile Include="Mapiranja\KamataMap.cs" />
     <Compile Include="Mapiranja\KlijentMap.cs" />
+    <Compile Include="Mapiranja\KreditMap.cs" />
     <Compile Include="Mapiranja\PovezaniPaketiUslugaMap.cs" />
     <Compile Include="Mapiranja\PravnoLiceMap.cs" />
     <Compile Include="Mapiranja\PredmetObracunaMap.cs" />
     <Compile Include="Mapiranja\RacunMap.cs" />
+    <Compile Include="Mapiranja\SigurnosnaKontrolaMap.cs" />
     <Compile Include="Mapiranja\StedniRacunMap.cs" />
     <Compile Include="Mapiranja\TekuciRacunMap.cs" />
     <Compile Include="Mapiranja\TelefonKlijentMap.cs" />
+    <Compile Include="Mapiranja\TransakcijaMap.cs" />
     <Compile Include="Mapiranja\ZiroRacunMap.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
