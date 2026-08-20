@@ -18,7 +18,7 @@ namespace Banka.Mapiranja
             Map(x => x.MinimalniIznosZaOtvaranje, "MINIMALNI_IZNOS_ZA_OTVARANJE");
             Map(x => x.UsloviPodizanjaSredstava, "USLOVI_PODIZANJA_SREDSTAVA");
             Map(x => x.Frekvencija, "FREKVENCIJA");
-            Map(x => x.BonusiZaDugorocnuStednju, "BONUSI_ZA_DUOGOROCNU_STEDNJU");
+            Map(x => x.BonusiZaDugorocnuStednju, "BONUSI_ZA_DUGOROCNU_STEDNJU");
 
         }
     }

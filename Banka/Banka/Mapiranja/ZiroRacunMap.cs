@@ -12,7 +12,7 @@ namespace Banka.Mapiranja
     {
         ZiroRacunMap()
         {
-            Table("DEVIZNI_RACUN");
+            Table("ZIRO_RACUN");
             KeyColumn("BROJ_RACUNA");
 
             Map(x => x.Namena, "NAMENA");

@@ -14,7 +14,7 @@ namespace Banka.Mapiranja
         {
             Table("KLIJENT");
 
-            Id(x => x.ID, "ID").GeneratedBy.Identity();
+            Id(x => x.ID, "ID").GeneratedBy.Increment();
 
             Map(x => x.TipKlijenta, "TIP_KLIJENTA");
             Map(x => x.Status, "STATUS");
@@ -28,7 +28,7 @@ namespace Banka.Mapiranja
                 .Inverse()
                 .Cascade.AllDeleteOrphan();
             HasMany(x => x.Racuni)
-                .KeyColumn("BROJ_RACUNA")
+                .KeyColumn("ID_KLIJENTA") //BROJ_RACUNA
                 .Inverse()
                 .Cascade.AllDeleteOrphan();
         }

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -108,6 +108,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataLayer.cs" />
+    <Compile Include="DTOManager.cs" />
+    <Compile Include="DTOs\DTOs.cs" />
     <Compile Include="Entiteti\Depozit.cs" />
     <Compile Include="Entiteti\DevizniRacun.cs" />
     <Compile Include="Entiteti\DozvoljeneValute.cs" />
@@ -125,17 +127,17 @@
     <Compile Include="Entiteti\TelefonKlijenta.cs" />
     <Compile Include="Entiteti\Transakcija.cs" />
     <Compile Include="Entiteti\ZiroRacun.cs" />
-    <Compile Include="Forme\Form1.cs">
+    <Compile Include="Forme\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forme\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Forme\MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forme\KlijentiForma.cs">
-      <SubType>Form</SubType>
+    <Compile Include="Forme\UcKlijenti.cs">
+      <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Forme\KlijentiForma.Designer.cs">
-      <DependentUpon>KlijentiForma.cs</DependentUpon>
+    <Compile Include="Forme\UcKlijenti.Designer.cs">
+      <DependentUpon>UcKlijenti.cs</DependentUpon>
     </Compile>
     <Compile Include="Mapiranja\DepozitMap.cs" />
     <Compile Include="Mapiranja\DevizniRacunMap.cs" />
@@ -154,13 +156,67 @@
     <Compile Include="Mapiranja\TelefonKlijentMap.cs" />
     <Compile Include="Mapiranja\TransakcijaMap.cs" />
     <Compile Include="Mapiranja\ZiroRacunMap.cs" />
+    <Compile Include="Forme\UcRacuni.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forme\UcRacuni.Designer.cs">
+      <DependentUpon>UcRacuni.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forme\UcTransakcije.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forme\UcTransakcije.Designer.cs">
+      <DependentUpon>UcTransakcije.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forme\UcKrediti.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forme\UcKrediti.Designer.cs">
+      <DependentUpon>UcKrediti.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forme\UcDepoziti.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forme\UcDepoziti.Designer.cs">
+      <DependentUpon>UcDepoziti.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forme\UcKamate.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forme\UcKamate.Designer.cs">
+      <DependentUpon>UcKamate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forme\UcSigurnost.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forme\UcSigurnost.Designer.cs">
+      <DependentUpon>UcSigurnost.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Forme\Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="Forme\MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forme\KlijentiForma.resx">
-      <DependentUpon>KlijentiForma.cs</DependentUpon>
+    <EmbeddedResource Include="Forme\UcKlijenti.resx">
+      <DependentUpon>UcKlijenti.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forme\UcRacuni.resx">
+      <DependentUpon>UcRacuni.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forme\UcTransakcije.resx">
+      <DependentUpon>UcTransakcije.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forme\UcKrediti.resx">
+      <DependentUpon>UcKrediti.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forme\UcDepoziti.resx">
+      <DependentUpon>UcDepoziti.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forme\UcKamate.resx">
+      <DependentUpon>UcKamate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forme\UcSigurnost.resx">
+      <DependentUpon>UcSigurnost.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
