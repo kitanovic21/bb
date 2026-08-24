@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Banka.Entiteti;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -64,5 +65,69 @@ namespace Banka.DTOs
         public KlijentBasic()
         {
         }
+    }
+    //info za datagridview
+    public class RacunPregled
+    {
+        public string BrojRacuna { get; set; }
+        public string TipRacuna { get; set; }
+        public string StatusRacuna { get; set; }
+        public string Valuta { get; set; }
+        public string ImeNaziv{ get; set; }
+        //public Klijent Klijent { get; set; }
+        public RacunPregled(
+            string brojRacuna,
+            string tipRacuna,
+            string statusRacuna,
+            string valuta,
+            //Klijent klijent,
+            string imeNaziv
+            ) 
+        {
+            BrojRacuna = brojRacuna;
+            TipRacuna = tipRacuna;
+            StatusRacuna = statusRacuna;
+            Valuta = valuta;
+            ImeNaziv = imeNaziv;
+        }
+
+    }
+    public class RacunBasic
+    {
+        public string BrojRacuna { get; set; }
+        public string Klijent { get; set; }
+
+        //Klijent ???
+        public string TipRacuna { get; set; }
+        public string Valuta { get; set; }
+        public double TrenutnoStanje { get; set; }
+        public DateTime DatumOtvaranja { get; set; }
+        public string StatusRacuna { get; set; }
+        public double? KamatnaStopa { get; set; }
+        public double? DozvoljeniMinus { get; set; }
+        public string Komentar { get; set; }
+
+        // tekuci
+        public string MogucnostPlatnihKartica { get; set; }
+        public int? MesecniLimitTransakcija { get; set; }
+        //povezani paketi?
+
+        // stedni
+        public double MinimalniIznosZaOtvaranje { get; set; }
+        public string UsloviPodizanjaSredstava { get; set; }
+        public string Frekvencija { get; set; }
+        public double? BonusiZaDugorocnuStednju { get; set; }
+
+        // devizni
+        //dozvoljene valute?
+        public string NamenaDevizni { get; set; }
+        public string OgranicenjaDeviznihPropisa { get; set; }
+        public double? KursnaRazlikaKonverzije { get; set; }
+
+        // ziro
+        public string NamenaZiro { get; set; }
+        public string EBankarstvoZaFirme { get; set; }
+        public double? LimitMasovnihPlacanja { get; set; }
+        public string Integracija { get; set; }
     }
 }

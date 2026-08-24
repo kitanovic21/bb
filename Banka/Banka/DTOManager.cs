@@ -384,5 +384,135 @@ namespace Banka
                     session.Close();
             }
         }
+
+        public static List<RacunPregled> GetRacunInfo()
+        {
+            List<RacunPregled> racunInfo = new List<RacunPregled>();
+            ISession session = null;
+
+            try
+            {
+                session = DataLayer.GetSession();
+
+                if (session != null)
+                {
+                    racunInfo = (from r in session.Query<Racun>()
+                                 select new RacunPregled(
+                                     r.BrojRacuna,
+                                     r.TipRacuna ?? "",
+                                     r.StatusRacuna ?? "",
+                                     r.Valuta ?? "",
+                                     r.Klijent is FizickoLice
+                                         ? ((FizickoLice)r.Klijent).Ime + " " + ((FizickoLice)r.Klijent).Prezime
+                                         : (r.Klijent is PravnoLice ? ((PravnoLice)r.Klijent).NazivFirme : "")
+                                 )).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                if (session != null)
+                    session.Close();
+            }
+
+            return racunInfo;
+        }
+
+        public static async Task<RacunBasic> GetRacunBasic(string brojRacuna)
+        {
+            RacunBasic rb = new RacunBasic();
+            ISession session = null;
+
+            try
+            {
+                session = DataLayer.GetSession();
+
+                if (session != null)
+                {
+                    // Učitavamo račun iz baze po primarnom ključu
+                    Racun r = await session.GetAsync<Racun>(brojRacuna);
+
+                    if (r != null)
+                    {
+                        // 1. Osnovni podaci računa
+                        rb.BrojRacuna = r.BrojRacuna;
+                        rb.TipRacuna = r.TipRacuna;
+                        rb.Valuta = r.Valuta;
+                        rb.TrenutnoStanje = r.TrenutnoStanje;
+                        rb.DatumOtvaranja = r.DatumOtvaranja;
+                        rb.StatusRacuna = r.StatusRacuna;
+                        rb.KamatnaStopa = r.KamatnaStopa;
+                        rb.DozvoljeniMinus = r.DozvoljeniMinus;
+                        rb.Komentar = r.Komentar;
+
+                        // 2. Izvlačenje klijenta (Ime + Prezime ili Naziv firme)
+                        if (r.Klijent != null)
+                        {
+                            Type stvarniTipKlijenta = NHibernateUtil.GetClass(r.Klijent);
+
+                            if (stvarniTipKlijenta == typeof(FizickoLice))
+                            {
+                                FizickoLice f = await session.GetAsync<FizickoLice>(r.Klijent.ID);
+                                if (f != null)
+                                {
+                                    rb.Klijent = $"{f.Ime} {f.Prezime}";
+                                }
+                            }
+                            else if (stvarniTipKlijenta == typeof(PravnoLice))
+                            {
+                                PravnoLice p = await session.GetAsync<PravnoLice>(r.Klijent.ID);
+                                if (p != null)
+                                {
+                                    rb.Klijent = p.NazivFirme;
+                                }
+                            }
+                        }
+
+                        // 3. Specifični podaci po podklasama računa
+                        if (r is TekuciRacun tr)
+                        {
+                            rb.MogucnostPlatnihKartica = tr.MogucnostPlatnihKartica;
+                            rb.MesecniLimitTransakcija = tr.MesecniLimitTransakcija;
+                        }
+                        else if (r is StedniRacun sr)
+                        {
+                            rb.MinimalniIznosZaOtvaranje = sr.MinimalniIznosZaOtvaranje;
+                            rb.UsloviPodizanjaSredstava = sr.UsloviPodizanjaSredstava;
+                            rb.Frekvencija = sr.Frekvencija;
+                            rb.BonusiZaDugorocnuStednju = sr.BonusiZaDugorocnuStednju;
+                        }
+                        else if (r is DevizniRacun dr)
+                        {
+                            rb.NamenaDevizni = dr.Namena;
+                            rb.OgranicenjaDeviznihPropisa = dr.OgranicenjaDeviznihPropisa;
+                            rb.KursnaRazlikaKonverzije = dr.KursnaRazlikaKonverzije;
+                        }
+                        else if (r is ZiroRacun zr)
+                        {
+                            rb.NamenaZiro = zr.Namena;
+                            rb.EBankarstvoZaFirme = zr.EBankarstvoZaFirme;
+                            rb.LimitMasovnihPlacanja = zr.LimitMasovnihPlacanja;
+                            rb.Integracija = zr.Integracija;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Greška pri učitavanju detalja računa: {ex.Message}");
+            }
+            finally
+            {
+                if (session != null)
+                    session.Close();
+            }
+
+            return rb;
+        }
+
+
     }
 }
