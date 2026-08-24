@@ -513,6 +513,85 @@ namespace Banka
             return rb;
         }
 
+        public static List<TransakcijaPregled> GetTransakcijeInfos()
+        {
+            List<TransakcijaPregled> transakcijaInfo = new List<TransakcijaPregled>();
+            ISession session = null;
+
+            try
+            {
+                session = DataLayer.GetSession();
+
+                if (session != null)
+                {
+                    transakcijaInfo = (from t in session.Query<Transakcija>()
+                                 select new TransakcijaPregled(
+                                     t.KodTransakcije,
+                                     t.Racun.BrojRacuna ?? "",
+                                     t.TipTransakcije ?? "",
+                                     t.Valuta ?? "",
+                                     t.Iznos,
+                                     t.Status ?? "",
+                                     t.Datum,
+                                     t.Vreme ?? "",
+                                     t.NaKojiRacun.BrojRacuna ?? ""
+                                 )).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                if (session != null)
+                    session.Close();
+            }
+
+            return transakcijaInfo;
+        }
+
+        public static async Task<TransakcijaBasic> GetTransakcijaBasic(int kodTransakcije)
+        {
+            TransakcijaBasic tb = new TransakcijaBasic();
+            ISession session = null;
+
+            try
+            {
+                session = DataLayer.GetSession();
+
+                if (session != null)
+                {
+                    Transakcija t = await session.Query<Transakcija>()
+                                        .FirstOrDefaultAsync(x => x.KodTransakcije == kodTransakcije);
+                    tb.KodTransakcije = t.KodTransakcije;
+                    tb.BrojRacunaPosiljalac = t.Racun != null ? t.Racun.BrojRacuna.ToString() : "";
+                    tb.TipTransakcije = t.TipTransakcije;
+                    tb.Referenca = t.Referenca;
+                    tb.BrojRacunaPrimalac = t.NaKojiRacun != null ? t.NaKojiRacun.BrojRacuna.ToString() : "";
+                    tb.Iznos = t.Iznos;
+                    tb.PodacioOPrimaocu = t.PodaciOPrimaocu;
+                    tb.Komentar=t.Komentar;
+                    tb.Valuta=t.Valuta;
+                    tb.Opis = t.Opis;
+                    tb.Status  = t.Status;
+                    tb.Datum=t.Datum;
+                    tb.Vreme=t.Vreme;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                if (session != null)
+                    session.Close();
+            }
+
+            return tb;
+        }
 
     }
 }

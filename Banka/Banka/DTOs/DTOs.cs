@@ -130,4 +130,58 @@ namespace Banka.DTOs
         public double? LimitMasovnihPlacanja { get; set; }
         public string Integracija { get; set; }
     }
+
+    public class TransakcijaBasic
+    {
+        public int KodTransakcije { get; set; }
+        public string BrojRacunaPosiljalac { get; set; }
+        public string TipTransakcije { get; set; }
+        public double Iznos { get; set; }
+        public string Valuta { get; set; }
+        public string Status { get; set; }
+        public DateTime? Datum { get; set; }
+        public string Vreme { get; set; }
+        public string  BrojRacunaPrimalac { get; set; }
+
+        //nullable type shi
+        public string Referenca { get; set; }
+        public string PodacioOPrimaocu { get; set; }
+        public string Komentar { get; set; }
+        public string Opis { get; set; }
+    }
+
+    public class TransakcijaPregled
+    {
+        public int KodTransakcije { get; set; }
+        public string BrojRacunaPosiljalac { get; set; }
+        public string TipTransakcije { get; set; }
+        public double Iznos { get; set; }
+        public string Valuta { get; set; }
+        public string Status { get; set; }
+        public DateTime? Datum { get; set; }
+        public string Vreme { get; set; }
+        public string BrojRacunaPrimalac { get; set; }
+        public TransakcijaPregled(
+            int kodTransakcije,
+            string brojRacunaPosiljalac,
+            string tipTransaakcije,
+            string valuta,
+            double iznos,
+            string status,
+            DateTime datum,
+            string vreme,
+            string brojRacunaPrimalac
+        )
+        {
+            KodTransakcije = kodTransakcije;
+            BrojRacunaPosiljalac = brojRacunaPosiljalac;
+            TipTransakcije = tipTransaakcije;
+            Valuta = valuta;
+            Iznos = iznos;
+            Status = status;
+            Datum = datum;
+            Vreme = vreme;
+            BrojRacunaPrimalac = brojRacunaPrimalac;
+        }
+    }
 }
