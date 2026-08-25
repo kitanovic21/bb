@@ -404,7 +404,8 @@ namespace Banka
                                      r.Valuta ?? "",
                                      r.Klijent is FizickoLice
                                          ? ((FizickoLice)r.Klijent).Ime + " " + ((FizickoLice)r.Klijent).Prezime
-                                         : (r.Klijent is PravnoLice ? ((PravnoLice)r.Klijent).NazivFirme : "")
+                                         : (r.Klijent is PravnoLice ? ((PravnoLice)r.Klijent).NazivFirme : ""),
+                                     r.Klijent.ID
                                  )).ToList();
                 }
             }
@@ -432,12 +433,10 @@ namespace Banka
 
                 if (session != null)
                 {
-                    // Učitavamo račun iz baze po primarnom ključu
                     Racun r = await session.GetAsync<Racun>(brojRacuna);
 
                     if (r != null)
                     {
-                        // 1. Osnovni podaci računa
                         rb.BrojRacuna = r.BrojRacuna;
                         rb.TipRacuna = r.TipRacuna;
                         rb.Valuta = r.Valuta;
@@ -448,7 +447,6 @@ namespace Banka
                         rb.DozvoljeniMinus = r.DozvoljeniMinus;
                         rb.Komentar = r.Komentar;
 
-                        // 2. Izvlačenje klijenta (Ime + Prezime ili Naziv firme)
                         if (r.Klijent != null)
                         {
                             Type stvarniTipKlijenta = NHibernateUtil.GetClass(r.Klijent);
@@ -471,7 +469,6 @@ namespace Banka
                             }
                         }
 
-                        // 3. Specifični podaci po podklasama računa
                         if (r is TekuciRacun tr)
                         {
                             rb.MogucnostPlatnihKartica = tr.MogucnostPlatnihKartica;

@@ -14,6 +14,7 @@ namespace Banka.Forme
     public partial class UcKlijenti : UserControl
     {
         private int? selektovaniKlijentId = null;
+        private string selektovaniKlijentName = "";
 
         public UcKlijenti()
         {
@@ -245,9 +246,14 @@ namespace Banka.Forme
                 return;
 
             object vrednostId = dgvKlijenti.Rows[e.RowIndex].Cells[0].Value;
+            object selektovaniIme = dgvKlijenti.Rows[e.RowIndex].Cells[2].Value;
+            if (selektovaniIme == null)
+                return;
+            
             if (vrednostId == null)
                 return;
 
+            selektovaniKlijentName = selektovaniIme.ToString();
             if (int.TryParse(vrednostId.ToString(), out int idKlijenta))
             {
                 selektovaniKlijentId = idKlijenta;
@@ -372,6 +378,31 @@ namespace Banka.Forme
         private void btnOdustani_Click(object sender, EventArgs e)
         {
             OcistiFormu();
+        }
+
+        private void btnRacuni_Click(object sender, EventArgs e)
+        {
+            if (dgvKlijenti.SelectedRows.Count > 0)
+            {
+                // Uzimamo ID i ime klijenta iz selektovanog reda u DataGridView-u
+                //int klijentId = Convert.ToInt32(dgvKlijenti.SelectedRows[0].Cells["Id"].Value);
+                //string klijentIme = dgvKlijenti.SelectedRows[0].Cells["ImeNaziv"].Value.ToString();
+
+                // Otvaramo UcRacuni i prosleđujemo ID i Ime
+                UcRacuni ucRacuni = new UcRacuni(selektovaniKlijentId, selektovaniKlijentName);
+
+                Panel panelMain = this.Parent as Panel;
+                if (panelMain != null)
+                {
+                    panelMain.Controls.Clear();
+                    ucRacuni.Dock = DockStyle.Fill;
+                    panelMain.Controls.Add(ucRacuni);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Molimo vas da prvo izaberete klijenta iz tabele.", "Obaveštenje", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
     }
 }

@@ -36,6 +36,7 @@
             this.colTelefon = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.grpPodaciKlijenta = new System.Windows.Forms.GroupBox();
+            this.btnRacuni = new System.Windows.Forms.Button();
             this.btnOdustani = new System.Windows.Forms.Button();
             this.btnSacuvaj = new System.Windows.Forms.Button();
             this.btnObrisi = new System.Windows.Forms.Button();
@@ -269,6 +270,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.grpPodaciKlijenta.BackColor = System.Drawing.Color.White;
+            this.grpPodaciKlijenta.Controls.Add(this.btnRacuni);
             this.grpPodaciKlijenta.Controls.Add(this.btnOdustani);
             this.grpPodaciKlijenta.Controls.Add(this.btnSacuvaj);
             this.grpPodaciKlijenta.Controls.Add(this.btnObrisi);
@@ -297,6 +299,16 @@
             this.grpPodaciKlijenta.TabIndex = 3;
             this.grpPodaciKlijenta.TabStop = false;
             this.grpPodaciKlijenta.Text = "Podaci o klijentu";
+            // 
+            // btnRacuni
+            // 
+            this.btnRacuni.Location = new System.Drawing.Point(344, 255);
+            this.btnRacuni.Name = "btnRacuni";
+            this.btnRacuni.Size = new System.Drawing.Size(90, 32);
+            this.btnRacuni.TabIndex = 23;
+            this.btnRacuni.Text = "Racuni";
+            this.btnRacuni.UseVisualStyleBackColor = true;
+            this.btnRacuni.Click += new System.EventHandler(this.btnRacuni_Click);
             // 
             // btnOdustani
             // 
@@ -742,5 +754,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colGrad;
         private System.Windows.Forms.DataGridViewTextBoxColumn colTelefon;
         private System.Windows.Forms.DataGridViewTextBoxColumn colStatus;
+        private System.Windows.Forms.Button btnRacuni;
     }
 }

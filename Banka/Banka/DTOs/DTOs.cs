@@ -74,14 +74,16 @@ namespace Banka.DTOs
         public string StatusRacuna { get; set; }
         public string Valuta { get; set; }
         public string ImeNaziv{ get; set; }
-        //public Klijent Klijent { get; set; }
+        public int KlijentId { get; set; }
+        public RacunPregled() { }
         public RacunPregled(
             string brojRacuna,
             string tipRacuna,
             string statusRacuna,
             string valuta,
             //Klijent klijent,
-            string imeNaziv
+            string imeNaziv,
+            int klijentId
             ) 
         {
             BrojRacuna = brojRacuna;
@@ -89,6 +91,7 @@ namespace Banka.DTOs
             StatusRacuna = statusRacuna;
             Valuta = valuta;
             ImeNaziv = imeNaziv;
+            KlijentId = klijentId;
         }
 
     }
@@ -97,7 +100,7 @@ namespace Banka.DTOs
         public string BrojRacuna { get; set; }
         public string Klijent { get; set; }
 
-        //Klijent ???
+        
         public string TipRacuna { get; set; }
         public string Valuta { get; set; }
         public double TrenutnoStanje { get; set; }

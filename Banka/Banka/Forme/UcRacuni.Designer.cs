@@ -12,6 +12,7 @@
         #region Component Designer generated code
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.lblNaslov = new System.Windows.Forms.Label();
             this.panelFilter = new System.Windows.Forms.Panel();
             this.lblFilter1 = new System.Windows.Forms.Label();
@@ -85,6 +86,8 @@
             this.btnSacuvaj = new System.Windows.Forms.Button();
             this.btnOdustani = new System.Windows.Forms.Button();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.txtKlijent = new System.Windows.Forms.TextBox();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.panelFilter.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRacuni)).BeginInit();
             this.grpPodaci.SuspendLayout();
@@ -253,6 +256,7 @@
             this.grpPodaci.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.grpPodaci.Controls.Add(this.txtKlijent);
             this.grpPodaci.Controls.Add(this.lblL0);
             this.grpPodaci.Controls.Add(this.txtBrojRacuna);
             this.grpPodaci.Controls.Add(this.lblL1);
@@ -843,6 +847,19 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "tabPage1";
             // 
+            // txtKlijent
+            // 
+            this.txtKlijent.Location = new System.Drawing.Point(145, 67);
+            this.txtKlijent.Name = "txtKlijent";
+            this.txtKlijent.Size = new System.Drawing.Size(170, 27);
+            this.txtKlijent.TabIndex = 26;
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
+            // 
             // UcRacuni
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -950,5 +967,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Valuta;
         private System.Windows.Forms.DataGridViewTextBoxColumn Klijent;
         private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TextBox txtKlijent;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
     }
 }

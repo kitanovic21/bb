@@ -1,4 +1,5 @@
 ﻿using Banka.DTOs;
+using FluentNHibernate.Conventions.AcceptanceCriteria;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,8 @@ namespace Banka.Forme
     {
         private List<RacunPregled> sviRacuni = new List<RacunPregled>();
         private string selektovaniRacun = null;
+        private int? prosledjeniKlijentId = null;
+        private string prosledjenoImeKlijenta = null;
         public UcRacuni()
         {
             InitializeComponent();
@@ -19,7 +22,18 @@ namespace Banka.Forme
             cmbStatusRacuna.SelectedIndex = 0;
             cmbTipFilter.SelectedIndex = 0;
             cmbTipRacuna.SelectedIndex = 0;
+
+            btnNovi.Enabled = false;
             //cmbValuta.SelectedIndex = 0;
+        }
+        public UcRacuni(int? klijentId, string klijentImeNaziv) : this()
+        {
+            this.prosledjeniKlijentId = klijentId;
+            this.prosledjenoImeKlijenta = klijentImeNaziv;
+
+            txtPretraga.Text = klijentImeNaziv;
+
+            btnNovi.Enabled = true;
         }
 
         private async void dgvRacuni_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -87,16 +101,15 @@ namespace Banka.Forme
             string selektovaniStatus = UkloniKvacice(cmbStatusFilter.SelectedItem?.ToString());
 
             var filtriraniRacuni = sviRacuni.Where(r =>
-                // 1. Pretraga po broju računa ili klijentu
+                (!prosledjeniKlijentId.HasValue || r.KlijentId == prosledjeniKlijentId.Value) &&
+
                 (string.IsNullOrEmpty(pretragaTekst) ||
-                 (r.BrojRacuna != null && r.BrojRacuna.ToLower().Contains(pretragaTekst)) ||
-                 (r.ImeNaziv != null && r.ImeNaziv.ToLower().Contains(pretragaTekst))) &&
+                 (r.BrojRacuna != null && UkloniKvacice(r.BrojRacuna).Contains(pretragaTekst)) ||
+                 (r.ImeNaziv != null && UkloniKvacice(r.ImeNaziv).Contains(pretragaTekst))) &&
 
-                // 2. Filter po tipu
-                (selektovaniTip.Contains("svi") || (r.TipRacuna != null && r.TipRacuna.ToLower().Contains(selektovaniTip))) &&
+                (selektovaniTip.Contains("svi") || (r.TipRacuna != null && UkloniKvacice(r.TipRacuna).Contains(selektovaniTip))) &&
 
-                // 3. Filter po statusu
-                (selektovaniStatus.Contains("svi") || (r.StatusRacuna != null && r.StatusRacuna.ToLower().Contains(selektovaniStatus)))
+                (selektovaniStatus.Contains("svi") || (r.StatusRacuna != null && UkloniKvacice(r.StatusRacuna).Contains(selektovaniStatus)))
             ).ToList();
 
             // Osvežavanje DataGridView-a
@@ -117,15 +130,14 @@ namespace Banka.Forme
         }
         private void PopulateData(RacunBasic rb)
         {
-            if(rb == null) return;
+            if (rb == null) return;
 
             txtBrojRacuna.Text = rb.BrojRacuna ?? "";
-            //treba da se zameni combobox u textbox za Klijenta
             txtTrenutnoStanje.Text = rb.TrenutnoStanje.ToString();
             txtKamatnaStopa.Text = rb.KamatnaStopa.ToString();
             txtKomentar.Text = rb.Komentar.ToString();
             txtDozvoljeniMinus.Text = rb.DozvoljeniMinus.ToString();
-            if(cmbStatusRacuna.Items.Contains(rb.StatusRacuna))
+            if (cmbStatusRacuna.Items.Contains(rb.StatusRacuna))
                 cmbStatusRacuna.SelectedItem = rb.StatusRacuna;
 
             txtMesecniLimit.Clear();
@@ -142,17 +154,15 @@ namespace Banka.Forme
             txtLimitMasovnih.Clear();
             txtIntegracija.Clear();
 
-            if(rb.TipRacuna == "tekuci")
+            if (rb.TipRacuna == "tekuci")
             {
                 cmbTipRacuna.SelectedItem = "Tekuci";
                 tabTipRacuna.SelectedIndex = 0;
-                if (rb.MogucnostPlatnihKartica == "da")
-                    chkPlatneKartice.Checked = true;
-                else chkPlatneKartice.Checked = false;
+                chkPlatneKartice.Checked = (rb.MogucnostPlatnihKartica == "da");
                 txtMesecniLimit.Text = rb.MesecniLimitTransakcija.ToString();
-                txtPaketiUsluga.Text = "";//treba da se poveze
+                txtPaketiUsluga.Text = "";
             }
-            else if(rb.TipRacuna == "stedni")
+            else if (rb.TipRacuna == "stedni")
             {
                 cmbTipRacuna.SelectedItem = "Stedni";
                 tabTipRacuna.SelectedIndex = 1;
@@ -161,29 +171,25 @@ namespace Banka.Forme
                 txtFrekvencija.Text = rb.Frekvencija ?? "";
                 txtBonusi.Text = rb.BonusiZaDugorocnuStednju.ToString();
             }
-            else if(rb.TipRacuna == "devizni")
+            else if (rb.TipRacuna == "devizni")
             {
                 cmbTipRacuna.SelectedItem = "Devizni";
                 tabTipRacuna.SelectedIndex = 2;
-                txtDozvoljeneValute.Text = "";//treba da se doda
+                txtDozvoljeneValute.Text = "";
                 txtNamenaDevizni.Text = rb.NamenaDevizni ?? "";
                 txtKursnaRazlika.Text = rb.KursnaRazlikaKonverzije.ToString();
                 txtOgranicenja.Text = rb.OgranicenjaDeviznihPropisa ?? "";
             }
-            else if(rb.TipRacuna == "ziro")
+            else if (rb.TipRacuna == "ziro")
             {
                 cmbTipRacuna.SelectedItem = "Ziro";
                 tabTipRacuna.SelectedIndex = 3;
                 txtNamenaZiro.Text = rb.NamenaZiro ?? "";
                 txtLimitMasovnih.Text = rb.LimitMasovnihPlacanja.ToString();
                 txtIntegracija.Text = rb.Integracija.ToString();
-                if (rb.EBankarstvoZaFirme == "da")
-                    chkEBankarstvo.Checked = true;
-                else chkEBankarstvo.Checked = false;
-
+                chkEBankarstvo.Checked = (rb.EBankarstvoZaFirme == "da");
             }
         }
-
 
         private RacunBasic ProcitajPodatkeSaForme()
         {
@@ -214,8 +220,6 @@ namespace Banka.Forme
 
             if (tip == "tekuci" || tip == "tekući")
             {
-                
-
                 rb.MogucnostPlatnihKartica = chkPlatneKartice.Checked ? "da" : "ne";
 
                 if (int.TryParse(txtMesecniLimit.Text.Trim(), out int limit))
@@ -225,8 +229,6 @@ namespace Banka.Forme
             }
             else if (tip == "stedni" || tip == "štedni")
             {
-                
-
                 if (double.TryParse(txtMinimalniIznos.Text.Trim(), out double minIznos))
                     rb.MinimalniIznosZaOtvaranje = minIznos;
 
@@ -240,8 +242,6 @@ namespace Banka.Forme
             }
             else if (tip == "devizni")
             {
-                
-
                 rb.NamenaDevizni = txtNamenaDevizni.Text.Trim();
                 rb.OgranicenjaDeviznihPropisa = txtOgranicenja.Text.Trim();
 
@@ -252,7 +252,6 @@ namespace Banka.Forme
             }
             else if (tip == "ziro" || tip == "žiro")
             {
-                
                 rb.NamenaZiro = txtNamenaZiro.Text.Trim();
                 rb.EBankarstvoZaFirme = chkEBankarstvo.Checked ? "da" : "ne";
                 rb.Integracija = txtIntegracija.Text.Trim();
@@ -305,7 +304,18 @@ namespace Banka.Forme
 
         private void btnNovi_Click(object sender, EventArgs e)
         {
+            if (!prosledjeniKlijentId.HasValue)
+            {
+                MessageBox.Show("Novi račun se može dodati samo ako ste prethodno izabrali klijenta na stranici Klijenti!", "Greška", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             OcistiFormu();
+
+            // Postavljamo klijenta na formi i onemogućavamo izmenu klijenta
+            txtKlijent.Text = prosledjenoImeKlijenta; // Umesto ComboBox-a stavi TextBox za prikaz
+            txtKlijent.Enabled = false;
+
             txtBrojRacuna.Focus();
         }
 
