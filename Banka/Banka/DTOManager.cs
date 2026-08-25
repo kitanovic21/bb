@@ -509,6 +509,111 @@ namespace Banka
 
             return rb;
         }
+        public static async Task<bool> AddRacun(RacunBasic rb, int klijentId)
+        {
+            ISession session = null;
+            ITransaction transaction = null;
+
+            try
+            {
+                session = DataLayer.GetSession();
+
+                if (session == null)
+                    return false;
+
+                transaction = session.BeginTransaction();
+
+                Klijent klijent = await session.GetAsync<Klijent>(klijentId);
+
+                if (klijent == null)
+                {
+                    MessageBox.Show("Izabrani klijent ne postoji u bazi podataka.", "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
+                PredmetObracuna po = new PredmetObracuna();
+                await session.SaveAsync(po);
+
+                Racun racun;
+                string tip = rb.TipRacuna?.ToLower().Trim() ?? "";
+
+                if (tip == "tekuci" || tip == "tekući")
+                {
+                    TekuciRacun tr = new TekuciRacun();
+                    tr.MogucnostPlatnihKartica = rb.MogucnostPlatnihKartica;
+                    tr.MesecniLimitTransakcija = rb.MesecniLimitTransakcija;
+                    racun = tr;
+                }
+                else if (tip == "stedni" || tip == "štedni")
+                {
+                    StedniRacun sr = new StedniRacun();
+                    sr.MinimalniIznosZaOtvaranje = rb.MinimalniIznosZaOtvaranje;
+                    sr.UsloviPodizanjaSredstava = rb.UsloviPodizanjaSredstava;
+                    sr.Frekvencija = rb.Frekvencija;
+                    sr.BonusiZaDugorocnuStednju = rb.BonusiZaDugorocnuStednju;
+                    racun = sr;
+                }
+                else if (tip == "devizni")
+                {
+                    DevizniRacun dr = new DevizniRacun();
+                    dr.Namena = rb.NamenaDevizni;
+                    dr.OgranicenjaDeviznihPropisa = rb.OgranicenjaDeviznihPropisa;
+                    dr.KursnaRazlikaKonverzije = rb.KursnaRazlikaKonverzije;
+                    racun = dr;
+                }
+                else if (tip == "ziro" || tip == "žiro")
+                {
+                    ZiroRacun zr = new ZiroRacun();
+                    zr.Namena = rb.NamenaZiro;
+                    zr.EBankarstvoZaFirme = rb.EBankarstvoZaFirme;
+                    zr.LimitMasovnihPlacanja = rb.LimitMasovnihPlacanja;
+                    zr.Integracija = rb.Integracija;
+                    racun = zr;
+                }
+                else
+                {
+                    MessageBox.Show("Neispravan tip računa.", "Greška", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
+
+                racun.BrojRacuna = rb.BrojRacuna;
+                racun.TipRacuna = tip;
+                racun.Valuta = rb.Valuta;
+                racun.TrenutnoStanje = rb.TrenutnoStanje;
+                racun.DatumOtvaranja = rb.DatumOtvaranja;
+                racun.StatusRacuna = rb.StatusRacuna;
+                racun.KamatnaStopa = rb.KamatnaStopa;
+                racun.DozvoljeniMinus = rb.DozvoljeniMinus;
+                racun.Komentar = rb.Komentar;
+
+                
+                racun.Klijent = klijent;
+                racun.PredmetObracuna = po;
+                
+                await session.SaveAsync(racun);
+                await transaction.CommitAsync();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                if (transaction != null && transaction.IsActive)
+                    await transaction.RollbackAsync();
+
+                MessageBox.Show(
+                    ex.GetBaseException().Message,
+                    "Greška",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+
+                return false;
+            }
+            finally
+            {
+                if (session != null)
+                    session.Close();
+            }
+        }
 
         public static List<TransakcijaPregled> GetTransakcijeInfos()
         {

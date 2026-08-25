@@ -74,10 +74,8 @@ namespace Banka.Forme
         }*/
         private void PopulateInfos()
         {
-            // Učitavamo sve podatak u listu u memoriji
             sviRacuni = DTOManager.GetRacunInfo();
 
-            // Primenjujemo filtere na tabelu
             PrimeniFiltere();
         }
         private static string UkloniKvacice(string text)
@@ -133,9 +131,10 @@ namespace Banka.Forme
             if (rb == null) return;
 
             txtBrojRacuna.Text = rb.BrojRacuna ?? "";
+            txtValuta.Text = rb.Valuta ?? "";
             txtTrenutnoStanje.Text = rb.TrenutnoStanje.ToString();
             txtKamatnaStopa.Text = rb.KamatnaStopa.ToString();
-            txtKomentar.Text = rb.Komentar.ToString();
+            txtKomentar.Text = rb.Komentar ?? "";
             txtDozvoljeniMinus.Text = rb.DozvoljeniMinus.ToString();
             if (cmbStatusRacuna.Items.Contains(rb.StatusRacuna))
                 cmbStatusRacuna.SelectedItem = rb.StatusRacuna;
@@ -196,9 +195,8 @@ namespace Banka.Forme
             RacunBasic rb = new RacunBasic();
 
             rb.BrojRacuna = txtBrojRacuna.Text.Trim();
-            cmbKlijent.SelectedItem?.ToString();
-            rb.TipRacuna = cmbTipRacuna.SelectedItem?.ToString().ToLower().Trim();
-            rb.Valuta = cmbValuta.SelectedItem?.ToString();
+            rb.Klijent = txtKlijent.Text.Trim();
+            rb.TipRacuna = UkloniKvacice(cmbTipRacuna.SelectedItem?.ToString()); rb.Valuta = txtValuta.Text.Trim();
             rb.StatusRacuna = cmbStatusRacuna.SelectedItem?.ToString();
             rb.DatumOtvaranja = dtpDatumOtvaranja.Value;
             rb.Komentar = txtKomentar.Text.Trim();
@@ -312,8 +310,7 @@ namespace Banka.Forme
 
             OcistiFormu();
 
-            // Postavljamo klijenta na formi i onemogućavamo izmenu klijenta
-            txtKlijent.Text = prosledjenoImeKlijenta; // Umesto ComboBox-a stavi TextBox za prikaz
+            txtKlijent.Text = prosledjenoImeKlijenta; 
             txtKlijent.Enabled = false;
 
             txtBrojRacuna.Focus();
@@ -337,6 +334,67 @@ namespace Banka.Forme
         private void cmbStatusFilter_SelectedIndexChanged(object sender, EventArgs e)
         {
             PrimeniFiltere();
+        }
+
+        private async void btnSacuvaj_Click(object sender, EventArgs e)
+        {
+            if (!prosledjeniKlijentId.HasValue)
+            {
+                MessageBox.Show(
+                    "Novi račun možete dodati samo ako ste prethodno izabrali klijenta na stranici Klijenti!",
+                    "Obaveštenje",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+                return;
+            }
+
+            RacunBasic rb = ProcitajPodatkeSaForme();
+
+            if (string.IsNullOrWhiteSpace(rb.BrojRacuna))
+            {
+                MessageBox.Show("Molimo vas unesite broj računa.", "Upozorenje", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            bool uspesno = await DTOManager.AddRacun(rb, prosledjeniKlijentId.Value);
+
+            if (uspesno)
+            {
+                MessageBox.Show("Račun je uspešno kreiran!", "Uspeh", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                PopulateInfos();
+                OcistiFormu();
+            }
+        }
+
+        private void cmbTipRacuna_TabIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cmbTipRacuna_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmbTipRacuna.SelectedItem == null) return;
+
+            string izabraniTip = cmbTipRacuna.SelectedItem.ToString().ToLower().Trim();
+
+            if (izabraniTip.Contains("teku"))
+            {
+                tabTipRacuna.SelectedIndex = 0;
+            }
+            else if (izabraniTip.Contains("sted") || izabraniTip.Contains("šted"))
+            {
+                tabTipRacuna.SelectedIndex = 1;
+            }
+            else if (izabraniTip.Contains("deviz"))
+            {
+                tabTipRacuna.SelectedIndex = 2;
+            }
+            else if (izabraniTip.Contains("zir") || izabraniTip.Contains("žir"))
+            {
+                tabTipRacuna.SelectedIndex = 3;
+            }
         }
     }
 }

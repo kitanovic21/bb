@@ -28,13 +28,14 @@
             this.Valuta = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Klijent = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.grpPodaci = new System.Windows.Forms.GroupBox();
+            this.txtValuta = new System.Windows.Forms.TextBox();
+            this.txtKlijent = new System.Windows.Forms.TextBox();
             this.lblL0 = new System.Windows.Forms.Label();
             this.txtBrojRacuna = new System.Windows.Forms.TextBox();
             this.lblL1 = new System.Windows.Forms.Label();
             this.lblL2 = new System.Windows.Forms.Label();
             this.cmbTipRacuna = new System.Windows.Forms.ComboBox();
             this.lblL3 = new System.Windows.Forms.Label();
-            this.cmbValuta = new System.Windows.Forms.ComboBox();
             this.lblL4 = new System.Windows.Forms.Label();
             this.txtTrenutnoStanje = new System.Windows.Forms.TextBox();
             this.lblM0 = new System.Windows.Forms.Label();
@@ -86,8 +87,8 @@
             this.btnSacuvaj = new System.Windows.Forms.Button();
             this.btnOdustani = new System.Windows.Forms.Button();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.txtKlijent = new System.Windows.Forms.TextBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.panelFilter.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRacuni)).BeginInit();
             this.grpPodaci.SuspendLayout();
@@ -256,6 +257,7 @@
             this.grpPodaci.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.grpPodaci.Controls.Add(this.txtValuta);
             this.grpPodaci.Controls.Add(this.txtKlijent);
             this.grpPodaci.Controls.Add(this.lblL0);
             this.grpPodaci.Controls.Add(this.txtBrojRacuna);
@@ -263,7 +265,6 @@
             this.grpPodaci.Controls.Add(this.lblL2);
             this.grpPodaci.Controls.Add(this.cmbTipRacuna);
             this.grpPodaci.Controls.Add(this.lblL3);
-            this.grpPodaci.Controls.Add(this.cmbValuta);
             this.grpPodaci.Controls.Add(this.lblL4);
             this.grpPodaci.Controls.Add(this.txtTrenutnoStanje);
             this.grpPodaci.Controls.Add(this.lblM0);
@@ -288,6 +289,20 @@
             this.grpPodaci.TabIndex = 3;
             this.grpPodaci.TabStop = false;
             this.grpPodaci.Text = "Podaci o računu";
+            // 
+            // txtValuta
+            // 
+            this.txtValuta.Location = new System.Drawing.Point(145, 140);
+            this.txtValuta.Name = "txtValuta";
+            this.txtValuta.Size = new System.Drawing.Size(170, 27);
+            this.txtValuta.TabIndex = 27;
+            // 
+            // txtKlijent
+            // 
+            this.txtKlijent.Location = new System.Drawing.Point(145, 67);
+            this.txtKlijent.Name = "txtKlijent";
+            this.txtKlijent.Size = new System.Drawing.Size(170, 27);
+            this.txtKlijent.TabIndex = 26;
             // 
             // lblL0
             // 
@@ -336,6 +351,8 @@
             this.cmbTipRacuna.Name = "cmbTipRacuna";
             this.cmbTipRacuna.Size = new System.Drawing.Size(170, 28);
             this.cmbTipRacuna.TabIndex = 5;
+            this.cmbTipRacuna.SelectedIndexChanged += new System.EventHandler(this.cmbTipRacuna_SelectedIndexChanged);
+            this.cmbTipRacuna.TabIndexChanged += new System.EventHandler(this.cmbTipRacuna_TabIndexChanged);
             // 
             // lblL3
             // 
@@ -345,15 +362,6 @@
             this.lblL3.Size = new System.Drawing.Size(50, 20);
             this.lblL3.TabIndex = 6;
             this.lblL3.Text = "Valuta";
-            // 
-            // cmbValuta
-            // 
-            this.cmbValuta.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbValuta.FormattingEnabled = true;
-            this.cmbValuta.Location = new System.Drawing.Point(145, 136);
-            this.cmbValuta.Name = "cmbValuta";
-            this.cmbValuta.Size = new System.Drawing.Size(170, 28);
-            this.cmbValuta.TabIndex = 7;
             // 
             // lblL4
             // 
@@ -823,6 +831,7 @@
             this.btnSacuvaj.TabIndex = 24;
             this.btnSacuvaj.Text = "Sačuvaj";
             this.btnSacuvaj.UseVisualStyleBackColor = false;
+            this.btnSacuvaj.Click += new System.EventHandler(this.btnSacuvaj_Click);
             // 
             // btnOdustani
             // 
@@ -847,18 +856,17 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "tabPage1";
             // 
-            // txtKlijent
-            // 
-            this.txtKlijent.Location = new System.Drawing.Point(145, 67);
-            this.txtKlijent.Name = "txtKlijent";
-            this.txtKlijent.Size = new System.Drawing.Size(170, 27);
-            this.txtKlijent.TabIndex = 26;
-            // 
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
+            // 
+            // contextMenuStrip2
+            // 
+            this.contextMenuStrip2.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.contextMenuStrip2.Name = "contextMenuStrip2";
+            this.contextMenuStrip2.Size = new System.Drawing.Size(61, 4);
             // 
             // UcRacuni
             // 
@@ -910,7 +918,6 @@
         private System.Windows.Forms.Label lblL2;
         private System.Windows.Forms.ComboBox cmbTipRacuna;
         private System.Windows.Forms.Label lblL3;
-        private System.Windows.Forms.ComboBox cmbValuta;
         private System.Windows.Forms.Label lblL4;
         private System.Windows.Forms.TextBox txtTrenutnoStanje;
         private System.Windows.Forms.Label lblM0;
@@ -969,5 +976,7 @@
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TextBox txtKlijent;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.TextBox txtValuta;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;
     }
 }

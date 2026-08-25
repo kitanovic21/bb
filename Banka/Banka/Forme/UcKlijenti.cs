@@ -384,11 +384,6 @@ namespace Banka.Forme
         {
             if (dgvKlijenti.SelectedRows.Count > 0)
             {
-                // Uzimamo ID i ime klijenta iz selektovanog reda u DataGridView-u
-                //int klijentId = Convert.ToInt32(dgvKlijenti.SelectedRows[0].Cells["Id"].Value);
-                //string klijentIme = dgvKlijenti.SelectedRows[0].Cells["ImeNaziv"].Value.ToString();
-
-                // Otvaramo UcRacuni i prosleđujemo ID i Ime
                 UcRacuni ucRacuni = new UcRacuni(selektovaniKlijentId, selektovaniKlijentName);
 
                 Panel panelMain = this.Parent as Panel;
