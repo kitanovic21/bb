@@ -105,7 +105,8 @@
             // 
             // cmbRacunFilter
             // 
-            this.cmbRacunFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbRacunFilter.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cmbRacunFilter.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cmbRacunFilter.FormattingEnabled = true;
             this.cmbRacunFilter.Location = new System.Drawing.Point(84, 14);
             this.cmbRacunFilter.Name = "cmbRacunFilter";
@@ -187,6 +188,7 @@
             this.dgvTransakcije.Size = new System.Drawing.Size(1050, 210);
             this.dgvTransakcije.TabIndex = 2;
             this.dgvTransakcije.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvTransakcije_CellClick);
+            this.dgvTransakcije.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvTransakcije_CellContentClick);
             // 
             // KodTransakcije
             // 
@@ -312,7 +314,8 @@
             // 
             // cmbRacun
             // 
-            this.cmbRacun.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbRacun.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cmbRacun.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cmbRacun.FormattingEnabled = true;
             this.cmbRacun.Location = new System.Drawing.Point(160, 70);
             this.cmbRacun.Name = "cmbRacun";
@@ -480,7 +483,8 @@
             // 
             // cmbPoticeSa
             // 
-            this.cmbPoticeSa.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbPoticeSa.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cmbPoticeSa.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cmbPoticeSa.FormattingEnabled = true;
             this.cmbPoticeSa.Location = new System.Drawing.Point(850, 34);
             this.cmbPoticeSa.Name = "cmbPoticeSa";
@@ -533,6 +537,7 @@
             this.btnNovi.TabIndex = 26;
             this.btnNovi.Text = "Novi";
             this.btnNovi.UseVisualStyleBackColor = true;
+            this.btnNovi.Click += new System.EventHandler(this.btnNovi_Click);
             // 
             // btnIzmeni
             // 
@@ -575,6 +580,7 @@
             this.btnSacuvaj.TabIndex = 29;
             this.btnSacuvaj.Text = "Sačuvaj";
             this.btnSacuvaj.UseVisualStyleBackColor = false;
+            this.btnSacuvaj.Click += new System.EventHandler(this.btnSacuvaj_Click);
             // 
             // btnOdustani
             // 
@@ -588,6 +594,7 @@
             this.btnOdustani.TabIndex = 30;
             this.btnOdustani.Text = "Odustani";
             this.btnOdustani.UseVisualStyleBackColor = true;
+            this.btnOdustani.Click += new System.EventHandler(this.btnOdustani_Click);
             // 
             // UcTransakcije
             // 
