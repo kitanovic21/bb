@@ -12,6 +12,7 @@
         #region Component Designer generated code
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.lblNaslov = new System.Windows.Forms.Label();
             this.panelFilter = new System.Windows.Forms.Panel();
             this.lblFilter1 = new System.Windows.Forms.Label();
@@ -21,6 +22,14 @@
             this.lblFilter3 = new System.Windows.Forms.Label();
             this.cmbTipFilter = new System.Windows.Forms.ComboBox();
             this.dgvSigurnost = new System.Windows.Forms.DataGridView();
+            this.colId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colKlijent = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colRacun = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colTipDogadjaja = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colDatum = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colVreme = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colIpAdresa = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.grpPodaci = new System.Windows.Forms.GroupBox();
             this.lblC0_0 = new System.Windows.Forms.Label();
             this.txtId = new System.Windows.Forms.TextBox();
@@ -137,11 +146,31 @@
             // 
             this.dgvSigurnost.AllowUserToAddRows = false;
             this.dgvSigurnost.AllowUserToDeleteRows = false;
+            this.dgvSigurnost.AllowUserToResizeColumns = false;
+            this.dgvSigurnost.AllowUserToResizeRows = false;
             this.dgvSigurnost.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvSigurnost.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvSigurnost.BackgroundColor = System.Drawing.Color.White;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(72)))), ((int)(((byte)(106)))));
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvSigurnost.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.dgvSigurnost.ColumnHeadersHeight = 32;
+            this.dgvSigurnost.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colId,
+            this.colKlijent,
+            this.colRacun,
+            this.colTipDogadjaja,
+            this.colDatum,
+            this.colVreme,
+            this.colIpAdresa,
+            this.colStatus});
+            this.dgvSigurnost.EnableHeadersVisualStyles = false;
             this.dgvSigurnost.Location = new System.Drawing.Point(25, 135);
             this.dgvSigurnost.Name = "dgvSigurnost";
             this.dgvSigurnost.ReadOnly = true;
@@ -150,6 +179,70 @@
             this.dgvSigurnost.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvSigurnost.Size = new System.Drawing.Size(1050, 210);
             this.dgvSigurnost.TabIndex = 2;
+            // 
+            // colId
+            // 
+            this.colId.FillWeight = 44.19889F;
+            this.colId.HeaderText = "ID";
+            this.colId.MinimumWidth = 7;
+            this.colId.Name = "colId";
+            this.colId.ReadOnly = true;
+            // 
+            // colKlijent
+            // 
+            this.colKlijent.FillWeight = 107.9716F;
+            this.colKlijent.HeaderText = "Klijent";
+            this.colKlijent.MinimumWidth = 7;
+            this.colKlijent.Name = "colKlijent";
+            this.colKlijent.ReadOnly = true;
+            // 
+            // colRacun
+            // 
+            this.colRacun.FillWeight = 107.9716F;
+            this.colRacun.HeaderText = "Račun";
+            this.colRacun.MinimumWidth = 7;
+            this.colRacun.Name = "colRacun";
+            this.colRacun.ReadOnly = true;
+            // 
+            // colTipDogadjaja
+            // 
+            this.colTipDogadjaja.FillWeight = 107.9716F;
+            this.colTipDogadjaja.HeaderText = "Tip događaja";
+            this.colTipDogadjaja.MinimumWidth = 7;
+            this.colTipDogadjaja.Name = "colTipDogadjaja";
+            this.colTipDogadjaja.ReadOnly = true;
+            // 
+            // colDatum
+            // 
+            this.colDatum.FillWeight = 107.9716F;
+            this.colDatum.HeaderText = "Datum";
+            this.colDatum.MinimumWidth = 7;
+            this.colDatum.Name = "colDatum";
+            this.colDatum.ReadOnly = true;
+            // 
+            // colVreme
+            // 
+            this.colVreme.FillWeight = 107.9716F;
+            this.colVreme.HeaderText = "Vreme";
+            this.colVreme.MinimumWidth = 7;
+            this.colVreme.Name = "colVreme";
+            this.colVreme.ReadOnly = true;
+            // 
+            // colIpAdresa
+            // 
+            this.colIpAdresa.FillWeight = 107.9716F;
+            this.colIpAdresa.HeaderText = "IP adresa";
+            this.colIpAdresa.MinimumWidth = 7;
+            this.colIpAdresa.Name = "colIpAdresa";
+            this.colIpAdresa.ReadOnly = true;
+            // 
+            // colStatus
+            // 
+            this.colStatus.FillWeight = 107.9716F;
+            this.colStatus.HeaderText = "Status";
+            this.colStatus.MinimumWidth = 7;
+            this.colStatus.Name = "colStatus";
+            this.colStatus.ReadOnly = true;
             // 
             // grpPodaci
             // 
@@ -201,6 +294,7 @@
             // 
             this.txtId.Location = new System.Drawing.Point(160, 34);
             this.txtId.Name = "txtId";
+            this.txtId.ReadOnly = true;
             this.txtId.Size = new System.Drawing.Size(165, 30);
             this.txtId.TabIndex = 1;
             // 
@@ -221,6 +315,7 @@
             this.cmbKlijent.Name = "cmbKlijent";
             this.cmbKlijent.Size = new System.Drawing.Size(165, 31);
             this.cmbKlijent.TabIndex = 3;
+            this.cmbKlijent.SelectedIndexChanged += new System.EventHandler(this.cmbKlijent_SelectedIndexChanged);
             // 
             // lblC0_2
             // 
@@ -327,6 +422,10 @@
             // 
             this.cmbStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbStatus.FormattingEnabled = true;
+            this.cmbStatus.Items.AddRange(new object[] {
+            "Evidentiran",
+            "U obradi",
+            "Rešen"});
             this.cmbStatus.Location = new System.Drawing.Point(500, 142);
             this.cmbStatus.Name = "cmbStatus";
             this.cmbStatus.Size = new System.Drawing.Size(155, 31);
@@ -343,10 +442,12 @@
             // 
             // txtUredjaj
             // 
+            this.txtUredjaj.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtUredjaj.Location = new System.Drawing.Point(850, 34);
             this.txtUredjaj.Multiline = true;
             this.txtUredjaj.Name = "txtUredjaj";
-            this.txtUredjaj.Size = new System.Drawing.Size(155, 54);
+            this.txtUredjaj.Size = new System.Drawing.Size(175, 54);
             this.txtUredjaj.TabIndex = 17;
             // 
             // lblC2_1
@@ -360,10 +461,12 @@
             // 
             // txtOpis
             // 
+            this.txtOpis.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtOpis.Location = new System.Drawing.Point(850, 96);
             this.txtOpis.Multiline = true;
             this.txtOpis.Name = "txtOpis";
-            this.txtOpis.Size = new System.Drawing.Size(155, 70);
+            this.txtOpis.Size = new System.Drawing.Size(175, 70);
             this.txtOpis.TabIndex = 19;
             // 
             // btnNovi
@@ -378,6 +481,7 @@
             this.btnNovi.TabIndex = 20;
             this.btnNovi.Text = "Novi";
             this.btnNovi.UseVisualStyleBackColor = true;
+            this.btnNovi.Click += new System.EventHandler(this.btnNovi_Click);
             // 
             // btnIzmeni
             // 
@@ -414,12 +518,13 @@
             this.btnSacuvaj.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSacuvaj.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSacuvaj.ForeColor = System.Drawing.Color.White;
-            this.btnSacuvaj.Location = new System.Drawing.Point(820, 255);
+            this.btnSacuvaj.Location = new System.Drawing.Point(835, 255);
             this.btnSacuvaj.Name = "btnSacuvaj";
             this.btnSacuvaj.Size = new System.Drawing.Size(90, 32);
             this.btnSacuvaj.TabIndex = 23;
             this.btnSacuvaj.Text = "Sačuvaj";
             this.btnSacuvaj.UseVisualStyleBackColor = false;
+            this.btnSacuvaj.Click += new System.EventHandler(this.btnSacuvaj_Click);
             // 
             // btnOdustani
             // 
@@ -427,7 +532,7 @@
             this.btnOdustani.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
             this.btnOdustani.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnOdustani.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnOdustani.Location = new System.Drawing.Point(920, 255);
+            this.btnOdustani.Location = new System.Drawing.Point(935, 255);
             this.btnOdustani.Name = "btnOdustani";
             this.btnOdustani.Size = new System.Drawing.Size(90, 32);
             this.btnOdustani.TabIndex = 24;
@@ -490,5 +595,13 @@
         private System.Windows.Forms.Button btnObrisi;
         private System.Windows.Forms.Button btnSacuvaj;
         private System.Windows.Forms.Button btnOdustani;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colKlijent;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colRacun;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colTipDogadjaja;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colDatum;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colVreme;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colIpAdresa;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colStatus;
     }
 }

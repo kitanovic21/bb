@@ -15,6 +15,7 @@ namespace Banka.Forme
     {
         private int? selektovaniKlijentId = null;
         private string selektovaniKlijentName = "";
+        private List<KlijentPregled> sviKlijenti = new List<KlijentPregled>();
 
         public UcKlijenti()
         {
@@ -24,6 +25,15 @@ namespace Banka.Forme
             cmbTipFilter.SelectedIndex = 0;
             cmbStatusFilter.SelectedIndex = 0;
             cmbStatus.SelectedIndex = 0;
+
+            txtPretraga.TextChanged += Filteri_Changed;
+            cmbTipFilter.SelectedIndexChanged += Filteri_Changed;
+            cmbStatusFilter.SelectedIndexChanged += Filteri_Changed;
+        }
+
+        private void Filteri_Changed(object sender, EventArgs e)
+        {
+            PrimeniFiltere();
         }
 
         private void cmbTipKlijenta_SelectedIndexChanged(object sender, EventArgs e)
@@ -47,15 +57,29 @@ namespace Banka.Forme
 
         private void PopulateInfos()
         {
-            dgvKlijenti.Rows.Clear();
+            sviKlijenti = DTOManager.GetKlijentInfos()
+                .OrderBy(k => k.KlijentId)
+                .ToList();
 
-            List<KlijentPregled> klijenti = DTOManager.GetKlijentInfos();
+            PrimeniFiltere();
+        }
+
+        private void PopuniTabelu(IEnumerable<KlijentPregled> klijenti)
+        {
+            dgvKlijenti.Rows.Clear();
 
             foreach (KlijentPregled kp in klijenti)
             {
+                string tipZaPrikaz = kp.TipKlijenta;
+
+                if (kp.TipKlijenta == "fizicko")
+                    tipZaPrikaz = "Fizičko lice";
+                else if (kp.TipKlijenta == "pravno")
+                    tipZaPrikaz = "Pravno lice";
+
                 dgvKlijenti.Rows.Add(
                     kp.KlijentId.ToString(),
-                    kp.TipKlijenta ?? "",
+                    tipZaPrikaz,
                     kp.ImeNaziv ?? "",
                     kp.JMBGPIB ?? "",
                     kp.Grad ?? "",
@@ -64,7 +88,52 @@ namespace Banka.Forme
                 );
             }
 
+            dgvKlijenti.ClearSelection();
             dgvKlijenti.Refresh();
+        }
+
+        private void PrimeniFiltere()
+        {
+            IEnumerable<KlijentPregled> rezultat = sviKlijenti;
+
+            string pretraga = txtPretraga.Text.Trim();
+
+            if (!string.IsNullOrWhiteSpace(pretraga))
+            {
+                rezultat = rezultat.Where(k =>
+                    k.KlijentId.ToString().IndexOf(pretraga, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    (k.ImeNaziv ?? "").IndexOf(pretraga, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    (k.JMBGPIB ?? "").IndexOf(pretraga, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    (k.Grad ?? "").IndexOf(pretraga, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    (k.Telefon ?? "").IndexOf(pretraga, StringComparison.OrdinalIgnoreCase) >= 0
+                );
+            }
+
+            string tip = cmbTipFilter.SelectedItem?.ToString();
+
+            if (tip == "Fizičko lice")
+            {
+                rezultat = rezultat.Where(k =>
+                    string.Equals(k.TipKlijenta, "fizicko",
+                        StringComparison.OrdinalIgnoreCase));
+            }
+            else if (tip == "Pravno lice")
+            {
+                rezultat = rezultat.Where(k =>
+                    string.Equals(k.TipKlijenta, "pravno",
+                        StringComparison.OrdinalIgnoreCase));
+            }
+
+            string status = cmbStatusFilter.SelectedItem?.ToString();
+
+            if (!string.IsNullOrEmpty(status) && status != "Svi")
+            {
+                rezultat = rezultat.Where(k =>
+                    string.Equals(k.Status, status,
+                        StringComparison.OrdinalIgnoreCase));
+            }
+
+            PopuniTabelu(rezultat);
         }
 
         private void PopulateData(KlijentBasic kb)
@@ -177,10 +246,22 @@ namespace Banka.Forme
                     string.IsNullOrWhiteSpace(txtPrezime.Text) ||
                     string.IsNullOrWhiteSpace(txtJMBG.Text))
                 {
+                    MessageBox.Show("Unesite ime, prezime i JMBG fizičkog lica.");
+                    return false;
+                }
+
+                string jmbg = txtJMBG.Text.Trim();
+
+                if (jmbg.Length != 13 || !jmbg.All(char.IsDigit))
+                {
                     MessageBox.Show(
-                        "Unesite ime, prezime i JMBG fizičkog lica."
+                        "JMBG mora sadržati tačno 13 cifara.",
+                        "Neispravan JMBG",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning
                     );
 
+                    txtJMBG.Focus();
                     return false;
                 }
             }
@@ -189,10 +270,22 @@ namespace Banka.Forme
                 if (string.IsNullOrWhiteSpace(txtNazivFirme.Text) ||
                     string.IsNullOrWhiteSpace(txtPIB.Text))
                 {
+                    MessageBox.Show("Unesite naziv firme i PIB.");
+                    return false;
+                }
+
+                string pib = txtPIB.Text.Trim();
+
+                if (pib.Length != 9 || !pib.All(char.IsDigit))
+                {
                     MessageBox.Show(
-                        "Unesite naziv firme i PIB."
+                        "PIB mora sadržati tačno 9 cifara.",
+                        "Neispravan PIB",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning
                     );
 
+                    txtPIB.Focus();
                     return false;
                 }
             }
@@ -207,7 +300,6 @@ namespace Banka.Forme
             dgvKlijenti.ClearSelection();
 
             cmbTipKlijenta.Enabled = true;
-            cmbTipKlijenta.SelectedIndex = 0;
 
             txtIme.Clear();
             txtPrezime.Clear();
@@ -237,7 +329,10 @@ namespace Banka.Forme
         {
             OcistiFormu();
 
-            txtIme.Focus();
+            if (cmbTipKlijenta.SelectedItem.ToString() == "Fizičko lice")
+                txtIme.Focus();
+            else
+                txtNazivFirme.Focus();
         }
 
         private async void dgvKlijenti_CellClick(object sender, DataGridViewCellEventArgs e)

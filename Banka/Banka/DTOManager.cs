@@ -695,5 +695,151 @@ namespace Banka
             return tb;
         }
 
+
+        // SIGURNOSNA KONTROLA
+        public static List<SigurnosnaKontrolaPregled> GetSigurnosneKontroleInfos()
+        {
+            List<SigurnosnaKontrolaPregled> kontrole = new List<SigurnosnaKontrolaPregled>();
+            ISession session = null;
+
+            try
+            {
+                session = DataLayer.GetSession();
+
+                if (session != null)
+                {
+                    List<SigurnosnaKontrola> sveKontrole = session.Query<SigurnosnaKontrola>().ToList();
+
+                    foreach (SigurnosnaKontrola sk in sveKontrole)
+                    {
+                        int klijentId = 0;
+                        string klijentNaziv = "";
+                        string brojRacuna = "";
+
+                        if (sk.Klijent != null)
+                        {
+                            klijentId = sk.Klijent.ID;
+
+                            Type tipKlijenta = NHibernateUtil.GetClass(sk.Klijent);
+
+                            if (tipKlijenta == typeof(FizickoLice))
+                            {
+                                FizickoLice f = session.Get<FizickoLice>(sk.Klijent.ID);
+
+                                if (f != null)
+                                    klijentNaziv = f.Ime + " " + f.Prezime;
+                            }
+                            else if (tipKlijenta == typeof(PravnoLice))
+                            {
+                                PravnoLice p = session.Get<PravnoLice>(sk.Klijent.ID);
+
+                                if (p != null)
+                                    klijentNaziv = p.NazivFirme;
+                            }
+                        }
+
+                        if (sk.Racun != null)
+                            brojRacuna = sk.Racun.BrojRacuna;
+
+                        kontrole.Add(
+                            new SigurnosnaKontrolaPregled(
+                                sk.Id,
+                                klijentId,
+                                klijentNaziv,
+                                brojRacuna,
+                                sk.TipDogadjaja ?? "",
+                                sk.Datum,
+                                sk.Vreme ?? "",
+                                sk.IpAdresa ?? "",
+                                sk.Status ?? ""
+                            )
+                        );
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    ex.Message,
+                    "Greška pri učitavanju sigurnosnih kontrola",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+            }
+            finally
+            {
+                if (session != null)
+                    session.Close();
+            }
+
+            return kontrole;
+        }
+
+        public static async Task<bool> AddSigurnosnaKontrola(SigurnosnaKontrolaBasic sk)
+        {
+            ISession session = null;
+            ITransaction transaction = null;
+
+            try
+            {
+                session = DataLayer.GetSession();
+
+                if (session == null)
+                    return false;
+
+                transaction = session.BeginTransaction();
+
+                Klijent klijent = await session.GetAsync<Klijent>(sk.KlijentId);
+                Racun racun = await session.GetAsync<Racun>(sk.BrojRacuna);
+
+                if (klijent == null)
+                {
+                    MessageBox.Show("Izabrani klijent ne postoji.");
+                    return false;
+                }
+
+                if (racun == null)
+                {
+                    MessageBox.Show("Izabrani račun ne postoji.");
+                    return false;
+                }
+
+                SigurnosnaKontrola kontrola = new SigurnosnaKontrola();
+
+                kontrola.Klijent = klijent;
+                kontrola.Racun = racun;
+                kontrola.TipDogadjaja = sk.TipDogadjaja;
+                kontrola.Datum = sk.Datum;
+                kontrola.Vreme = sk.Vreme;
+                kontrola.IpAdresa = sk.IpAdresa;
+                kontrola.PodaciOUredjaju = sk.PodaciOUredjaju;
+                kontrola.Status = sk.Status;
+                kontrola.Opis = sk.Opis;
+
+                await session.SaveAsync(kontrola);
+                await transaction.CommitAsync();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                if (transaction != null && transaction.IsActive)
+                    await transaction.RollbackAsync();
+
+                MessageBox.Show(
+                    ex.GetBaseException().Message,
+                    "Greška",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+
+                return false;
+            }
+            finally
+            {
+                if (session != null)
+                    session.Close();
+            }
+        }
     }
 }
