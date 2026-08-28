@@ -14,7 +14,7 @@ namespace Banka.Mapiranja
         {
             Table("PREDMET_OBRACUNA");
 
-            Id(x => x.ID, "ID").GeneratedBy.Assigned();// assigned zato sto nema autoincrement
+            Id(x => x.ID, "ID").GeneratedBy.Increment();
 
             HasMany(x => x.Kamate)
                 .KeyColumn("ID_PREDMETA_OBRACUNA")

@@ -41,6 +41,14 @@
             this.btnObrisi = new System.Windows.Forms.Button();
             this.btnSacuvaj = new System.Windows.Forms.Button();
             this.btnOdustani = new System.Windows.Forms.Button();
+            this.colId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPredmet = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colKonkretanPredmet = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colTipKamate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colIznos = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPeriod = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colDatum = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panelFilter.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvKamate)).BeginInit();
             this.grpPodaci.SuspendLayout();
@@ -93,6 +101,7 @@
             this.cmbPredmetFilter.Name = "cmbPredmetFilter";
             this.cmbPredmetFilter.Size = new System.Drawing.Size(180, 31);
             this.cmbPredmetFilter.TabIndex = 1;
+            this.cmbPredmetFilter.SelectedIndexChanged += new System.EventHandler(this.cmbPredmetFilter_SelectedIndexChanged);
             // 
             // lblFilter2
             // 
@@ -116,16 +125,28 @@
             this.cmbStatusFilter.Name = "cmbStatusFilter";
             this.cmbStatusFilter.Size = new System.Drawing.Size(160, 31);
             this.cmbStatusFilter.TabIndex = 3;
+            this.cmbStatusFilter.SelectedIndexChanged += new System.EventHandler(this.cmbStatusFilter_SelectedIndexChanged);
             // 
             // dgvKamate
             // 
             this.dgvKamate.AllowUserToAddRows = false;
             this.dgvKamate.AllowUserToDeleteRows = false;
+            this.dgvKamate.AllowUserToResizeColumns = false;
+            this.dgvKamate.AllowUserToResizeRows = false;
             this.dgvKamate.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvKamate.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvKamate.BackgroundColor = System.Drawing.Color.White;
             this.dgvKamate.ColumnHeadersHeight = 32;
+            this.dgvKamate.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colId,
+            this.colPredmet,
+            this.colKonkretanPredmet,
+            this.colTipKamate,
+            this.colIznos,
+            this.colPeriod,
+            this.colDatum,
+            this.colStatus});
             this.dgvKamate.Location = new System.Drawing.Point(25, 135);
             this.dgvKamate.Name = "dgvKamate";
             this.dgvKamate.ReadOnly = true;
@@ -134,6 +155,7 @@
             this.dgvKamate.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvKamate.Size = new System.Drawing.Size(1050, 210);
             this.dgvKamate.TabIndex = 2;
+            this.dgvKamate.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvKamate_CellClick);
             // 
             // grpPodaci
             // 
@@ -179,8 +201,9 @@
             // 
             // txtId
             // 
-            this.txtId.Location = new System.Drawing.Point(160, 34);
+            this.txtId.Location = new System.Drawing.Point(180, 34);
             this.txtId.Name = "txtId";
+            this.txtId.ReadOnly = true;
             this.txtId.Size = new System.Drawing.Size(165, 30);
             this.txtId.TabIndex = 1;
             // 
@@ -201,10 +224,11 @@
             "Račun",
             "Kredit",
             "Depozit"});
-            this.cmbPredmet.Location = new System.Drawing.Point(160, 70);
+            this.cmbPredmet.Location = new System.Drawing.Point(180, 70);
             this.cmbPredmet.Name = "cmbPredmet";
             this.cmbPredmet.Size = new System.Drawing.Size(165, 31);
             this.cmbPredmet.TabIndex = 3;
+            this.cmbPredmet.SelectedIndexChanged += new System.EventHandler(this.cmbPredmet_SelectedIndexChanged);
             // 
             // lblC0_2
             // 
@@ -219,7 +243,7 @@
             // 
             this.cmbKonkretanPredmet.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbKonkretanPredmet.FormattingEnabled = true;
-            this.cmbKonkretanPredmet.Location = new System.Drawing.Point(160, 106);
+            this.cmbKonkretanPredmet.Location = new System.Drawing.Point(180, 106);
             this.cmbKonkretanPredmet.Name = "cmbKonkretanPredmet";
             this.cmbKonkretanPredmet.Size = new System.Drawing.Size(165, 31);
             this.cmbKonkretanPredmet.TabIndex = 5;
@@ -227,7 +251,7 @@
             // lblC1_0
             // 
             this.lblC1_0.AutoSize = true;
-            this.lblC1_0.Location = new System.Drawing.Point(355, 38);
+            this.lblC1_0.Location = new System.Drawing.Point(375, 38);
             this.lblC1_0.Name = "lblC1_0";
             this.lblC1_0.Size = new System.Drawing.Size(94, 23);
             this.lblC1_0.TabIndex = 6;
@@ -237,7 +261,13 @@
             // 
             this.cmbTipKamate.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbTipKamate.FormattingEnabled = true;
-            this.cmbTipKamate.Location = new System.Drawing.Point(500, 34);
+            this.cmbTipKamate.Items.AddRange(new object[] {
+            "Redovna kamata",
+            "Štedna kamata",
+            "Kamata na prekoračenje",
+            "Kreditna kamata",
+            "Zatezna kamata"});
+            this.cmbTipKamate.Location = new System.Drawing.Point(510, 34);
             this.cmbTipKamate.Name = "cmbTipKamate";
             this.cmbTipKamate.Size = new System.Drawing.Size(155, 31);
             this.cmbTipKamate.TabIndex = 7;
@@ -245,7 +275,7 @@
             // lblC1_1
             // 
             this.lblC1_1.AutoSize = true;
-            this.lblC1_1.Location = new System.Drawing.Point(355, 74);
+            this.lblC1_1.Location = new System.Drawing.Point(375, 74);
             this.lblC1_1.Name = "lblC1_1";
             this.lblC1_1.Size = new System.Drawing.Size(111, 23);
             this.lblC1_1.TabIndex = 8;
@@ -253,7 +283,7 @@
             // 
             // txtIznosKamate
             // 
-            this.txtIznosKamate.Location = new System.Drawing.Point(500, 70);
+            this.txtIznosKamate.Location = new System.Drawing.Point(510, 70);
             this.txtIznosKamate.Name = "txtIznosKamate";
             this.txtIznosKamate.Size = new System.Drawing.Size(155, 30);
             this.txtIznosKamate.TabIndex = 9;
@@ -261,7 +291,7 @@
             // lblC1_2
             // 
             this.lblC1_2.AutoSize = true;
-            this.lblC1_2.Location = new System.Drawing.Point(355, 110);
+            this.lblC1_2.Location = new System.Drawing.Point(375, 110);
             this.lblC1_2.Name = "lblC1_2";
             this.lblC1_2.Size = new System.Drawing.Size(135, 23);
             this.lblC1_2.TabIndex = 10;
@@ -269,7 +299,7 @@
             // 
             // txtPeriodObracuna
             // 
-            this.txtPeriodObracuna.Location = new System.Drawing.Point(500, 106);
+            this.txtPeriodObracuna.Location = new System.Drawing.Point(510, 106);
             this.txtPeriodObracuna.Name = "txtPeriodObracuna";
             this.txtPeriodObracuna.Size = new System.Drawing.Size(155, 30);
             this.txtPeriodObracuna.TabIndex = 11;
@@ -277,7 +307,7 @@
             // lblC2_0
             // 
             this.lblC2_0.AutoSize = true;
-            this.lblC2_0.Location = new System.Drawing.Point(690, 38);
+            this.lblC2_0.Location = new System.Drawing.Point(710, 38);
             this.lblC2_0.Name = "lblC2_0";
             this.lblC2_0.Size = new System.Drawing.Size(139, 23);
             this.lblC2_0.TabIndex = 12;
@@ -285,9 +315,11 @@
             // 
             // dtpDatumObracuna
             // 
+            this.dtpDatumObracuna.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dtpDatumObracuna.CustomFormat = "dd.MM.yyyy.";
             this.dtpDatumObracuna.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpDatumObracuna.Location = new System.Drawing.Point(850, 34);
+            this.dtpDatumObracuna.Location = new System.Drawing.Point(870, 34);
             this.dtpDatumObracuna.Name = "dtpDatumObracuna";
             this.dtpDatumObracuna.Size = new System.Drawing.Size(155, 30);
             this.dtpDatumObracuna.TabIndex = 13;
@@ -295,7 +327,7 @@
             // lblC2_1
             // 
             this.lblC2_1.AutoSize = true;
-            this.lblC2_1.Location = new System.Drawing.Point(690, 74);
+            this.lblC2_1.Location = new System.Drawing.Point(710, 74);
             this.lblC2_1.Name = "lblC2_1";
             this.lblC2_1.Size = new System.Drawing.Size(56, 23);
             this.lblC2_1.TabIndex = 14;
@@ -303,13 +335,15 @@
             // 
             // cmbStatus
             // 
+            this.cmbStatus.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.cmbStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbStatus.FormattingEnabled = true;
             this.cmbStatus.Items.AddRange(new object[] {
             "Obračunato",
             "Isplaćeno",
             "Kapitalizovano"});
-            this.cmbStatus.Location = new System.Drawing.Point(850, 70);
+            this.cmbStatus.Location = new System.Drawing.Point(870, 70);
             this.cmbStatus.Name = "cmbStatus";
             this.cmbStatus.Size = new System.Drawing.Size(155, 31);
             this.cmbStatus.TabIndex = 15;
@@ -326,6 +360,7 @@
             this.btnNovi.TabIndex = 16;
             this.btnNovi.Text = "Novi";
             this.btnNovi.UseVisualStyleBackColor = true;
+            this.btnNovi.Click += new System.EventHandler(this.btnNovi_Click);
             // 
             // btnIzmeni
             // 
@@ -339,6 +374,7 @@
             this.btnIzmeni.TabIndex = 17;
             this.btnIzmeni.Text = "Izmeni";
             this.btnIzmeni.UseVisualStyleBackColor = true;
+            this.btnIzmeni.Click += new System.EventHandler(this.btnIzmeni_Click);
             // 
             // btnObrisi
             // 
@@ -353,34 +389,105 @@
             this.btnObrisi.TabIndex = 18;
             this.btnObrisi.Text = "Obriši";
             this.btnObrisi.UseVisualStyleBackColor = true;
+            this.btnObrisi.Click += new System.EventHandler(this.btnObrisi_Click);
             // 
             // btnSacuvaj
             // 
+            this.btnSacuvaj.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSacuvaj.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(72)))), ((int)(((byte)(106)))));
             this.btnSacuvaj.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnSacuvaj.FlatAppearance.BorderSize = 0;
             this.btnSacuvaj.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSacuvaj.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSacuvaj.ForeColor = System.Drawing.Color.White;
-            this.btnSacuvaj.Location = new System.Drawing.Point(820, 255);
+            this.btnSacuvaj.Location = new System.Drawing.Point(840, 255);
             this.btnSacuvaj.Name = "btnSacuvaj";
             this.btnSacuvaj.Size = new System.Drawing.Size(90, 32);
             this.btnSacuvaj.TabIndex = 19;
             this.btnSacuvaj.Text = "Sačuvaj";
             this.btnSacuvaj.UseVisualStyleBackColor = false;
+            this.btnSacuvaj.Click += new System.EventHandler(this.btnSacuvaj_Click);
             // 
             // btnOdustani
             // 
+            this.btnOdustani.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOdustani.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnOdustani.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
             this.btnOdustani.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnOdustani.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnOdustani.Location = new System.Drawing.Point(920, 255);
+            this.btnOdustani.Location = new System.Drawing.Point(940, 255);
             this.btnOdustani.Name = "btnOdustani";
             this.btnOdustani.Size = new System.Drawing.Size(90, 32);
             this.btnOdustani.TabIndex = 20;
             this.btnOdustani.Text = "Odustani";
             this.btnOdustani.UseVisualStyleBackColor = true;
+            this.btnOdustani.Click += new System.EventHandler(this.btnOdustani_Click);
+            // 
+            // colId
+            // 
+            this.colId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.colId.FillWeight = 265.1934F;
+            this.colId.HeaderText = "ID";
+            this.colId.MinimumWidth = 7;
+            this.colId.Name = "colId";
+            this.colId.ReadOnly = true;
+            this.colId.Width = 60;
+            // 
+            // colPredmet
+            // 
+            this.colPredmet.FillWeight = 76.40095F;
+            this.colPredmet.HeaderText = "Predmet";
+            this.colPredmet.MinimumWidth = 7;
+            this.colPredmet.Name = "colPredmet";
+            this.colPredmet.ReadOnly = true;
+            // 
+            // colKonkretanPredmet
+            // 
+            this.colKonkretanPredmet.FillWeight = 76.40095F;
+            this.colKonkretanPredmet.HeaderText = "Konkretan predmet";
+            this.colKonkretanPredmet.MinimumWidth = 7;
+            this.colKonkretanPredmet.Name = "colKonkretanPredmet";
+            this.colKonkretanPredmet.ReadOnly = true;
+            // 
+            // colTipKamate
+            // 
+            this.colTipKamate.FillWeight = 76.40095F;
+            this.colTipKamate.HeaderText = "Tip kamate";
+            this.colTipKamate.MinimumWidth = 7;
+            this.colTipKamate.Name = "colTipKamate";
+            this.colTipKamate.ReadOnly = true;
+            // 
+            // colIznos
+            // 
+            this.colIznos.FillWeight = 76.40095F;
+            this.colIznos.HeaderText = "Iznos kamate";
+            this.colIznos.MinimumWidth = 7;
+            this.colIznos.Name = "colIznos";
+            this.colIznos.ReadOnly = true;
+            // 
+            // colPeriod
+            // 
+            this.colPeriod.FillWeight = 76.40095F;
+            this.colPeriod.HeaderText = "Period obračuna";
+            this.colPeriod.MinimumWidth = 7;
+            this.colPeriod.Name = "colPeriod";
+            this.colPeriod.ReadOnly = true;
+            // 
+            // colDatum
+            // 
+            this.colDatum.FillWeight = 76.40095F;
+            this.colDatum.HeaderText = "Datum obračuna";
+            this.colDatum.MinimumWidth = 7;
+            this.colDatum.Name = "colDatum";
+            this.colDatum.ReadOnly = true;
+            // 
+            // colStatus
+            // 
+            this.colStatus.FillWeight = 76.40095F;
+            this.colStatus.HeaderText = "Status";
+            this.colStatus.MinimumWidth = 7;
+            this.colStatus.Name = "colStatus";
+            this.colStatus.ReadOnly = true;
             // 
             // UcKamate
             // 
@@ -432,5 +539,13 @@
         private System.Windows.Forms.Button btnObrisi;
         private System.Windows.Forms.Button btnSacuvaj;
         private System.Windows.Forms.Button btnOdustani;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colPredmet;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colKonkretanPredmet;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colTipKamate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colIznos;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colPeriod;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colDatum;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colStatus;
     }
 }
