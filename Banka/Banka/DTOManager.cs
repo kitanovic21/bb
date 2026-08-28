@@ -843,7 +843,6 @@ namespace Banka
             }
         }
 
-
         public static SigurnosnaKontrolaBasic GetSigurnosnaKontrolaBasic(int id)
         {
             ISession session = null;
@@ -982,6 +981,7 @@ namespace Banka
                     session.Close();
             }
         }
+
         public static async Task<bool> AddTransakcija(TransakcijaBasic tb)
         {
             ISession session = null;
@@ -996,12 +996,6 @@ namespace Banka
 
                 transaction = session.BeginTransaction();
 
-                SigurnosnaKontrola sk = await session.GetAsync<SigurnosnaKontrola>(id);
-
-                if (sk == null)
-                    return false;
-
-                await session.DeleteAsync(sk);
                 Racun primalac = null;
                 if(tb.TipTransakcije != "Isplata" && tb.TipTransakcije!= "Konverzija")
                 {
@@ -1224,6 +1218,295 @@ namespace Banka
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error
                 );
+                return false;
+            }
+            finally
+            {
+                if (session != null)
+                    session.Close();
+            }
+        }
+
+        // KAMATA
+        public static List<KamataPregled> GetKamateInfos()
+        {
+            List<KamataPregled> kamateInfo = new List<KamataPregled>();
+            ISession session = null;
+
+            try
+            {
+                session = DataLayer.GetSession();
+
+                if (session != null)
+                {
+                    List<Kamata> kamate = session.Query<Kamata>().ToList();
+                    List<Racun> racuni = session.Query<Racun>().ToList();
+                    List<Kredit> krediti = session.Query<Kredit>().ToList();
+                    List<Depozit> depoziti = session.Query<Depozit>().ToList();
+
+                    foreach (Kamata k in kamate)
+                    {
+                        string predmetTip = "";
+                        string konkretanPredmet = "";
+                        int predmetId = k.PredmetObracuna.ID;
+
+                        Racun racun = racuni.FirstOrDefault(r => r.PredmetObracuna != null && r.PredmetObracuna.ID == predmetId);
+
+                        if (racun != null)
+                        {
+                            predmetTip = "Račun";
+                            konkretanPredmet = racun.BrojRacuna;
+                        }
+                        else
+                        {
+                            Kredit kredit = krediti.FirstOrDefault(kr => kr.PredmetObracuna != null && kr.PredmetObracuna.ID == predmetId);
+
+                            if (kredit != null)
+                            {
+                                predmetTip = "Kredit";
+                                konkretanPredmet = "Kredit " + kredit.Id;
+                            }
+                            else
+                            {
+                                Depozit depozit = depoziti.FirstOrDefault(d => d.PredmetObracuna != null && d.PredmetObracuna.ID == predmetId);
+
+                                if (depozit != null)
+                                {
+                                    predmetTip = "Depozit";
+                                    konkretanPredmet = "Depozit " + depozit.Id;
+                                }
+                            }
+                        }
+
+                        KamataPregled kp = new KamataPregled();
+
+                        kp.Id = k.Id;
+                        kp.PredmetObracunaId = predmetId;
+                        kp.PredmetTip = predmetTip;
+                        kp.KonkretanPredmet = konkretanPredmet;
+                        kp.TipKamate = k.TipKamate ?? "";
+                        kp.IznosKamate = k.IznosKamate;
+                        kp.PeriodObracuna = k.PeriodObracuna ?? "";
+                        kp.DatumObracuna = k.DatumObracuna;
+                        kp.Status = k.Status ?? "";
+
+                        kamateInfo.Add(kp);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.GetBaseException().Message, "Greška pri učitavanju kamata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                if (session != null)
+                    session.Close();
+            }
+
+            return kamateInfo;
+        }
+
+        public static List<PredmetObracunaOpcija> GetPredmetiObracuna(string tip)
+        {
+            List<PredmetObracunaOpcija> predmeti = new List<PredmetObracunaOpcija>();
+            ISession session = null;
+
+            try
+            {
+                session = DataLayer.GetSession();
+
+                if (session == null)
+                    return predmeti;
+
+                if (tip == "Račun")
+                {
+                    List<Racun> racuni = session.Query<Racun>().ToList();
+
+                    foreach (Racun r in racuni)
+                    {
+                        if (r.PredmetObracuna != null)
+                            predmeti.Add(new PredmetObracunaOpcija(r.PredmetObracuna.ID, r.BrojRacuna));
+                    }
+                }
+                else if (tip == "Kredit")
+                {
+                    List<Kredit> krediti = session.Query<Kredit>().ToList();
+
+                    foreach (Kredit k in krediti)
+                    {
+                        if (k.PredmetObracuna != null)
+                            predmeti.Add(new PredmetObracunaOpcija(
+                                k.PredmetObracuna.ID,
+                                "Kredit " + k.Id + " - " + k.Iznos.ToString("0.00") + " " + k.Valuta));
+                    }
+                }
+                else if (tip == "Depozit")
+                {
+                    List<Depozit> depoziti = session.Query<Depozit>().ToList();
+
+                    foreach (Depozit d in depoziti)
+                    {
+                        if (d.PredmetObracuna != null)
+                            predmeti.Add(new PredmetObracunaOpcija(
+                                d.PredmetObracuna.ID, 
+                                "Depozit " + d.Id + " - " + d.Iznos.ToString("0.00") + " " + d.Valuta));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.GetBaseException().Message, "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                if (session != null)
+                    session.Close();
+            }
+
+            return predmeti;
+        }
+
+        public static async Task<bool> AddKamata(KamataBasic kb)
+        {
+            ISession session = null;
+            ITransaction transaction = null;
+
+            try
+            {
+                session = DataLayer.GetSession();
+
+                if (session == null || kb == null)
+                    return false;
+
+                transaction = session.BeginTransaction();
+
+                PredmetObracuna predmet = await session.GetAsync<PredmetObracuna>(kb.PredmetObracunaId);
+
+                if (predmet == null)
+                    return false;
+
+                Kamata kamata = new Kamata();
+
+                kamata.PredmetObracuna = predmet;
+                kamata.TipKamate = kb.TipKamate;
+                kamata.IznosKamate = kb.IznosKamate;
+                kamata.PeriodObracuna = kb.PeriodObracuna;
+                kamata.DatumObracuna = kb.DatumObracuna;
+                kamata.Status = kb.Status;
+
+                await session.SaveAsync(kamata);
+                await transaction.CommitAsync();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                if (transaction != null && transaction.IsActive)
+                    await transaction.RollbackAsync();
+
+                MessageBox.Show(
+                    ex.GetBaseException().Message,
+                    "Greška",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                return false;
+            }
+            finally
+            {
+                if (session != null)
+                    session.Close();
+            }
+        }
+
+        public static async Task<bool> UpdateKamata(KamataBasic kb)
+        {
+            ISession session = null;
+            ITransaction transaction = null;
+
+            try
+            {
+                session = DataLayer.GetSession();
+
+                if (session == null || kb == null)
+                    return false;
+
+                transaction = session.BeginTransaction();
+
+                Kamata kamata = await session.GetAsync<Kamata>(kb.Id);
+
+                if (kamata == null)
+                    return false;
+
+                PredmetObracuna predmet = await session.GetAsync<PredmetObracuna>(kb.PredmetObracunaId);
+
+                if (predmet == null)
+                    return false;
+
+                kamata.PredmetObracuna = predmet;
+                kamata.TipKamate = kb.TipKamate;
+                kamata.IznosKamate = kb.IznosKamate;
+                kamata.PeriodObracuna = kb.PeriodObracuna;
+                kamata.DatumObracuna = kb.DatumObracuna;
+                kamata.Status = kb.Status;
+
+                await transaction.CommitAsync();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                if (transaction != null && transaction.IsActive)
+                    await transaction.RollbackAsync();
+
+                MessageBox.Show(
+                    ex.GetBaseException().Message, 
+                    "Greška", 
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Error);
+                return false;
+            }
+            finally
+            {
+                if (session != null)
+                    session.Close();
+            }
+        }
+
+        public static async Task<bool> DeleteKamata(int id)
+        {
+            ISession session = null;
+            ITransaction transaction = null;
+
+            try
+            {
+                session = DataLayer.GetSession();
+
+                if (session == null)
+                    return false;
+
+                transaction = session.BeginTransaction();
+
+                Kamata kamata = await session.GetAsync<Kamata>(id);
+
+                if (kamata == null)
+                    return false;
+
+                await session.DeleteAsync(kamata);
+                await transaction.CommitAsync();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                if (transaction != null && transaction.IsActive)
+                    await transaction.RollbackAsync();
+
+                MessageBox.Show(
+                    ex.GetBaseException().Message, 
+                    "Greška", 
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Error);
                 return false;
             }
             finally
