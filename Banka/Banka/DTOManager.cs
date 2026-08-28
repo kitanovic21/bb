@@ -841,5 +841,144 @@ namespace Banka
                     session.Close();
             }
         }
+
+        public static SigurnosnaKontrolaBasic GetSigurnosnaKontrolaBasic(int id)
+        {
+            ISession session = null;
+
+            try
+            {
+                session = DataLayer.GetSession();
+
+                SigurnosnaKontrola sk =
+                    session.Get<SigurnosnaKontrola>(id);
+
+                if (sk == null)
+                    return null;
+
+                return new SigurnosnaKontrolaBasic
+                {
+                    Id = sk.Id,
+                    KlijentId = sk.Klijent.ID,
+                    BrojRacuna = sk.Racun.BrojRacuna,
+                    TipDogadjaja = sk.TipDogadjaja,
+                    Datum = sk.Datum,
+                    Vreme = sk.Vreme,
+                    IpAdresa = sk.IpAdresa,
+                    PodaciOUredjaju = sk.PodaciOUredjaju,
+                    Status = sk.Status,
+                    Opis = sk.Opis
+                };
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    ex.GetBaseException().Message,
+                    "Greška",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+
+                return null;
+            }
+            finally
+            {
+                if (session != null)
+                    session.Close();
+            }
+        }
+
+        public static async Task<bool> UpdateSigurnosnaKontrola(SigurnosnaKontrolaBasic skb)
+        {
+            ISession session = null;
+            ITransaction transaction = null;
+
+            try
+            {
+                session = DataLayer.GetSession();
+
+                if (session == null || skb == null)
+                    return false;
+
+                transaction = session.BeginTransaction();
+
+                SigurnosnaKontrola sk = await session.GetAsync<SigurnosnaKontrola>(skb.Id);
+
+                if (sk == null)
+                    return false;
+
+                Klijent klijent = await session.GetAsync<Klijent>(skb.KlijentId);
+                Racun racun = await session.GetAsync<Racun>(skb.BrojRacuna);
+
+                if (klijent == null || racun == null)
+                    return false;
+
+                sk.Klijent = klijent;
+                sk.Racun = racun;
+                sk.TipDogadjaja = skb.TipDogadjaja;
+                sk.Datum = skb.Datum;
+                sk.Vreme = skb.Vreme;
+                sk.IpAdresa = skb.IpAdresa;
+                sk.PodaciOUredjaju = skb.PodaciOUredjaju;
+                sk.Status = skb.Status;
+                sk.Opis = skb.Opis;
+
+                await transaction.CommitAsync();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                if (transaction != null && transaction.IsActive)
+                    await transaction.RollbackAsync();
+
+                MessageBox.Show(ex.GetBaseException().Message, "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            finally
+            {
+                if (session != null)
+                    session.Close();
+            }
+        }
+
+        public static async Task<bool> DeleteSigurnosnaKontrola(int id)
+        {
+            ISession session = null;
+            ITransaction transaction = null;
+
+            try
+            {
+                session = DataLayer.GetSession();
+
+                if (session == null)
+                    return false;
+
+                transaction = session.BeginTransaction();
+
+                SigurnosnaKontrola sk = await session.GetAsync<SigurnosnaKontrola>(id);
+
+                if (sk == null)
+                    return false;
+
+                await session.DeleteAsync(sk);
+                await transaction.CommitAsync();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                if (transaction != null && transaction.IsActive)
+                    await transaction.RollbackAsync();
+
+                MessageBox.Show(ex.GetBaseException().Message, "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            finally
+            {
+                if (session != null)
+                    session.Close();
+            }
+        }
     }
 }

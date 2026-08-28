@@ -12,7 +12,7 @@
         #region Component Designer generated code
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             this.lblNaslov = new System.Windows.Forms.Label();
             this.panelFilter = new System.Windows.Forms.Panel();
             this.lblFilter1 = new System.Windows.Forms.Label();
@@ -105,6 +105,7 @@
             this.cmbKlijentFilter.Name = "cmbKlijentFilter";
             this.cmbKlijentFilter.Size = new System.Drawing.Size(150, 31);
             this.cmbKlijentFilter.TabIndex = 1;
+            this.cmbKlijentFilter.SelectedIndexChanged += new System.EventHandler(this.cmbKlijentFilter_SelectedIndexChanged);
             // 
             // lblFilter2
             // 
@@ -123,6 +124,7 @@
             this.cmbRacunFilter.Name = "cmbRacunFilter";
             this.cmbRacunFilter.Size = new System.Drawing.Size(150, 31);
             this.cmbRacunFilter.TabIndex = 3;
+            this.cmbRacunFilter.SelectedIndexChanged += new System.EventHandler(this.cmbRacunFilter_SelectedIndexChanged);
             // 
             // lblFilter3
             // 
@@ -141,6 +143,7 @@
             this.cmbTipFilter.Name = "cmbTipFilter";
             this.cmbTipFilter.Size = new System.Drawing.Size(190, 31);
             this.cmbTipFilter.TabIndex = 5;
+            this.cmbTipFilter.SelectedIndexChanged += new System.EventHandler(this.cmbTipFilter_SelectedIndexChanged);
             // 
             // dgvSigurnost
             // 
@@ -152,14 +155,14 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvSigurnost.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvSigurnost.BackgroundColor = System.Drawing.Color.White;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(72)))), ((int)(((byte)(106)))));
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvSigurnost.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(72)))), ((int)(((byte)(106)))));
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle8.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvSigurnost.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle8;
             this.dgvSigurnost.ColumnHeadersHeight = 32;
             this.dgvSigurnost.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colId,
@@ -179,6 +182,7 @@
             this.dgvSigurnost.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvSigurnost.Size = new System.Drawing.Size(1050, 210);
             this.dgvSigurnost.TabIndex = 2;
+            this.dgvSigurnost.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSigurnost_CellClick);
             // 
             // colId
             // 
@@ -495,6 +499,7 @@
             this.btnIzmeni.TabIndex = 21;
             this.btnIzmeni.Text = "Izmeni";
             this.btnIzmeni.UseVisualStyleBackColor = true;
+            this.btnIzmeni.Click += new System.EventHandler(this.btnIzmeni_Click);
             // 
             // btnObrisi
             // 
@@ -509,9 +514,11 @@
             this.btnObrisi.TabIndex = 22;
             this.btnObrisi.Text = "Obriši";
             this.btnObrisi.UseVisualStyleBackColor = true;
+            this.btnObrisi.Click += new System.EventHandler(this.btnObrisi_Click);
             // 
             // btnSacuvaj
             // 
+            this.btnSacuvaj.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSacuvaj.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(72)))), ((int)(((byte)(106)))));
             this.btnSacuvaj.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnSacuvaj.FlatAppearance.BorderSize = 0;
@@ -528,6 +535,7 @@
             // 
             // btnOdustani
             // 
+            this.btnOdustani.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOdustani.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnOdustani.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
             this.btnOdustani.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -538,6 +546,7 @@
             this.btnOdustani.TabIndex = 24;
             this.btnOdustani.Text = "Odustani";
             this.btnOdustani.UseVisualStyleBackColor = true;
+            this.btnOdustani.Click += new System.EventHandler(this.btnOdustani_Click);
             // 
             // UcSigurnost
             // 
