@@ -249,4 +249,7 @@ namespace Banka.DTOs
 
         public SigurnosnaKontrolaBasic() {}
     }
+
+
+    //KREDIT
 }
