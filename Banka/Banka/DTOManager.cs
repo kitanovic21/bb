@@ -634,7 +634,7 @@ namespace Banka
                                      t.Valuta ?? "",
                                      t.Iznos,
                                      t.Status ?? "",
-                                     t.Datum,
+                                     t.Datum ?? DateTime.Today,
                                      t.Vreme ?? "",
                                      t.NaKojiRacun.BrojRacuna ?? ""
                                  )).ToList();
@@ -653,7 +653,7 @@ namespace Banka
             return transakcijaInfo;
         }
 
-        public static async Task<TransakcijaBasic> GetTransakcijaBasic(int kodTransakcije)
+        public static async Task<TransakcijaBasic> GetTransakcijaBasic(int kodTransakcije, string brojRacuna)
         {
             TransakcijaBasic tb = new TransakcijaBasic();
             ISession session = null;
@@ -665,7 +665,8 @@ namespace Banka
                 if (session != null)
                 {
                     Transakcija t = await session.Query<Transakcija>()
-                                        .FirstOrDefaultAsync(x => x.KodTransakcije == kodTransakcije);
+                        .FirstOrDefaultAsync(x => x.KodTransakcije == kodTransakcije
+                                               && x.Racun.BrojRacuna == brojRacuna);
                     tb.KodTransakcije = t.KodTransakcije;
                     tb.BrojRacunaPosiljalac = t.Racun != null ? t.Racun.BrojRacuna.ToString() : "";
                     tb.TipTransakcije = t.TipTransakcije;
@@ -842,6 +843,7 @@ namespace Banka
             }
         }
 
+
         public static SigurnosnaKontrolaBasic GetSigurnosnaKontrolaBasic(int id)
         {
             ISession session = null;
@@ -972,6 +974,256 @@ namespace Banka
                     await transaction.RollbackAsync();
 
                 MessageBox.Show(ex.GetBaseException().Message, "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            finally
+            {
+                if (session != null)
+                    session.Close();
+            }
+        }
+        public static async Task<bool> AddTransakcija(TransakcijaBasic tb)
+        {
+            ISession session = null;
+            ITransaction transaction = null;
+
+            try
+            {
+                session = DataLayer.GetSession();
+
+                if (session == null)
+                    return false;
+
+                transaction = session.BeginTransaction();
+
+                SigurnosnaKontrola sk = await session.GetAsync<SigurnosnaKontrola>(id);
+
+                if (sk == null)
+                    return false;
+
+                await session.DeleteAsync(sk);
+                Racun primalac = null;
+                if(tb.TipTransakcije != "Isplata" && tb.TipTransakcije!= "Konverzija")
+                {
+                    primalac = await session.GetAsync<Racun>(tb.BrojRacunaPrimalac);
+                    if (primalac == null)
+                    {
+                        MessageBox.Show("Izabrani primalac ne postoji.");
+                        return false;
+                    }
+                    else 
+                    {
+                        if (primalac.Klijent.TipKlijenta == "fizicko")
+                        {
+                            FizickoLice fl = await session.GetAsync<FizickoLice>(primalac.Klijent.ID);
+                            if (fl == null)
+                                MessageBox.Show("Greska pri pribavljanju informacija o fizickom licu!");
+                            else
+                            {
+                                string imePrezime = $"{fl.Ime ?? ""} {fl.Prezime ?? ""}".Trim();
+                                if (imePrezime != tb.PodacioOPrimaocu)
+                                    MessageBox.Show("Ime i prezime se ne poklapa sa vlasnikom racuna!");
+                            }
+                        }
+                        else
+                        {
+                            PravnoLice pl = await session.GetAsync<PravnoLice>(primalac.Klijent.ID);
+                            if(pl == null)
+                                MessageBox.Show("Greska pri pribavljanju informacija o pravnom licu!");
+                            else if(pl.NazivFirme != tb.PodacioOPrimaocu)
+                                MessageBox.Show("Naziv firme se ne poklapa sa vlasnikom racuna!");
+                        }
+                    }
+                }
+                Racun posiljalac = await session.GetAsync<Racun>(tb.BrojRacunaPosiljalac);
+
+                if (posiljalac == null)
+                {
+                    MessageBox.Show("Izabrani posiljalac ne postoji.");
+                    return false;
+                }
+
+                Transakcija transakcija = new Transakcija();
+                int maxKod = await session.Query<Transakcija>()
+                    .Where(t => t.Racun.BrojRacuna == posiljalac.BrojRacuna)
+                    .Select(t => (int?)t.KodTransakcije)
+                    .MaxAsync() ?? 0;
+
+                transakcija.KodTransakcije = maxKod + 1;
+
+                transakcija.Racun = posiljalac;
+                transakcija.TipTransakcije = tb.TipTransakcije;
+                transakcija.Referenca = tb.Referenca;
+                transakcija.Iznos = tb.Iznos;
+                transakcija.PodaciOPrimaocu = tb.PodacioOPrimaocu;
+                transakcija.Komentar = tb.Komentar;
+                transakcija.Valuta = tb.Valuta;
+                transakcija.Opis = tb.Opis;
+                transakcija.Status = tb.Status;
+                transakcija.Vreme = tb.Vreme;
+                transakcija.Datum = tb.Datum;
+                transakcija.NaKojiRacun = primalac;
+
+                await session.SaveAsync(transakcija);
+                await transaction.CommitAsync();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                if (transaction != null && transaction.IsActive)
+                    await transaction.RollbackAsync();
+
+                MessageBox.Show(ex.GetBaseException().Message, "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    ex.GetBaseException().Message,
+                    "Greška",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+
+                return false;
+            }
+            finally
+            {
+                if (session != null)
+                    session.Close();
+            }
+        }
+
+        public static async Task<bool> DeleteTransakcija(int kodTransakcije, string brojRacunaPosiljaoca)
+        {
+            ISession session = null;
+            ITransaction transaction = null;
+
+            try
+            {
+                session = DataLayer.GetSession();
+
+                if (session == null)
+                    return false;
+
+                transaction = session.BeginTransaction();
+
+                Transakcija t = await session.Query<Transakcija>()
+                    .FirstOrDefaultAsync(x => x.KodTransakcije == kodTransakcije
+                                           && x.Racun.BrojRacuna == brojRacunaPosiljaoca);
+                if (t == null)
+                    return false;
+
+                await session.DeleteAsync(t);
+
+                await transaction.CommitAsync();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                if (transaction != null && transaction.IsActive)
+                    await transaction.RollbackAsync();
+
+                MessageBox.Show(
+                    ex.GetBaseException().Message,
+                    "Greška",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+
+                return false;
+            }
+            finally
+            {
+                if (session != null)
+                    session.Close();
+            }
+        }
+
+        public static async Task<bool> UpdateTransakcijaBasic(TransakcijaBasic tb)
+        {
+            ISession session = null;
+            ITransaction transaction = null;
+
+            try
+            {
+                session = DataLayer.GetSession();
+
+                if (session == null || tb == null)
+                    return false;
+
+                transaction = session.BeginTransaction();
+
+                Transakcija t = await session.Query<Transakcija>()
+                    .FirstOrDefaultAsync(x => x.KodTransakcije == tb.KodTransakcije
+                                           && x.Racun.BrojRacuna == tb.BrojRacunaPosiljalac);
+
+                if (t == null)
+                    return false;
+                Racun primalac = null;
+                if (tb.TipTransakcije != "Isplata" && tb.TipTransakcije != "Konverzija")
+                {
+                    primalac = await session.GetAsync<Racun>(tb.BrojRacunaPrimalac);
+                    if (primalac == null)
+                    {
+                        MessageBox.Show("Izabrani primalac ne postoji.");
+                        return false;
+                    }
+                    else
+                    {
+                        if (primalac.Klijent.TipKlijenta == "fizicko")
+                        {
+                            FizickoLice fl = await session.GetAsync<FizickoLice>(primalac.Klijent.ID);
+                            if (fl == null)
+                                MessageBox.Show("Greska pri pribavljanju informacija o fizickom licu!");
+                            else
+                            {
+                                string imePrezime = $"{fl.Ime ?? ""} {fl.Prezime ?? ""}".Trim();
+                                if (imePrezime != tb.PodacioOPrimaocu)
+                                    MessageBox.Show("Ime i prezime se ne poklapa sa vlasnikom racuna!");
+                            }
+                        }
+                        else
+                        {
+                            PravnoLice pl = await session.GetAsync<PravnoLice>(primalac.Klijent.ID);
+                            if (pl == null)
+                                MessageBox.Show("Greska pri pribavljanju informacija o pravnom licu!");
+                            else if (pl.NazivFirme != tb.PodacioOPrimaocu)
+                                MessageBox.Show("Naziv firme se ne poklapa sa vlasnikom racuna!");
+                        }
+                    }
+                }
+                Racun posiljalac = await session.GetAsync<Racun>(tb.BrojRacunaPosiljalac);
+
+                t.Racun = posiljalac;
+                t.NaKojiRacun = primalac;
+                t.TipTransakcije = tb.TipTransakcije;
+                t.Referenca = tb.Referenca;
+                t.Iznos = tb.Iznos;
+                t.PodaciOPrimaocu = tb.PodacioOPrimaocu;
+                t.Komentar = tb.Komentar;
+                t.Valuta = tb.Valuta;
+                t.Opis= tb.Opis;
+                t.Status = tb.Status;
+                t.Datum= tb.Datum;
+                t.Vreme= tb.Vreme;
+
+                await session.UpdateAsync(t);
+                await session.FlushAsync();
+
+                await transaction.CommitAsync();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                if (transaction != null && transaction.IsActive)
+                    await transaction.RollbackAsync();
+
+                MessageBox.Show(
+                    ex.GetBaseException().Message,
+                    "Greška",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
                 return false;
             }
             finally

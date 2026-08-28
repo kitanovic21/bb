@@ -2,6 +2,8 @@
 using Banka.Entiteti;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 
@@ -10,6 +12,8 @@ namespace Banka.Forme
     public partial class UcTransakcije : UserControl
     {
         public int? selektovanaTransakcija = null;
+        public string seleketovaniBrojRacunaPosiljaoca = null;
+        List<TransakcijaPregled> sveTransakcije = DTOManager.GetTransakcijeInfos();
         public UcTransakcije()
         {
             InitializeComponent();
@@ -23,7 +27,6 @@ namespace Banka.Forme
         private void PopulateInfos()
         {
             dgvTransakcije.Rows.Clear();
-            List<TransakcijaPregled> sveTransakcije = DTOManager.GetTransakcijeInfos();
 
             foreach (TransakcijaPregled transakcija in sveTransakcije)
             {
@@ -42,6 +45,7 @@ namespace Banka.Forme
 
             dgvTransakcije.ClearSelection();
             selektovanaTransakcija = null;
+            seleketovaniBrojRacunaPosiljaoca = null;
             dgvTransakcije.Refresh();
         }
 
@@ -49,6 +53,7 @@ namespace Banka.Forme
         {
             PopulateInfos();
             PopulateRacuniCombo();
+            OcistiFormu();
         }
 
         private void PopulateData(TransakcijaBasic tb)
@@ -56,15 +61,17 @@ namespace Banka.Forme
             if (tb == null)
                 return;
 
-            txtKod.Text = tb.KodTransakcije.ToString() ?? "";
             txtIznos.Text = tb.Iznos.ToString() ?? "";
-            txtVreme.Text = tb.Vreme ?? "";
-            txtPrimalac.Text = tb.BrojRacunaPrimalac ?? "";
+            TimeSpan trenutnoVreme = DateTime.Now.TimeOfDay;
+            string vremeString = trenutnoVreme.ToString(@"hh\:mm");
+            txtVreme.Text = tb.Vreme ?? vremeString;
+            cmbPoticeSa.SelectedItem = tb.BrojRacunaPosiljalac ?? "";
+            cmbRacun.SelectedItem = tb.BrojRacunaPrimalac ?? "";
             txtReferenca.Text = tb.Referenca ?? "";
             txtOpis.Text = tb.Opis ?? "";
             txtKomentar.Text = tb.Komentar ?? "";
 
-            if(tb.Datum.HasValue) 
+            if (tb.Datum.HasValue)
                 dtpDatum.Value = tb.Datum.Value;
 
             if (tb.Valuta != null && cmbValuta.Items.Contains(tb.Valuta))
@@ -86,11 +93,16 @@ namespace Banka.Forme
             if (vrednostId == null)
                 return;
 
+            object vrednostBrojRacuna = dgvTransakcije.Rows[e.RowIndex].Cells[2].Value;
+            if (vrednostBrojRacuna == null)
+                return;
+
             if (int.TryParse(vrednostId.ToString(), out int kodTransakcije))
             {
                 selektovanaTransakcija = kodTransakcije;
+                seleketovaniBrojRacunaPosiljaoca = vrednostBrojRacuna.ToString();
 
-                TransakcijaBasic tb = await DTOManager.GetTransakcijaBasic(kodTransakcije);
+                TransakcijaBasic tb = await DTOManager.GetTransakcijaBasic(kodTransakcije, seleketovaniBrojRacunaPosiljaoca);
 
                 PopulateData(tb);
             }
@@ -116,13 +128,8 @@ namespace Banka.Forme
 
         private bool ValidacijaTransakcije()
         {
-            if (string.IsNullOrWhiteSpace(txtKod.Text))
-            {
-                MessageBox.Show("Unesite Kod Transakcije.");
-                return false;
-            }
 
-            if (string.IsNullOrEmpty(cmbRacun.Text) && cmbTip.Text!= "Isplata" && cmbTip.Text!="Konverzija")
+            if (string.IsNullOrEmpty(cmbRacun.Text) && cmbTip.Text != "Isplata" && cmbTip.Text != "Konverzija")
             {
                 MessageBox.Show("Unesite Racun primaoca.");
                 return false;
@@ -160,7 +167,7 @@ namespace Banka.Forme
 
             if (string.IsNullOrEmpty(txtPrimalac.Text) && cmbTip.Text != "Isplata" && cmbTip.Text != "Konverzija")
             {
-                MessageBox.Show("Unesite ime i prezime primaoca." );
+                MessageBox.Show("Unesite ime i prezime primaoca.");
                 return false;
             }
 
@@ -190,32 +197,79 @@ namespace Banka.Forme
         {
 
         }
+        private TransakcijaBasic ProcitajPodatkeSaForme()
+        {
+            TransakcijaBasic tb = new TransakcijaBasic();
 
-        private void btnSacuvaj_Click(object sender, EventArgs e)
+            if (selektovanaTransakcija.HasValue)
+                tb.KodTransakcije = selektovanaTransakcija.Value;
+
+            if (seleketovaniBrojRacunaPosiljaoca != null)
+                tb.BrojRacunaPosiljalac = seleketovaniBrojRacunaPosiljaoca;
+
+
+            tb.TipTransakcije = cmbTip.SelectedItem.ToString();
+            if (tb.TipTransakcije != "Konverzija" && tb.TipTransakcije != "Isplata")
+            {
+                tb.PodacioOPrimaocu = txtPrimalac.Text;
+                tb.BrojRacunaPrimalac = cmbRacun.SelectedItem.ToString();
+            }
+
+            tb.Iznos = double.Parse(txtIznos.Text);
+            tb.Valuta = cmbValuta.SelectedItem.ToString();
+            tb.Datum = dtpDatum.Value;
+            tb.Vreme = txtVreme.Text;
+            tb.PodacioOPrimaocu = txtPrimalac.Text;
+            tb.Status = cmbStatus.SelectedItem.ToString();
+            tb.Referenca = txtReferenca.Text;
+            tb.BrojRacunaPosiljalac = cmbPoticeSa.SelectedItem.ToString();
+            tb.Opis = txtOpis.Text;
+            tb.Komentar = txtKomentar.Text;
+
+            return tb;
+        }
+
+        private async void btnSacuvaj_Click(object sender, EventArgs e)
         {
             if (!ValidacijaTransakcije())
                 return;
 
-            if (selektovanaTransakcija != null)
+            if (selektovanaTransakcija != null || seleketovaniBrojRacunaPosiljaoca != null)
             {
                 MessageBox.Show("Sačuvaj služi za dodavanje nove transakcije");
                 return;
             }
 
+            TransakcijaBasic tb = ProcitajPodatkeSaForme();
 
+            bool success = await DTOManager.AddTransakcija(tb);
+            if (success)
+            {
+                MessageBox.Show(
+                    "Transakcija je uspešno dodata.",
+                    "Uspesno dodavanje",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
+
+                PopulateInfos();
+                OcistiFormu();
+            }
         }
 
         private void OcistiFormu()
         {
             selektovanaTransakcija = null;
+            seleketovaniBrojRacunaPosiljaoca = null;
             dgvTransakcije.ClearSelection();
-            txtKod.Clear();
             cmbRacun.SelectedIndex = -1;
             cmbTip.SelectedIndex = -1;
             txtIznos.Clear();
             cmbValuta.SelectedIndex = -1;
             dtpDatum.Value = DateTime.Today;
-            txtVreme.Clear();
+            TimeSpan trenutnoVreme = DateTime.Now.TimeOfDay;
+            string vremeString = trenutnoVreme.ToString(@"hh\:mm");
+            txtVreme.Text = vremeString;
             txtPrimalac.Clear();
             cmbStatus.SelectedIndex = -1;
             txtReferenca.Clear();
@@ -246,6 +300,172 @@ namespace Banka.Forme
             {
                 cmbRacun.Enabled = true;
             }
+        }
+
+        private void lblC2_0_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private async void btnObrisi_Click(object sender, EventArgs e)
+        {
+            if (!selektovanaTransakcija.HasValue || seleketovaniBrojRacunaPosiljaoca == null)
+            {
+                MessageBox.Show(
+                    "Prvo izaberite transakciju iz tabele.",
+                    "Brisanje transakcije",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
+
+                return;
+            }
+
+            DialogResult rezultat = MessageBox.Show(
+                "Da li ste sigurni da želite da obrišete izabranu transakciju?",
+                "Potvrda brisanja",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning
+            );
+
+            if (rezultat != DialogResult.Yes)
+                return;
+
+            bool success = await DTOManager.DeleteTransakcija(selektovanaTransakcija.Value, seleketovaniBrojRacunaPosiljaoca);
+
+            if (success)
+            {
+                MessageBox.Show(
+                    "Transakcija je uspešno obrisana.",
+                    "Uspeh",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
+
+                PopulateInfos();
+                OcistiFormu();
+            }
+        }
+
+        private async void btnIzmeni_Click(object sender, EventArgs e)
+        {
+            if (!selektovanaTransakcija.HasValue || seleketovaniBrojRacunaPosiljaoca == null)
+            {
+                MessageBox.Show(
+                    "Prvo izaberite transakciju iz tabele.",
+                    "Izmena transakcije",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
+
+                return;
+            }
+
+            if (!ValidacijaTransakcije())
+                return;
+
+            TransakcijaBasic tb = ProcitajPodatkeSaForme();
+
+            if (tb.BrojRacunaPosiljalac != seleketovaniBrojRacunaPosiljaoca)
+            {
+                MessageBox.Show("Ne mozete menjati racun posiljaoca!");
+                return;
+            }
+
+            bool success = await DTOManager.UpdateTransakcijaBasic(tb);
+
+            if (success)
+            {
+                MessageBox.Show(
+                    "Podaci o transakciji su uspešno izmenjeni.",
+                    "Uspešna promena",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
+
+                int idTransakcije = selektovanaTransakcija.Value;
+                string brojRacuna = seleketovaniBrojRacunaPosiljaoca;
+
+                PopulateInfos();
+
+                TransakcijaBasic osvezeni = await DTOManager.GetTransakcijaBasic(idTransakcije, brojRacuna);
+
+                PopulateData(osvezeni);
+            }
+        }
+
+        private void PrimeniFiltere()
+        {
+            if (sveTransakcije == null)
+                return;
+
+            IEnumerable<TransakcijaPregled> rezultat = sveTransakcije;
+
+            // pretraga - SAMO RACUN POSILJAOCA
+            string pretragaRacun = cmbRacunFilter.Text?.Trim();
+
+            if (!string.IsNullOrWhiteSpace(pretragaRacun) && pretragaRacun != "Svi")
+            {
+                rezultat = rezultat.Where(t =>
+                    string.Equals(t.BrojRacunaPosiljalac, pretragaRacun, StringComparison.OrdinalIgnoreCase)
+                );
+            }
+
+            // tip transakcije
+            string selektovaniTip = cmbTipFilter.SelectedItem?.ToString() ?? cmbTipFilter.Text;
+
+            if (!string.IsNullOrWhiteSpace(selektovaniTip) && selektovaniTip != "Svi")
+            {
+                rezultat = rezultat.Where(t =>
+                    string.Equals(t.TipTransakcije, selektovaniTip, StringComparison.OrdinalIgnoreCase));
+            }
+
+            // status
+            string selektovaniStatus = cmbStatusFilter.SelectedItem?.ToString() ?? cmbStatusFilter.Text;
+
+            if (!string.IsNullOrWhiteSpace(selektovaniStatus) && selektovaniStatus != "Svi")
+            {
+                rezultat = rezultat.Where(t =>
+                    string.Equals(t.Status, selektovaniStatus, StringComparison.OrdinalIgnoreCase));
+            }
+
+            // prikaz
+            dgvTransakcije.Rows.Clear();
+
+            foreach (TransakcijaPregled transakcija in rezultat)
+            {
+                dgvTransakcije.Rows.Add(
+                    transakcija.KodTransakcije,
+                    transakcija.TipTransakcije ?? "",
+                    transakcija.BrojRacunaPosiljalac ?? "",
+                    transakcija.BrojRacunaPrimalac ?? "",
+                    transakcija.Iznos.ToString() ?? "",
+                    transakcija.Valuta ?? "",
+                    transakcija.Status ?? "",
+                    transakcija.Datum.ToString() ?? "",
+                    transakcija.Vreme.ToString() ?? ""
+                );
+            }
+
+            dgvTransakcije.ClearSelection();
+            selektovanaTransakcija = null;
+            seleketovaniBrojRacunaPosiljaoca = null;
+            dgvTransakcije.Refresh();
+        }
+
+        private void cmbRacunFilter_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            PrimeniFiltere();
+        }
+
+        private void cmbTipFilter_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            PrimeniFiltere();
+        }
+
+        private void cmbStatusFilter_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            PrimeniFiltere();
         }
     }
 }

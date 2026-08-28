@@ -18,7 +18,7 @@ namespace Banka.Entiteti
         public virtual string Valuta { get; set; }
         public virtual string Opis { get; set; }
         public virtual string Status { get; set; }
-        public virtual DateTime Datum { get; set; }
+        public virtual DateTime? Datum { get; set; }
         public virtual string Vreme { get; set; }
         public virtual Racun NaKojiRacun { get; set; }
 
