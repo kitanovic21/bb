@@ -248,7 +248,6 @@ namespace Banka.DTOs
 
         public SigurnosnaKontrolaBasic() {}
     }
-
     public class KamataPregled
     {
         public int Id { get; set; }
@@ -290,4 +289,5 @@ namespace Banka.DTOs
             Prikaz = prikaz;
         }
     }
+    //KAMATA
 }
