@@ -12,6 +12,8 @@
         #region Component Designer generated code
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.lblNaslov = new System.Windows.Forms.Label();
             this.panelFilter = new System.Windows.Forms.Panel();
             this.lblFilter1 = new System.Windows.Forms.Label();
@@ -137,7 +139,18 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvKamate.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvKamate.BackgroundColor = System.Drawing.Color.White;
-            this.dgvKamate.ColumnHeadersHeight = 32;
+            this.dgvKamate.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
+            this.dgvKamate.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(72)))), ((int)(((byte)(106)))));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9.134328F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(72)))), ((int)(((byte)(106)))));
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvKamate.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.dgvKamate.ColumnHeadersHeight = 34;
+            this.dgvKamate.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dgvKamate.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colId,
             this.colPredmet,
@@ -147,7 +160,18 @@
             this.colPeriod,
             this.colDatum,
             this.colStatus});
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(234)))), ((int)(((byte)(244)))));
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvKamate.DefaultCellStyle = dataGridViewCellStyle2;
+            this.dgvKamate.EnableHeadersVisualStyles = false;
+            this.dgvKamate.GridColor = System.Drawing.Color.Gainsboro;
             this.dgvKamate.Location = new System.Drawing.Point(25, 135);
+            this.dgvKamate.MultiSelect = false;
             this.dgvKamate.Name = "dgvKamate";
             this.dgvKamate.ReadOnly = true;
             this.dgvKamate.RowHeadersVisible = false;
