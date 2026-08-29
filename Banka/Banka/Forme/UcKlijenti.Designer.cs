@@ -17,8 +17,8 @@
 
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             this.lblNaslov = new System.Windows.Forms.Label();
             this.panelPretraga = new System.Windows.Forms.Panel();
             this.cmbStatusFilter = new System.Windows.Forms.ComboBox();
@@ -86,7 +86,7 @@
             this.lblNaslov.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(72)))), ((int)(((byte)(106)))));
             this.lblNaslov.Location = new System.Drawing.Point(25, 18);
             this.lblNaslov.Name = "lblNaslov";
-            this.lblNaslov.Size = new System.Drawing.Size(147, 42);
+            this.lblNaslov.Size = new System.Drawing.Size(167, 47);
             this.lblNaslov.TabIndex = 0;
             this.lblNaslov.Text = "KLIJENTI";
             // 
@@ -118,7 +118,7 @@
             "Blokiran"});
             this.cmbStatusFilter.Location = new System.Drawing.Point(705, 14);
             this.cmbStatusFilter.Name = "cmbStatusFilter";
-            this.cmbStatusFilter.Size = new System.Drawing.Size(180, 28);
+            this.cmbStatusFilter.Size = new System.Drawing.Size(180, 31);
             this.cmbStatusFilter.TabIndex = 5;
             // 
             // lblStatusFilter
@@ -126,7 +126,7 @@
             this.lblStatusFilter.AutoSize = true;
             this.lblStatusFilter.Location = new System.Drawing.Point(645, 18);
             this.lblStatusFilter.Name = "lblStatusFilter";
-            this.lblStatusFilter.Size = new System.Drawing.Size(49, 20);
+            this.lblStatusFilter.Size = new System.Drawing.Size(56, 23);
             this.lblStatusFilter.TabIndex = 4;
             this.lblStatusFilter.Text = "Status";
             // 
@@ -135,7 +135,7 @@
             this.lblTipFilter.AutoSize = true;
             this.lblTipFilter.Location = new System.Drawing.Point(350, 18);
             this.lblTipFilter.Name = "lblTipFilter";
-            this.lblTipFilter.Size = new System.Drawing.Size(30, 20);
+            this.lblTipFilter.Size = new System.Drawing.Size(33, 23);
             this.lblTipFilter.TabIndex = 3;
             this.lblTipFilter.Text = "Tip";
             // 
@@ -149,14 +149,14 @@
             "Pravno lice"});
             this.cmbTipFilter.Location = new System.Drawing.Point(435, 14);
             this.cmbTipFilter.Name = "cmbTipFilter";
-            this.cmbTipFilter.Size = new System.Drawing.Size(180, 28);
+            this.cmbTipFilter.Size = new System.Drawing.Size(180, 31);
             this.cmbTipFilter.TabIndex = 2;
             // 
             // txtPretraga
             // 
             this.txtPretraga.Location = new System.Drawing.Point(90, 14);
             this.txtPretraga.Name = "txtPretraga";
-            this.txtPretraga.Size = new System.Drawing.Size(230, 27);
+            this.txtPretraga.Size = new System.Drawing.Size(230, 30);
             this.txtPretraga.TabIndex = 1;
             // 
             // lblPretraga
@@ -164,7 +164,7 @@
             this.lblPretraga.AutoSize = true;
             this.lblPretraga.Location = new System.Drawing.Point(14, 18);
             this.lblPretraga.Name = "lblPretraga";
-            this.lblPretraga.Size = new System.Drawing.Size(65, 20);
+            this.lblPretraga.Size = new System.Drawing.Size(75, 23);
             this.lblPretraga.TabIndex = 0;
             this.lblPretraga.Text = "Pretraga";
             // 
@@ -180,14 +180,14 @@
             this.dgvKlijenti.BackgroundColor = System.Drawing.Color.White;
             this.dgvKlijenti.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.dgvKlijenti.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(72)))), ((int)(((byte)(106)))));
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvKlijenti.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(72)))), ((int)(((byte)(106)))));
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle7.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvKlijenti.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
             this.dgvKlijenti.ColumnHeadersHeight = 34;
             this.dgvKlijenti.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colID,
@@ -205,9 +205,9 @@
             this.dgvKlijenti.ReadOnly = true;
             this.dgvKlijenti.RowHeadersVisible = false;
             this.dgvKlijenti.RowHeadersWidth = 57;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(234)))), ((int)(((byte)(244)))));
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
-            this.dgvKlijenti.RowsDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(234)))), ((int)(((byte)(244)))));
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.Color.Black;
+            this.dgvKlijenti.RowsDefaultCellStyle = dataGridViewCellStyle8;
             this.dgvKlijenti.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvKlijenti.Size = new System.Drawing.Size(1050, 205);
             this.dgvKlijenti.TabIndex = 2;
@@ -302,7 +302,12 @@
             // 
             // btnRacuni
             // 
-            this.btnRacuni.Location = new System.Drawing.Point(344, 255);
+            this.btnRacuni.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnRacuni.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnRacuni.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
+            this.btnRacuni.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnRacuni.Font = new System.Drawing.Font("Segoe UI", 9.134328F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRacuni.Location = new System.Drawing.Point(340, 255);
             this.btnRacuni.Name = "btnRacuni";
             this.btnRacuni.Size = new System.Drawing.Size(90, 32);
             this.btnRacuni.TabIndex = 23;
@@ -364,7 +369,7 @@
             this.btnIzmeni.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnIzmeni.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
             this.btnIzmeni.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnIzmeni.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnIzmeni.Font = new System.Drawing.Font("Segoe UI", 9.134328F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnIzmeni.Location = new System.Drawing.Point(120, 255);
             this.btnIzmeni.Name = "btnIzmeni";
             this.btnIzmeni.Size = new System.Drawing.Size(90, 32);
@@ -403,7 +408,7 @@
             this.label8.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.Location = new System.Drawing.Point(20, 206);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(74, 20);
+            this.label8.Size = new System.Drawing.Size(85, 23);
             this.label8.TabIndex = 16;
             this.label8.Text = "Komentar";
             // 
@@ -418,7 +423,7 @@
             "Blokiran"});
             this.cmbStatus.Location = new System.Drawing.Point(835, 170);
             this.cmbStatus.Name = "cmbStatus";
-            this.cmbStatus.Size = new System.Drawing.Size(175, 28);
+            this.cmbStatus.Size = new System.Drawing.Size(175, 31);
             this.cmbStatus.TabIndex = 15;
             // 
             // txtEmail
@@ -426,7 +431,7 @@
             this.txtEmail.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtEmail.Location = new System.Drawing.Point(835, 136);
             this.txtEmail.Name = "txtEmail";
-            this.txtEmail.Size = new System.Drawing.Size(175, 27);
+            this.txtEmail.Size = new System.Drawing.Size(175, 30);
             this.txtEmail.TabIndex = 14;
             // 
             // label7
@@ -435,7 +440,7 @@
             this.label7.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.Location = new System.Drawing.Point(690, 174);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(49, 20);
+            this.label7.Size = new System.Drawing.Size(56, 23);
             this.label7.TabIndex = 13;
             this.label7.Text = "Status";
             // 
@@ -445,7 +450,7 @@
             this.label6.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.Location = new System.Drawing.Point(690, 140);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(46, 20);
+            this.label6.Size = new System.Drawing.Size(51, 23);
             this.label6.TabIndex = 12;
             this.label6.Text = "Email";
             // 
@@ -454,7 +459,7 @@
             this.txtTelefon.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtTelefon.Location = new System.Drawing.Point(835, 102);
             this.txtTelefon.Name = "txtTelefon";
-            this.txtTelefon.Size = new System.Drawing.Size(175, 27);
+            this.txtTelefon.Size = new System.Drawing.Size(175, 30);
             this.txtTelefon.TabIndex = 10;
             // 
             // txtGrad
@@ -462,7 +467,7 @@
             this.txtGrad.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtGrad.Location = new System.Drawing.Point(835, 68);
             this.txtGrad.Name = "txtGrad";
-            this.txtGrad.Size = new System.Drawing.Size(175, 27);
+            this.txtGrad.Size = new System.Drawing.Size(175, 30);
             this.txtGrad.TabIndex = 9;
             // 
             // label5
@@ -471,7 +476,7 @@
             this.label5.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.Location = new System.Drawing.Point(690, 106);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(58, 20);
+            this.label5.Size = new System.Drawing.Size(64, 23);
             this.label5.TabIndex = 8;
             this.label5.Text = "Telefon";
             // 
@@ -481,7 +486,7 @@
             this.label4.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.Location = new System.Drawing.Point(690, 72);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(41, 20);
+            this.label4.Size = new System.Drawing.Size(47, 23);
             this.label4.TabIndex = 7;
             this.label4.Text = "Grad";
             // 
@@ -490,7 +495,7 @@
             this.txtAdresa.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtAdresa.Location = new System.Drawing.Point(835, 34);
             this.txtAdresa.Name = "txtAdresa";
-            this.txtAdresa.Size = new System.Drawing.Size(175, 27);
+            this.txtAdresa.Size = new System.Drawing.Size(175, 30);
             this.txtAdresa.TabIndex = 6;
             // 
             // label3
@@ -499,7 +504,7 @@
             this.label3.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.Location = new System.Drawing.Point(690, 38);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(55, 20);
+            this.label3.Size = new System.Drawing.Size(62, 23);
             this.label3.TabIndex = 5;
             this.label3.Text = "Adresa";
             // 
@@ -520,7 +525,7 @@
             // 
             this.txtPIB.Location = new System.Drawing.Point(125, 45);
             this.txtPIB.Name = "txtPIB";
-            this.txtPIB.Size = new System.Drawing.Size(190, 27);
+            this.txtPIB.Size = new System.Drawing.Size(190, 30);
             this.txtPIB.TabIndex = 3;
             // 
             // label2
@@ -528,7 +533,7 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(0, 49);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(30, 20);
+            this.label2.Size = new System.Drawing.Size(35, 23);
             this.label2.TabIndex = 2;
             this.label2.Text = "PIB";
             // 
@@ -536,7 +541,7 @@
             // 
             this.txtNazivFirme.Location = new System.Drawing.Point(125, 9);
             this.txtNazivFirme.Name = "txtNazivFirme";
-            this.txtNazivFirme.Size = new System.Drawing.Size(300, 27);
+            this.txtNazivFirme.Size = new System.Drawing.Size(300, 30);
             this.txtNazivFirme.TabIndex = 1;
             // 
             // label1
@@ -544,7 +549,7 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(0, 13);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(85, 20);
+            this.label1.Size = new System.Drawing.Size(96, 23);
             this.label1.TabIndex = 0;
             this.label1.Text = "Naziv firme";
             // 
@@ -572,7 +577,7 @@
             this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dateTimePicker1.Location = new System.Drawing.Point(125, 81);
             this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(180, 27);
+            this.dateTimePicker1.Size = new System.Drawing.Size(180, 30);
             this.dateTimePicker1.TabIndex = 9;
             // 
             // lblDR
@@ -580,7 +585,7 @@
             this.lblDR.AutoSize = true;
             this.lblDR.Location = new System.Drawing.Point(0, 85);
             this.lblDR.Name = "lblDR";
-            this.lblDR.Size = new System.Drawing.Size(109, 20);
+            this.lblDR.Size = new System.Drawing.Size(125, 23);
             this.lblDR.TabIndex = 8;
             this.lblDR.Text = "Datum rođenja";
             // 
@@ -588,7 +593,7 @@
             // 
             this.txtBrojLicneKarte.Location = new System.Drawing.Point(445, 45);
             this.txtBrojLicneKarte.Name = "txtBrojLicneKarte";
-            this.txtBrojLicneKarte.Size = new System.Drawing.Size(160, 27);
+            this.txtBrojLicneKarte.Size = new System.Drawing.Size(160, 30);
             this.txtBrojLicneKarte.TabIndex = 7;
             // 
             // lblBLK
@@ -596,7 +601,7 @@
             this.lblBLK.AutoSize = true;
             this.lblBLK.Location = new System.Drawing.Point(335, 49);
             this.lblBLK.Name = "lblBLK";
-            this.lblBLK.Size = new System.Drawing.Size(108, 20);
+            this.lblBLK.Size = new System.Drawing.Size(123, 23);
             this.lblBLK.TabIndex = 6;
             this.lblBLK.Text = "Broj lične karte";
             // 
@@ -604,14 +609,14 @@
             // 
             this.txtJMBG.Location = new System.Drawing.Point(125, 45);
             this.txtJMBG.Name = "txtJMBG";
-            this.txtJMBG.Size = new System.Drawing.Size(180, 27);
+            this.txtJMBG.Size = new System.Drawing.Size(180, 30);
             this.txtJMBG.TabIndex = 5;
             // 
             // txtPrezime
             // 
             this.txtPrezime.Location = new System.Drawing.Point(445, 9);
             this.txtPrezime.Name = "txtPrezime";
-            this.txtPrezime.Size = new System.Drawing.Size(200, 27);
+            this.txtPrezime.Size = new System.Drawing.Size(200, 30);
             this.txtPrezime.TabIndex = 4;
             // 
             // lblJMBG
@@ -619,7 +624,7 @@
             this.lblJMBG.AutoSize = true;
             this.lblJMBG.Location = new System.Drawing.Point(0, 49);
             this.lblJMBG.Name = "lblJMBG";
-            this.lblJMBG.Size = new System.Drawing.Size(46, 20);
+            this.lblJMBG.Size = new System.Drawing.Size(53, 23);
             this.lblJMBG.TabIndex = 3;
             this.lblJMBG.Text = "JMBG";
             // 
@@ -628,7 +633,7 @@
             this.lblPrezime.AutoSize = true;
             this.lblPrezime.Location = new System.Drawing.Point(335, 13);
             this.lblPrezime.Name = "lblPrezime";
-            this.lblPrezime.Size = new System.Drawing.Size(62, 20);
+            this.lblPrezime.Size = new System.Drawing.Size(71, 23);
             this.lblPrezime.TabIndex = 2;
             this.lblPrezime.Text = "Prezime";
             // 
@@ -636,7 +641,7 @@
             // 
             this.txtIme.Location = new System.Drawing.Point(125, 9);
             this.txtIme.Name = "txtIme";
-            this.txtIme.Size = new System.Drawing.Size(180, 27);
+            this.txtIme.Size = new System.Drawing.Size(180, 30);
             this.txtIme.TabIndex = 1;
             // 
             // lblIme
@@ -644,7 +649,7 @@
             this.lblIme.AutoSize = true;
             this.lblIme.Location = new System.Drawing.Point(0, 13);
             this.lblIme.Name = "lblIme";
-            this.lblIme.Size = new System.Drawing.Size(34, 20);
+            this.lblIme.Size = new System.Drawing.Size(39, 23);
             this.lblIme.TabIndex = 0;
             this.lblIme.Text = "Ime";
             // 
@@ -658,7 +663,7 @@
             "Pravno lice"});
             this.cmbTipKlijenta.Location = new System.Drawing.Point(145, 34);
             this.cmbTipKlijenta.Name = "cmbTipKlijenta";
-            this.cmbTipKlijenta.Size = new System.Drawing.Size(180, 28);
+            this.cmbTipKlijenta.Size = new System.Drawing.Size(180, 31);
             this.cmbTipKlijenta.TabIndex = 1;
             this.cmbTipKlijenta.SelectedIndexChanged += new System.EventHandler(this.cmbTipKlijenta_SelectedIndexChanged);
             // 
@@ -668,13 +673,13 @@
             this.lblTipKlijenta.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTipKlijenta.Location = new System.Drawing.Point(20, 38);
             this.lblTipKlijenta.Name = "lblTipKlijenta";
-            this.lblTipKlijenta.Size = new System.Drawing.Size(82, 20);
+            this.lblTipKlijenta.Size = new System.Drawing.Size(92, 23);
             this.lblTipKlijenta.TabIndex = 0;
             this.lblTipKlijenta.Text = "Tip klijenta";
             // 
             // UcKlijenti
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 23F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.WhiteSmoke;

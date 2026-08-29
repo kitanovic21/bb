@@ -615,6 +615,293 @@ namespace Banka
             }
         }
 
+        // SIGURNOSNA KONTROLA
+        public static List<SigurnosnaKontrolaPregled> GetSigurnosneKontroleInfos()
+        {
+            List<SigurnosnaKontrolaPregled> kontrole = new List<SigurnosnaKontrolaPregled>();
+            ISession session = null;
+
+            try
+            {
+                session = DataLayer.GetSession();
+
+                if (session != null)
+                {
+                    List<SigurnosnaKontrola> sveKontrole = session.Query<SigurnosnaKontrola>().ToList();
+
+                    foreach (SigurnosnaKontrola sk in sveKontrole)
+                    {
+                        int klijentId = 0;
+                        string klijentNaziv = "";
+                        string brojRacuna = "";
+
+                        if (sk.Klijent != null)
+                        {
+                            klijentId = sk.Klijent.ID;
+
+                            Type tipKlijenta = NHibernateUtil.GetClass(sk.Klijent);
+
+                            if (tipKlijenta == typeof(FizickoLice))
+                            {
+                                FizickoLice f = session.Get<FizickoLice>(sk.Klijent.ID);
+
+                                if (f != null)
+                                    klijentNaziv = f.Ime + " " + f.Prezime;
+                            }
+                            else if (tipKlijenta == typeof(PravnoLice))
+                            {
+                                PravnoLice p = session.Get<PravnoLice>(sk.Klijent.ID);
+
+                                if (p != null)
+                                    klijentNaziv = p.NazivFirme;
+                            }
+                        }
+
+                        if (sk.Racun != null)
+                            brojRacuna = sk.Racun.BrojRacuna;
+
+                        kontrole.Add(
+                            new SigurnosnaKontrolaPregled(
+                                sk.Id,
+                                klijentId,
+                                klijentNaziv,
+                                brojRacuna,
+                                sk.TipDogadjaja ?? "",
+                                sk.Datum,
+                                sk.Vreme ?? "",
+                                sk.IpAdresa ?? "",
+                                sk.Status ?? ""
+                            )
+                        );
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    ex.Message,
+                    "Greška pri učitavanju sigurnosnih kontrola",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+            }
+            finally
+            {
+                if (session != null)
+                    session.Close();
+            }
+
+            return kontrole;
+        }
+
+        public static async Task<bool> AddSigurnosnaKontrola(SigurnosnaKontrolaBasic sk)
+        {
+            ISession session = null;
+            ITransaction transaction = null;
+
+            try
+            {
+                session = DataLayer.GetSession();
+
+                if (session == null)
+                    return false;
+
+                transaction = session.BeginTransaction();
+
+                Klijent klijent = await session.GetAsync<Klijent>(sk.KlijentId);
+                Racun racun = await session.GetAsync<Racun>(sk.BrojRacuna);
+
+                if (klijent == null)
+                {
+                    MessageBox.Show("Izabrani klijent ne postoji.");
+                    return false;
+                }
+
+                if (racun == null)
+                {
+                    MessageBox.Show("Izabrani račun ne postoji.");
+                    return false;
+                }
+
+                SigurnosnaKontrola kontrola = new SigurnosnaKontrola();
+
+                kontrola.Klijent = klijent;
+                kontrola.Racun = racun;
+                kontrola.TipDogadjaja = sk.TipDogadjaja;
+                kontrola.Datum = sk.Datum;
+                kontrola.Vreme = sk.Vreme;
+                kontrola.IpAdresa = sk.IpAdresa;
+                kontrola.PodaciOUredjaju = sk.PodaciOUredjaju;
+                kontrola.Status = sk.Status;
+                kontrola.Opis = sk.Opis;
+
+                await session.SaveAsync(kontrola);
+                await transaction.CommitAsync();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                if (transaction != null && transaction.IsActive)
+                    await transaction.RollbackAsync();
+
+                MessageBox.Show(
+                    ex.GetBaseException().Message,
+                    "Greška",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+
+                return false;
+            }
+            finally
+            {
+                if (session != null)
+                    session.Close();
+            }
+        }
+
+        public static SigurnosnaKontrolaBasic GetSigurnosnaKontrolaBasic(int id)
+        {
+            ISession session = null;
+
+            try
+            {
+                session = DataLayer.GetSession();
+
+                SigurnosnaKontrola sk =
+                    session.Get<SigurnosnaKontrola>(id);
+
+                if (sk == null)
+                    return null;
+
+                return new SigurnosnaKontrolaBasic
+                {
+                    Id = sk.Id,
+                    KlijentId = sk.Klijent.ID,
+                    BrojRacuna = sk.Racun.BrojRacuna,
+                    TipDogadjaja = sk.TipDogadjaja,
+                    Datum = sk.Datum,
+                    Vreme = sk.Vreme,
+                    IpAdresa = sk.IpAdresa,
+                    PodaciOUredjaju = sk.PodaciOUredjaju,
+                    Status = sk.Status,
+                    Opis = sk.Opis
+                };
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    ex.GetBaseException().Message,
+                    "Greška",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+
+                return null;
+            }
+            finally
+            {
+                if (session != null)
+                    session.Close();
+            }
+        }
+
+        public static async Task<bool> UpdateSigurnosnaKontrola(SigurnosnaKontrolaBasic skb)
+        {
+            ISession session = null;
+            ITransaction transaction = null;
+
+            try
+            {
+                session = DataLayer.GetSession();
+
+                if (session == null || skb == null)
+                    return false;
+
+                transaction = session.BeginTransaction();
+
+                SigurnosnaKontrola sk = await session.GetAsync<SigurnosnaKontrola>(skb.Id);
+
+                if (sk == null)
+                    return false;
+
+                Klijent klijent = await session.GetAsync<Klijent>(skb.KlijentId);
+                Racun racun = await session.GetAsync<Racun>(skb.BrojRacuna);
+
+                if (klijent == null || racun == null)
+                    return false;
+
+                sk.Klijent = klijent;
+                sk.Racun = racun;
+                sk.TipDogadjaja = skb.TipDogadjaja;
+                sk.Datum = skb.Datum;
+                sk.Vreme = skb.Vreme;
+                sk.IpAdresa = skb.IpAdresa;
+                sk.PodaciOUredjaju = skb.PodaciOUredjaju;
+                sk.Status = skb.Status;
+                sk.Opis = skb.Opis;
+
+                await transaction.CommitAsync();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                if (transaction != null && transaction.IsActive)
+                    await transaction.RollbackAsync();
+
+                MessageBox.Show(ex.GetBaseException().Message, "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            finally
+            {
+                if (session != null)
+                    session.Close();
+            }
+        }
+
+        public static async Task<bool> DeleteSigurnosnaKontrola(int id)
+        {
+            ISession session = null;
+            ITransaction transaction = null;
+
+            try
+            {
+                session = DataLayer.GetSession();
+
+                if (session == null)
+                    return false;
+
+                transaction = session.BeginTransaction();
+
+                SigurnosnaKontrola sk = await session.GetAsync<SigurnosnaKontrola>(id);
+
+                if (sk == null)
+                    return false;
+
+                await session.DeleteAsync(sk);
+                await transaction.CommitAsync();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                if (transaction != null && transaction.IsActive)
+                    await transaction.RollbackAsync();
+
+                MessageBox.Show(ex.GetBaseException().Message, "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            finally
+            {
+                if (session != null)
+                    session.Close();
+            }
+        }
+
+        //TRANSAKCIJE
+
         public static List<TransakcijaPregled> GetTransakcijeInfos()
         {
             List<TransakcijaPregled> transakcijaInfo = new List<TransakcijaPregled>();
@@ -627,17 +914,17 @@ namespace Banka
                 if (session != null)
                 {
                     transakcijaInfo = (from t in session.Query<Transakcija>()
-                                 select new TransakcijaPregled(
-                                     t.KodTransakcije,
-                                     t.Racun.BrojRacuna ?? "",
-                                     t.TipTransakcije ?? "",
-                                     t.Valuta ?? "",
-                                     t.Iznos,
-                                     t.Status ?? "",
-                                     t.Datum,
-                                     t.Vreme ?? "",
-                                     t.NaKojiRacun.BrojRacuna ?? ""
-                                 )).ToList();
+                                       select new TransakcijaPregled(
+                                           t.KodTransakcije,
+                                           t.Racun.BrojRacuna ?? "",
+                                           t.TipTransakcije ?? "",
+                                           t.Valuta ?? "",
+                                           t.Iznos,
+                                           t.Status ?? "",
+                                           t.Datum ?? DateTime.Today,
+                                           t.Vreme ?? "",
+                                           t.NaKojiRacun.BrojRacuna ?? ""
+                                       )).ToList();
                 }
             }
             catch (Exception ex)
@@ -653,7 +940,7 @@ namespace Banka
             return transakcijaInfo;
         }
 
-        public static async Task<TransakcijaBasic> GetTransakcijaBasic(int kodTransakcije)
+        public static async Task<TransakcijaBasic> GetTransakcijaBasic(int kodTransakcije, string brojRacuna)
         {
             TransakcijaBasic tb = new TransakcijaBasic();
             ISession session = null;
@@ -665,7 +952,8 @@ namespace Banka
                 if (session != null)
                 {
                     Transakcija t = await session.Query<Transakcija>()
-                                        .FirstOrDefaultAsync(x => x.KodTransakcije == kodTransakcije);
+                        .FirstOrDefaultAsync(x => x.KodTransakcije == kodTransakcije
+                                               && x.Racun.BrojRacuna == brojRacuna);
                     tb.KodTransakcije = t.KodTransakcije;
                     tb.BrojRacunaPosiljalac = t.Racun != null ? t.Racun.BrojRacuna.ToString() : "";
                     tb.TipTransakcije = t.TipTransakcije;
@@ -673,12 +961,12 @@ namespace Banka
                     tb.BrojRacunaPrimalac = t.NaKojiRacun != null ? t.NaKojiRacun.BrojRacuna.ToString() : "";
                     tb.Iznos = t.Iznos;
                     tb.PodacioOPrimaocu = t.PodaciOPrimaocu;
-                    tb.Komentar=t.Komentar;
-                    tb.Valuta=t.Valuta;
+                    tb.Komentar = t.Komentar;
+                    tb.Valuta = t.Valuta;
                     tb.Opis = t.Opis;
-                    tb.Status  = t.Status;
-                    tb.Datum=t.Datum;
-                    tb.Vreme=t.Vreme;
+                    tb.Status = t.Status;
+                    tb.Datum = t.Datum;
+                    tb.Vreme = t.Vreme;
 
                 }
             }
@@ -694,6 +982,687 @@ namespace Banka
 
             return tb;
         }
+
+        public static double KonvertujValutu(double iznos, string izValute, string uValutu)
+        {
+            if (izValute == uValutu)
+                return iznos;
+
+            // U realnom sistemu ovo se vuce sa APIja
+            Dictionary<string, double> kurseviURsd = new Dictionary<string, double>()
+            {
+                { "RSD", 1.0 },
+                { "EUR", 117.2 },
+                { "USD", 108.0 },
+                { "CHF", 122.5 } 
+            };
+
+            if (!kurseviURsd.ContainsKey(izValute) || !kurseviURsd.ContainsKey(uValutu))
+                throw new Exception($"Valuta {izValute} ili {uValutu} nije podržana za konverziju.");
+
+            double iznosURsd = iznos * kurseviURsd[izValute];
+            double krajnjiIznos = iznosURsd / kurseviURsd[uValutu];
+
+            return Math.Round(krajnjiIznos, 2);
+        }
+        public static async Task<bool> AddTransakcija(TransakcijaBasic tb)
+        {
+            ISession session = null;
+            ITransaction transaction = null;
+
+            try
+            {
+                session = DataLayer.GetSession();
+
+                if (session == null)
+                    return false;
+
+                transaction = session.BeginTransaction();
+
+                Racun primalac = null;
+                if (tb.TipTransakcije != "Isplata")
+                {
+                    primalac = await session.GetAsync<Racun>(tb.BrojRacunaPrimalac);
+                    if (primalac == null)
+                    {
+                        MessageBox.Show("Izabrani primalac ne postoji.");
+                        return false;
+                    }
+                    else
+                    {
+                        if (primalac.Klijent.TipKlijenta == "fizicko")
+                        {
+                            FizickoLice fl = await session.GetAsync<FizickoLice>(primalac.Klijent.ID);
+                            if (fl == null)
+                            {
+                                MessageBox.Show("Greška pri pribavljanju informacija o fizičkom licu!");
+                                return false;
+                            }
+                            else
+                            {
+                                string imePrezime = $"{fl.Ime ?? ""} {fl.Prezime ?? ""}".Trim();
+                                if (imePrezime != tb.PodacioOPrimaocu)
+                                {
+                                    MessageBox.Show("Ime i prezime se ne poklapa sa vlasnikom računa!");
+                                    return false;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            PravnoLice pl = await session.GetAsync<PravnoLice>(primalac.Klijent.ID);
+                            if (pl == null)
+                            {
+                                MessageBox.Show("Greška pri pribavljanju informacija o pravnom licu!");
+                                return false;
+                            }
+                            else if (pl.NazivFirme != tb.PodacioOPrimaocu)
+                            {
+                                MessageBox.Show("Naziv firme se ne poklapa sa vlasnikom računa!");
+                                return false;
+                            }
+                        }
+                    }
+                }
+
+                Racun posiljalac = await session.GetAsync<Racun>(tb.BrojRacunaPosiljalac);
+
+                if (posiljalac == null)
+                {
+                    MessageBox.Show("Izabrani pošiljalac ne postoji.");
+                    return false;
+                }
+
+                // Konverzija se radi za istog klijenta ako je za razlicite to je onda vec neki vid transfera
+                if (tb.TipTransakcije == "Konverzija" && primalac.Klijent.ID != posiljalac.Klijent.ID)
+                {
+                    MessageBox.Show("Konverzija se ne moze vrsiti izmedju racuna sa razlicitim vlasnicima!");
+                    tb.Status = "Odbijena";
+                }
+
+                // Ukoliko je transakcija odobrena promenice se stanje na racunima ukoliko ce se otici u nedozvoljeni minus transakcaij ce se cuvati kao
+                // odbijena
+                if (tb.Status == "Odobrena")
+                {
+                    double kolikoSkinuti = KonvertujValutu(tb.Iznos, tb.Valuta, posiljalac.Valuta);
+                    double kolikoDodati = KonvertujValutu(tb.Iznos, tb.Valuta, primalac.Valuta); 
+
+                    if (posiljalac.TrenutnoStanje - kolikoSkinuti < -posiljalac.DozvoljeniMinus)
+                    {
+                        MessageBox.Show("Nema dovoljno sredstava na računu! Transakcija je Odbijena.");
+                        tb.Status = "Odbijena";
+                    }
+                    else
+                    {
+                        posiljalac.TrenutnoStanje -= kolikoSkinuti;
+                        if(tb.TipTransakcije != "Isplata")
+                            primalac.TrenutnoStanje += kolikoDodati;
+                        await session.UpdateAsync(posiljalac);
+
+                        if (primalac.BrojRacuna != posiljalac.BrojRacuna)
+                        {
+                            await session.UpdateAsync(primalac);
+                        }
+                    }
+                }
+
+                Transakcija transakcija = new Transakcija();
+                int maxKod = await session.Query<Transakcija>()
+                    .Where(t => t.Racun.BrojRacuna == posiljalac.BrojRacuna)
+                    .Select(t => (int?)t.KodTransakcije)
+                    .MaxAsync() ?? 0;
+
+                transakcija.KodTransakcije = maxKod + 1;
+                transakcija.Racun = posiljalac;
+                transakcija.TipTransakcije = tb.TipTransakcije;
+                transakcija.Referenca = tb.Referenca;
+                transakcija.Iznos = tb.Iznos;
+                transakcija.PodaciOPrimaocu = tb.PodacioOPrimaocu;
+                transakcija.Komentar = tb.Komentar;
+                transakcija.Valuta = tb.Valuta;
+                transakcija.Opis = tb.Opis;
+                transakcija.Status = tb.Status;
+                transakcija.Vreme = tb.Vreme;
+                transakcija.Datum = tb.Datum;
+                transakcija.NaKojiRacun = primalac;
+
+                await session.SaveAsync(transakcija);
+                await transaction.CommitAsync();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                if (transaction != null && transaction.IsActive)
+                    await transaction.RollbackAsync();
+
+                MessageBox.Show(ex.GetBaseException().Message, "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            finally
+            {
+                if (session != null)
+                    session.Close();
+            }
+        }
+
+        public static async Task<bool> DeleteTransakcija(int kodTransakcije, string brojRacunaPosiljaoca)
+        {
+            ISession session = null;
+            ITransaction transaction = null;
+
+            try
+            {
+                session = DataLayer.GetSession();
+
+                if (session == null)
+                    return false;
+
+                transaction = session.BeginTransaction();
+
+                Transakcija t = await session.Query<Transakcija>()
+                    .FirstOrDefaultAsync(x => x.KodTransakcije == kodTransakcije
+                                           && x.Racun.BrojRacuna == brojRacunaPosiljaoca);
+                if (t == null)
+                    return false;
+
+                await session.DeleteAsync(t);
+
+                await transaction.CommitAsync();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                if (transaction != null && transaction.IsActive)
+                    await transaction.RollbackAsync();
+
+                MessageBox.Show(
+                    ex.GetBaseException().Message,
+                    "Greška",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+
+                return false;
+            }
+            finally
+            {
+                if (session != null)
+                    session.Close();
+            }
+        }
+        public static async Task<bool> UpdateTransakcijaBasic(TransakcijaBasic tb)
+        {
+            ISession session = null;
+            ITransaction transaction = null;
+
+            try
+            {
+                session = DataLayer.GetSession();
+
+                if (session == null || tb == null)
+                    return false;
+
+                transaction = session.BeginTransaction();
+
+                Transakcija t = await session.Query<Transakcija>()
+                    .FirstOrDefaultAsync(x => x.KodTransakcije == tb.KodTransakcije
+                                           && x.Racun.BrojRacuna == tb.BrojRacunaPosiljalac);
+                if (t == null)
+                    return false;
+
+                if (tb.TipTransakcije != t.TipTransakcije)
+                {
+                    MessageBox.Show("Ne moze se menjati tip transakcije!");
+                    return false;
+                }
+                if (tb.Status != t.Status)
+                {
+                    MessageBox.Show("Ne moze se menjati status transakcije!");
+                    return false;
+                }
+
+                Racun primalac = null;
+                if (tb.TipTransakcije != "Isplata")
+                {
+                    primalac = await session.GetAsync<Racun>(tb.BrojRacunaPrimalac);
+                    if (primalac == null)
+                    {
+                        MessageBox.Show("Izabrani primalac ne postoji.");
+                        return false;
+                    }
+                    else
+                    {
+                        if (primalac.Klijent.TipKlijenta == "fizicko")
+                        {
+                            FizickoLice fl = await session.GetAsync<FizickoLice>(primalac.Klijent.ID);
+                            if (fl == null)
+                            {
+                                MessageBox.Show("Greska pri pribavljanju informacija o fizickom licu!");
+                                return false;
+                            }
+                            else
+                            {
+                                string imePrezime = $"{fl.Ime ?? ""} {fl.Prezime ?? ""}".Trim();
+                                if (imePrezime != tb.PodacioOPrimaocu)
+                                {
+                                    MessageBox.Show("Ime i prezime se ne poklapa sa vlasnikom racuna!");
+                                    return false;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            PravnoLice pl = await session.GetAsync<PravnoLice>(primalac.Klijent.ID);
+                            if (pl == null)
+                            {
+                                MessageBox.Show("Greska pri pribavljanju informacija o pravnom licu!");
+                                return false;
+                            }
+                            else if (pl.NazivFirme != tb.PodacioOPrimaocu)
+                            {
+                                MessageBox.Show("Naziv firme se ne poklapa sa vlasnikom racuna!");
+                                return false;
+                            }
+                        }
+                    }
+                }
+
+                Racun posiljalac = await session.GetAsync<Racun>(tb.BrojRacunaPosiljalac);
+
+                if (posiljalac == null)
+                {
+                    MessageBox.Show("Greska pri pribavljanju informacija o posiljaocu!");
+                    return false;
+                }
+
+                if (primalac == null)
+                    primalac = posiljalac;
+
+                if (posiljalac.BrojRacuna != tb.BrojRacunaPosiljalac)
+                {
+                    MessageBox.Show("Ne moze se menjati posiljalac!");
+                    return false;
+                }
+
+                if (tb.TipTransakcije == "Konverzija" && primalac.Klijent.ID != posiljalac.Klijent.ID)
+                {
+                    MessageBox.Show("Konverzija se ne moze vrsiti izmedju racuna sa razlicitim vlasnicima!");
+                    return false;
+                }
+
+                if (t.Status == "Odobrena")
+                {
+                    double kolikoJeBiloSkinuto = KonvertujValutu(t.Iznos, t.Valuta, posiljalac.Valuta);
+                    double kolikoJeBiloDodato = KonvertujValutu(t.Iznos, t.Valuta, primalac.Valuta);
+                    double kolikoSkinuti = KonvertujValutu(tb.Iznos, tb.Valuta, posiljalac.Valuta);
+                    double kolikoDodati = KonvertujValutu(tb.Iznos, tb.Valuta, primalac.Valuta);
+
+                    // Pri isplati (kad su posiljalac i primalac isti racun), podesavamo samo skidanje
+                    if (tb.TipTransakcije == "Isplata")
+                    {
+                        posiljalac.TrenutnoStanje = posiljalac.TrenutnoStanje + kolikoJeBiloSkinuto - kolikoSkinuti;
+                    }
+                    else
+                    {
+                        primalac.TrenutnoStanje = primalac.TrenutnoStanje - kolikoJeBiloDodato + kolikoDodati;
+                        posiljalac.TrenutnoStanje = posiljalac.TrenutnoStanje + kolikoJeBiloSkinuto - kolikoSkinuti;
+                    }
+
+                    if (posiljalac.TrenutnoStanje < -posiljalac.DozvoljeniMinus)
+                    {
+                        // Vracanje starog stanja u slucaju neuspeha
+                        if (tb.TipTransakcije == "Isplata")
+                        {
+                            posiljalac.TrenutnoStanje = posiljalac.TrenutnoStanje - kolikoJeBiloSkinuto + kolikoSkinuti;
+                        }
+                        else
+                        {
+                            primalac.TrenutnoStanje = primalac.TrenutnoStanje + kolikoJeBiloDodato - kolikoDodati;
+                            posiljalac.TrenutnoStanje = posiljalac.TrenutnoStanje - kolikoJeBiloSkinuto + kolikoSkinuti;
+                        }
+
+                        MessageBox.Show("Posiljalac nema dovoljno sredstava na racunu");
+                        return false;
+                    }
+
+                    await session.UpdateAsync(posiljalac);
+                    if (primalac.BrojRacuna != posiljalac.BrojRacuna)
+                    {
+                        await session.UpdateAsync(primalac);
+                    }
+                }
+
+                t.Racun = posiljalac;
+                t.NaKojiRacun = primalac;
+                t.TipTransakcije = tb.TipTransakcije;
+                t.Referenca = tb.Referenca;
+                t.Iznos = tb.Iznos;
+                t.PodaciOPrimaocu = tb.PodacioOPrimaocu;
+                t.Komentar = tb.Komentar;
+                t.Valuta = tb.Valuta;
+                t.Opis = tb.Opis;
+                t.Status = tb.Status;
+                t.Datum = tb.Datum;
+                t.Vreme = tb.Vreme;
+
+                await session.UpdateAsync(t);
+                await session.FlushAsync();
+
+                await transaction.CommitAsync();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                if (transaction != null && transaction.IsActive)
+                    await transaction.RollbackAsync();
+
+                MessageBox.Show(
+                    ex.GetBaseException().Message,
+                    "Greška",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+                return false;
+            }
+            finally
+            {
+                if (session != null)
+                    session.Close();
+            }
+        }
+        // KAMATA
+        public static List<KamataPregled> GetKamateInfos()
+        {
+            List<KamataPregled> kamateInfo = new List<KamataPregled>();
+            ISession session = null;
+
+            try
+            {
+                session = DataLayer.GetSession();
+
+                if (session != null)
+                {
+                    List<Kamata> kamate = session.Query<Kamata>().ToList();
+                    List<Racun> racuni = session.Query<Racun>().ToList();
+                    List<Kredit> krediti = session.Query<Kredit>().ToList();
+                    List<Depozit> depoziti = session.Query<Depozit>().ToList();
+
+                    foreach (Kamata k in kamate)
+                    {
+                        string predmetTip = "";
+                        string konkretanPredmet = "";
+                        int predmetId = k.PredmetObracuna.ID;
+
+                        Racun racun = racuni.FirstOrDefault(r => r.PredmetObracuna != null && r.PredmetObracuna.ID == predmetId);
+
+                        if (racun != null)
+                        {
+                            predmetTip = "Račun";
+                            konkretanPredmet = racun.BrojRacuna;
+                        }
+                        else
+                        {
+                            Kredit kredit = krediti.FirstOrDefault(kr => kr.PredmetObracuna != null && kr.PredmetObracuna.ID == predmetId);
+
+                            if (kredit != null)
+                            {
+                                predmetTip = "Kredit";
+                                konkretanPredmet = "Kredit " + kredit.Id;
+                            }
+                            else
+                            {
+                                Depozit depozit = depoziti.FirstOrDefault(d => d.PredmetObracuna != null && d.PredmetObracuna.ID == predmetId);
+
+                                if (depozit != null)
+                                {
+                                    predmetTip = "Depozit";
+                                    konkretanPredmet = "Depozit " + depozit.Id;
+                                }
+                            }
+                        }
+
+                        KamataPregled kp = new KamataPregled();
+
+                        kp.Id = k.Id;
+                        kp.PredmetObracunaId = predmetId;
+                        kp.PredmetTip = predmetTip;
+                        kp.KonkretanPredmet = konkretanPredmet;
+                        kp.TipKamate = k.TipKamate ?? "";
+                        kp.IznosKamate = k.IznosKamate;
+                        kp.PeriodObracuna = k.PeriodObracuna ?? "";
+                        kp.DatumObracuna = k.DatumObracuna;
+                        kp.Status = k.Status ?? "";
+
+                        kamateInfo.Add(kp);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.GetBaseException().Message, "Greška pri učitavanju kamata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                if (session != null)
+                    session.Close();
+            }
+
+            return kamateInfo;
+        }
+
+        public static List<PredmetObracunaOpcija> GetPredmetiObracuna(string tip)
+        {
+            List<PredmetObracunaOpcija> predmeti = new List<PredmetObracunaOpcija>();
+            ISession session = null;
+
+            try
+            {
+                session = DataLayer.GetSession();
+
+                if (session == null)
+                    return predmeti;
+
+                if (tip == "Račun")
+                {
+                    List<Racun> racuni = session.Query<Racun>().ToList();
+
+                    foreach (Racun r in racuni)
+                    {
+                        if (r.PredmetObracuna != null)
+                            predmeti.Add(new PredmetObracunaOpcija(r.PredmetObracuna.ID, r.BrojRacuna));
+                    }
+                }
+                else if (tip == "Kredit")
+                {
+                    List<Kredit> krediti = session.Query<Kredit>().ToList();
+
+                    foreach (Kredit k in krediti)
+                    {
+                        if (k.PredmetObracuna != null)
+                            predmeti.Add(new PredmetObracunaOpcija(
+                                k.PredmetObracuna.ID,
+                                "Kredit " + k.Id + " - " + k.Iznos.ToString("0.00") + " " + k.Valuta));
+                    }
+                }
+                else if (tip == "Depozit")
+                {
+                    List<Depozit> depoziti = session.Query<Depozit>().ToList();
+
+                    foreach (Depozit d in depoziti)
+                    {
+                        if (d.PredmetObracuna != null)
+                            predmeti.Add(new PredmetObracunaOpcija(
+                                d.PredmetObracuna.ID, 
+                                "Depozit " + d.Id + " - " + d.Iznos.ToString("0.00") + " " + d.Valuta));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.GetBaseException().Message, "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                if (session != null)
+                    session.Close();
+            }
+
+            return predmeti;
+        }
+
+        public static async Task<bool> AddKamata(KamataBasic kb)
+        {
+            ISession session = null;
+            ITransaction transaction = null;
+
+            try
+            {
+                session = DataLayer.GetSession();
+
+                if (session == null || kb == null)
+                    return false;
+
+                transaction = session.BeginTransaction();
+
+                PredmetObracuna predmet = await session.GetAsync<PredmetObracuna>(kb.PredmetObracunaId);
+
+                if (predmet == null)
+                    return false;
+
+                Kamata kamata = new Kamata();
+
+                kamata.PredmetObracuna = predmet;
+                kamata.TipKamate = kb.TipKamate;
+                kamata.IznosKamate = kb.IznosKamate;
+                kamata.PeriodObracuna = kb.PeriodObracuna;
+                kamata.DatumObracuna = kb.DatumObracuna;
+                kamata.Status = kb.Status;
+
+                await session.SaveAsync(kamata);
+                await transaction.CommitAsync();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                if (transaction != null && transaction.IsActive)
+                    await transaction.RollbackAsync();
+
+                MessageBox.Show(
+                    ex.GetBaseException().Message,
+                    "Greška",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                return false;
+            }
+            finally
+            {
+                if (session != null)
+                    session.Close();
+            }
+        }
+
+        public static async Task<bool> UpdateKamata(KamataBasic kb)
+        {
+            ISession session = null;
+            ITransaction transaction = null;
+
+            try
+            {
+                session = DataLayer.GetSession();
+
+                if (session == null || kb == null)
+                    return false;
+
+                transaction = session.BeginTransaction();
+
+                Kamata kamata = await session.GetAsync<Kamata>(kb.Id);
+
+                if (kamata == null)
+                    return false;
+
+                PredmetObracuna predmet = await session.GetAsync<PredmetObracuna>(kb.PredmetObracunaId);
+
+                if (predmet == null)
+                    return false;
+
+                kamata.PredmetObracuna = predmet;
+                kamata.TipKamate = kb.TipKamate;
+                kamata.IznosKamate = kb.IznosKamate;
+                kamata.PeriodObracuna = kb.PeriodObracuna;
+                kamata.DatumObracuna = kb.DatumObracuna;
+                kamata.Status = kb.Status;
+
+                await transaction.CommitAsync();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                if (transaction != null && transaction.IsActive)
+                    await transaction.RollbackAsync();
+
+                MessageBox.Show(
+                    ex.GetBaseException().Message, 
+                    "Greška", 
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Error);
+                return false;
+            }
+            finally
+            {
+                if (session != null)
+                    session.Close();
+            }
+        }
+
+        public static async Task<bool> DeleteKamata(int id)
+        {
+            ISession session = null;
+            ITransaction transaction = null;
+
+            try
+            {
+                session = DataLayer.GetSession();
+
+                if (session == null)
+                    return false;
+
+                transaction = session.BeginTransaction();
+
+                Kamata kamata = await session.GetAsync<Kamata>(id);
+
+                if (kamata == null)
+                    return false;
+
+                await session.DeleteAsync(kamata);
+                await transaction.CommitAsync();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                if (transaction != null && transaction.IsActive)
+                    await transaction.RollbackAsync();
+
+                MessageBox.Show(
+                    ex.GetBaseException().Message, 
+                    "Greška", 
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Error);
+                return false;
+            }
+            finally
+            {
+                if (session != null)
+                    session.Close();
+            }
+        }
+
+        //KREDIT
 
     }
 }

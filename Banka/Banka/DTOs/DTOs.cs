@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace Banka.DTOs
 {
-    //Ovo vam je ono sto ce da bude u dataGridView
     public class KlijentPregled
     {
         public int KlijentId { get; set; }
@@ -37,7 +36,6 @@ namespace Banka.DTOs
         }
     }
 
-    //A ovo su vam sve informacije koje treba da budu na toj stranici
     public class KlijentBasic
     {
         public int KlijentId { get; set; }
@@ -66,7 +64,7 @@ namespace Banka.DTOs
         {
         }
     }
-    //info za datagridview
+
     public class RacunPregled
     {
         public string BrojRacuna { get; set; }
@@ -95,6 +93,7 @@ namespace Banka.DTOs
         }
 
     }
+
     public class RacunBasic
     {
         public string BrojRacuna { get; set; }
@@ -187,4 +186,108 @@ namespace Banka.DTOs
             BrojRacunaPrimalac = brojRacunaPrimalac;
         }
     }
+
+    public class SigurnosnaKontrolaPregled
+    {
+        public int Id { get; set; }
+
+        public int KlijentId { get; set; }
+        public string KlijentNaziv { get; set; }
+
+        public string BrojRacuna { get; set; }
+
+        public string TipDogadjaja { get; set; }
+        public DateTime Datum { get; set; }
+        public string Vreme { get; set; }
+
+        public string IpAdresa { get; set; }
+        public string Status { get; set; }
+
+        public SigurnosnaKontrolaPregled() {}
+
+        public SigurnosnaKontrolaPregled(
+            int id,
+            int klijentId,
+            string klijentNaziv,
+            string brojRacuna,
+            string tipDogadjaja,
+            DateTime datum,
+            string vreme,
+            string ipAdresa,
+            string status)
+        {
+            Id = id;
+            KlijentId = klijentId;
+            KlijentNaziv = klijentNaziv;
+            BrojRacuna = brojRacuna;
+            TipDogadjaja = tipDogadjaja;
+            Datum = datum;
+            Vreme = vreme;
+            IpAdresa = ipAdresa;
+            Status = status;
+        }
+    }
+
+    public class SigurnosnaKontrolaBasic
+    {
+        public int Id { get; set; }
+
+        public int KlijentId { get; set; }
+        public string BrojRacuna { get; set; }
+
+        public string TipDogadjaja { get; set; }
+
+        public DateTime Datum { get; set; }
+        public string Vreme { get; set; }
+
+        public string IpAdresa { get; set; }
+        public string PodaciOUredjaju { get; set; }
+
+        public string Status { get; set; }
+        public string Opis { get; set; }
+
+        public SigurnosnaKontrolaBasic() {}
+    }
+    public class KamataPregled
+    {
+        public int Id { get; set; }
+        public int PredmetObracunaId { get; set; }
+        public string PredmetTip { get; set; }
+        public string KonkretanPredmet { get; set; }
+        public string TipKamate { get; set; }
+        public double IznosKamate { get; set; }
+        public string PeriodObracuna { get; set; }
+        public DateTime DatumObracuna { get; set; }
+        public string Status { get; set; }
+
+        public KamataPregled() {}
+    }
+
+    public class KamataBasic
+    {
+        public int Id { get; set; }
+        public int PredmetObracunaId { get; set; }
+        public string TipKamate { get; set; }
+        public double IznosKamate { get; set; }
+        public string PeriodObracuna { get; set; }
+        public DateTime DatumObracuna { get; set; }
+        public string Status { get; set; }
+
+        public KamataBasic() {}
+    }
+
+    public class PredmetObracunaOpcija
+    {
+        public int PredmetObracunaId { get; set; }
+        public string Prikaz { get; set; }
+
+        public PredmetObracunaOpcija() {}
+
+        public PredmetObracunaOpcija(int predmetObracunaId, string prikaz)
+        {
+            PredmetObracunaId = predmetObracunaId;
+            Prikaz = prikaz;
+        }
+    }
+    //KAMATA
 }

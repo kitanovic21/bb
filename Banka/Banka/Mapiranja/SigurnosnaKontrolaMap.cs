@@ -14,7 +14,7 @@ namespace Banka.Mapiranja
         {
             Table("SIGURNOSNA_KONTROLA");
 
-            Id(x => x.Id, "ID").GeneratedBy.Identity();
+            Id(x => x.Id, "ID").GeneratedBy.Increment();
 
             Map(x => x.TipDogadjaja, "TIP_DOGADJAJA");
             Map(x => x.Opis, "OPIS");

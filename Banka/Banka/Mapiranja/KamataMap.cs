@@ -14,7 +14,7 @@ namespace Banka.Mapiranja
         {
             Table("KAMATA");
 
-            Id(x => x.Id, "ID").GeneratedBy.Identity();
+            Id(x => x.Id, "ID").GeneratedBy.Increment();
 
             Map(x => x.Status, "STATUS");
             Map(x => x.TipKamate, "TIP_KAMATE");
