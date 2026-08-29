@@ -215,6 +215,7 @@
             this.dgvRacuni.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvRacuni.Size = new System.Drawing.Size(1050, 205);
             this.dgvRacuni.TabIndex = 2;
+            this.dgvRacuni.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvRacuni_CellClick);
             this.dgvRacuni.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvRacuni_CellContentClick);
             // 
             // BrojRacuna
@@ -802,6 +803,7 @@
             this.btnIzmeni.TabIndex = 22;
             this.btnIzmeni.Text = "Izmeni";
             this.btnIzmeni.UseVisualStyleBackColor = true;
+            this.btnIzmeni.Click += new System.EventHandler(this.btnIzmeni_Click);
             // 
             // btnObrisi
             // 
@@ -816,6 +818,7 @@
             this.btnObrisi.TabIndex = 23;
             this.btnObrisi.Text = "Obriši";
             this.btnObrisi.UseVisualStyleBackColor = true;
+            this.btnObrisi.Click += new System.EventHandler(this.btnObrisi_Click);
             // 
             // btnSacuvaj
             // 

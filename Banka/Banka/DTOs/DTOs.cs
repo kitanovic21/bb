@@ -133,6 +133,50 @@ namespace Banka.DTOs
         public string Integracija { get; set; }
     }
 
+    //DEPOZIT
+
+    public class DepozitPregled 
+    {
+        public int Id { get; set; }
+        public double Iznos { get; set; }
+        public DateTime DatumPocetka { get; set; }
+        public string Valuta { get; set; }
+        public string Status { get; set; }
+        
+        public string ImeNaziv { get; set; }
+
+        public DepozitPregled(
+            int id, double iznos, DateTime datumPocetka,
+            string valuta, string status, string imeNaziv
+            )
+        {
+            Id = id;
+            Iznos = iznos;
+            DatumPocetka = datumPocetka;
+            Valuta = valuta;
+            Status = status;
+            ImeNaziv = imeNaziv;
+        }
+    }
+
+    public class DepozitBasic
+    {
+        public int Id { get; set; }
+        public string KlijentImeNaziv { get; set; }
+        public int KlijentId { get; set; }
+        public string BrojRacuna { get; set; }
+        public double Iznos { get; set; }
+        public string Valuta { get; set; }
+        public double? KamatnaStopa { get; set; }
+        public int? PeriodOrocenja { get; set; }
+        public DateTime DatumPocetka { get; set; }
+        public DateTime? DatumIsteka { get; set; }
+        public string Status { get; set; }
+        public double? OcekivanaKamata { get; set; }
+        public string Komentar { get; set; }
+
+    }
+    //TRANSKACIJE
     public class TransakcijaBasic
     {
         public int KodTransakcije { get; set; }

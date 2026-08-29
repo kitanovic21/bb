@@ -1,5 +1,7 @@
 ﻿using Banka.DTOs;
+using Banka.Entiteti;
 using FluentNHibernate.Conventions.AcceptanceCriteria;
+using NHibernate;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +26,7 @@ namespace Banka.Forme
             cmbTipRacuna.SelectedIndex = 0;
 
             btnNovi.Enabled = false;
+            txtKlijent.Enabled = false;
             //cmbValuta.SelectedIndex = 0;
         }
         public UcRacuni(int? klijentId, string klijentImeNaziv) : this()
@@ -53,25 +56,6 @@ namespace Banka.Forme
 
                 PopulateData(kb);
         }
-        /*private void PopulateInfos()
-        {
-            dgvRacuni.Rows.Clear();
-
-            List<RacunPregled> racuni = DTOManager.GetRacunInfo();
-
-            foreach (RacunPregled rp in racuni)
-            {
-                dgvRacuni.Rows.Add(
-                    rp.BrojRacuna,
-                    rp.TipRacuna ?? "",
-                    rp.StatusRacuna ?? "",
-                    rp.Valuta ?? "",
-                    rp.ImeNaziv ?? ""
-                    );
-            }
-
-            dgvRacuni.Refresh();
-        }*/
         private void PopulateInfos()
         {
             sviRacuni = DTOManager.GetRacunInfo();
@@ -110,7 +94,6 @@ namespace Banka.Forme
                 (selektovaniStatus.Contains("svi") || (r.StatusRacuna != null && UkloniKvacice(r.StatusRacuna).Contains(selektovaniStatus)))
             ).ToList();
 
-            // Osvežavanje DataGridView-a
             dgvRacuni.Rows.Clear();
 
             foreach (RacunPregled rp in filtriraniRacuni)
@@ -130,6 +113,7 @@ namespace Banka.Forme
         {
             if (rb == null) return;
 
+            txtKlijent.Text = rb.Klijent;
             txtBrojRacuna.Text = rb.BrojRacuna ?? "";
             txtValuta.Text = rb.Valuta ?? "";
             txtTrenutnoStanje.Text = rb.TrenutnoStanje.ToString();
@@ -299,6 +283,105 @@ namespace Banka.Forme
             chkEBankarstvo.Checked = false;
 
         }
+        private bool ValidacijaRacuna()
+        {
+            if (string.IsNullOrWhiteSpace(txtBrojRacuna.Text))
+            {
+                MessageBox.Show("Molimo unesite broj računa.", "Validacija", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtBrojRacuna.Focus();
+                return false;
+            }
+
+            if (cmbTipRacuna.SelectedItem == null || string.IsNullOrWhiteSpace(cmbTipRacuna.SelectedItem.ToString()))
+            {
+                MessageBox.Show("Molimo izaberite tip računa.", "Validacija", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cmbTipRacuna.Focus();
+                return false;
+            }
+
+            if (cmbStatusRacuna.SelectedItem == null || string.IsNullOrWhiteSpace(cmbStatusRacuna.SelectedItem.ToString()))
+            {
+                MessageBox.Show("Molimo izaberite status računa.", "Validacija", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cmbStatusRacuna.Focus();
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtValuta.Text))
+            {
+                MessageBox.Show("Molimo unesite valutu računa.", "Validacija", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtValuta.Focus();
+                return false;
+            }
+
+            if (!string.IsNullOrWhiteSpace(txtTrenutnoStanje.Text) && !double.TryParse(txtTrenutnoStanje.Text.Trim(), out _))
+            {
+                MessageBox.Show("Trenutno stanje mora biti ispravan broj.", "Validacija", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtTrenutnoStanje.Focus();
+                return false;
+            }
+
+            if (!string.IsNullOrWhiteSpace(txtKamatnaStopa.Text) && !double.TryParse(txtKamatnaStopa.Text.Trim(), out _))
+            {
+                MessageBox.Show("Kamatna stopa mora biti ispravan broj.", "Validacija", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtKamatnaStopa.Focus();
+                return false;
+            }
+
+            if (!string.IsNullOrWhiteSpace(txtDozvoljeniMinus.Text) && !double.TryParse(txtDozvoljeniMinus.Text.Trim(), out _))
+            {
+                MessageBox.Show("Dozvoljeni minus mora biti ispravan broj.", "Validacija", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtDozvoljeniMinus.Focus();
+                return false;
+            }
+
+            string tip = UkloniKvacice(cmbTipRacuna.SelectedItem.ToString());
+
+            if (tip.Contains("teku"))
+            {
+                if (!string.IsNullOrWhiteSpace(txtMesecniLimit.Text) && !int.TryParse(txtMesecniLimit.Text.Trim(), out _))
+                {
+                    MessageBox.Show("Mesečni limit transakcija mora biti ceo broj.", "Validacija", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtMesecniLimit.Focus();
+                    return false;
+                }
+            }
+            else if (tip.Contains("sted"))
+            {
+                if (string.IsNullOrWhiteSpace(txtMinimalniIznos.Text) || !double.TryParse(txtMinimalniIznos.Text.Trim(), out _))
+                {
+                    MessageBox.Show("Minimalni iznos za otvaranje je obavezan i mora biti validan broj za štedni račun.", "Validacija", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtMinimalniIznos.Focus();
+                    return false;
+                }
+
+                if (!string.IsNullOrWhiteSpace(txtBonusi.Text) && !double.TryParse(txtBonusi.Text.Trim(), out _))
+                {
+                    MessageBox.Show("Bonusi moraju biti ispravan broj.", "Validacija", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtBonusi.Focus();
+                    return false;
+                }
+            }
+            else if (tip.Contains("deviz"))
+            {
+                if (!string.IsNullOrWhiteSpace(txtKursnaRazlika.Text) && !double.TryParse(txtKursnaRazlika.Text.Trim(), out _))
+                {
+                    MessageBox.Show("Kursna razlika mora biti ispravan broj.", "Validacija", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtKursnaRazlika.Focus();
+                    return false;
+                }
+            }
+            else if (tip.Contains("zir"))
+            {
+                if (!string.IsNullOrWhiteSpace(txtLimitMasovnih.Text) && !double.TryParse(txtLimitMasovnih.Text.Trim(), out _))
+                {
+                    MessageBox.Show("Limit masovnih plaćanja mora biti ispravan broj.", "Validacija", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtLimitMasovnih.Focus();
+                    return false;
+                }
+            }
+
+            return true;
+        }
 
         private void btnNovi_Click(object sender, EventArgs e)
         {
@@ -315,6 +398,7 @@ namespace Banka.Forme
 
             txtBrojRacuna.Focus();
         }
+
 
         private void btnOdustani_Click(object sender, EventArgs e)
         {
@@ -349,13 +433,10 @@ namespace Banka.Forme
                 return;
             }
 
-            RacunBasic rb = ProcitajPodatkeSaForme();
-
-            if (string.IsNullOrWhiteSpace(rb.BrojRacuna))
-            {
-                MessageBox.Show("Molimo vas unesite broj računa.", "Upozorenje", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            if (!ValidacijaRacuna())
                 return;
-            }
+
+            RacunBasic rb = ProcitajPodatkeSaForme();
 
             bool uspesno = await DTOManager.AddRacun(rb, prosledjeniKlijentId.Value);
 
@@ -394,6 +475,88 @@ namespace Banka.Forme
             else if (izabraniTip.Contains("zir") || izabraniTip.Contains("žir"))
             {
                 tabTipRacuna.SelectedIndex = 3;
+            }
+        }
+        private async void btnIzmeni_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(selektovaniRacun))
+            {
+                MessageBox.Show(
+                    "Prvo izaberite racun iz tabele.",
+                    "Racun klijenta",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
+
+                return;
+            }
+            if (!ValidacijaRacuna())
+                return;
+
+            RacunBasic rb = ProcitajPodatkeSaForme();
+
+            bool uspesno = await DTOManager.UpdateRacunBasic(rb);
+
+            if (uspesno)
+            {
+                MessageBox.Show(
+                    "Podaci o računu su uspešno izmenjeni.",
+                    "Uspešna izmena",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
+
+                PopulateInfos();
+
+                RacunBasic osvezenaForma = await DTOManager.GetRacunBasic(selektovaniRacun);
+                PopulateData(osvezenaForma);
+            }
+
+        }
+
+        private async void dgvRacuni_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0)
+                return;
+
+            object vrednostId = dgvRacuni.Rows[e.RowIndex].Cells[0].Value;
+            if (vrednostId == null)
+                return;
+
+            selektovaniRacun = vrednostId.ToString();
+
+            cmbTipRacuna.Enabled = false;
+
+            RacunBasic kb = await DTOManager.GetRacunBasic(selektovaniRacun);
+
+            PopulateData(kb);
+        }
+
+        private async void btnObrisi_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(selektovaniRacun))
+            {
+                MessageBox.Show("Prvo izaberite račun iz tabele.", "Obaveštenje", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            DialogResult result = MessageBox.Show(
+                $"Da li ste sigurni da želite da obrišete račun sa brojem {selektovaniRacun}?",
+                "Potvrda brisanja",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );
+
+            if (result == DialogResult.Yes)
+            {
+                bool uspesno = await DTOManager.DeleteRacun(selektovaniRacun);
+
+                if (uspesno)
+                {
+                    MessageBox.Show("Račun je uspešno obrisan.", "Uspeh", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    PopulateInfos();
+                    OcistiFormu();
+                }
             }
         }
     }

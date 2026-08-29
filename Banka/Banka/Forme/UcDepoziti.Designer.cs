@@ -49,6 +49,12 @@
             this.btnObrisi = new System.Windows.Forms.Button();
             this.btnSacuvaj = new System.Windows.Forms.Button();
             this.btnOdustani = new System.Windows.Forms.Button();
+            this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Klijent = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Iznos = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DatumPocetka = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Valuta = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panelFilter.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDepoziti)).BeginInit();
             this.grpPodaci.SuspendLayout();
@@ -61,7 +67,7 @@
             this.lblNaslov.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(72)))), ((int)(((byte)(106)))));
             this.lblNaslov.Location = new System.Drawing.Point(25, 18);
             this.lblNaslov.Name = "lblNaslov";
-            this.lblNaslov.Size = new System.Drawing.Size(177, 47);
+            this.lblNaslov.Size = new System.Drawing.Size(157, 42);
             this.lblNaslov.TabIndex = 0;
             this.lblNaslov.Text = "DEPOZITI";
             // 
@@ -84,7 +90,7 @@
             this.lblFilter1.AutoSize = true;
             this.lblFilter1.Location = new System.Drawing.Point(14, 18);
             this.lblFilter1.Name = "lblFilter1";
-            this.lblFilter1.Size = new System.Drawing.Size(57, 23);
+            this.lblFilter1.Size = new System.Drawing.Size(51, 20);
             this.lblFilter1.TabIndex = 0;
             this.lblFilter1.Text = "Klijent";
             // 
@@ -94,7 +100,7 @@
             this.cmbKlijentFilter.FormattingEnabled = true;
             this.cmbKlijentFilter.Location = new System.Drawing.Point(88, 14);
             this.cmbKlijentFilter.Name = "cmbKlijentFilter";
-            this.cmbKlijentFilter.Size = new System.Drawing.Size(180, 31);
+            this.cmbKlijentFilter.Size = new System.Drawing.Size(180, 28);
             this.cmbKlijentFilter.TabIndex = 1;
             // 
             // lblFilter2
@@ -102,7 +108,7 @@
             this.lblFilter2.AutoSize = true;
             this.lblFilter2.Location = new System.Drawing.Point(294, 18);
             this.lblFilter2.Name = "lblFilter2";
-            this.lblFilter2.Size = new System.Drawing.Size(56, 23);
+            this.lblFilter2.Size = new System.Drawing.Size(49, 20);
             this.lblFilter2.TabIndex = 2;
             this.lblFilter2.Text = "Status";
             // 
@@ -117,7 +123,7 @@
             "Zatvoren"});
             this.cmbStatusFilter.Location = new System.Drawing.Point(364, 14);
             this.cmbStatusFilter.Name = "cmbStatusFilter";
-            this.cmbStatusFilter.Size = new System.Drawing.Size(160, 31);
+            this.cmbStatusFilter.Size = new System.Drawing.Size(160, 28);
             this.cmbStatusFilter.TabIndex = 3;
             // 
             // dgvDepoziti
@@ -129,6 +135,13 @@
             this.dgvDepoziti.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvDepoziti.BackgroundColor = System.Drawing.Color.White;
             this.dgvDepoziti.ColumnHeadersHeight = 32;
+            this.dgvDepoziti.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.ID,
+            this.Klijent,
+            this.Iznos,
+            this.DatumPocetka,
+            this.Valuta,
+            this.Status});
             this.dgvDepoziti.Location = new System.Drawing.Point(25, 135);
             this.dgvDepoziti.Name = "dgvDepoziti";
             this.dgvDepoziti.ReadOnly = true;
@@ -184,7 +197,7 @@
             this.lblC0_0.AutoSize = true;
             this.lblC0_0.Location = new System.Drawing.Point(20, 38);
             this.lblC0_0.Name = "lblC0_0";
-            this.lblC0_0.Size = new System.Drawing.Size(27, 23);
+            this.lblC0_0.Size = new System.Drawing.Size(24, 20);
             this.lblC0_0.TabIndex = 0;
             this.lblC0_0.Text = "ID";
             // 
@@ -192,7 +205,7 @@
             // 
             this.txtId.Location = new System.Drawing.Point(160, 34);
             this.txtId.Name = "txtId";
-            this.txtId.Size = new System.Drawing.Size(165, 30);
+            this.txtId.Size = new System.Drawing.Size(165, 27);
             this.txtId.TabIndex = 1;
             // 
             // lblC0_1
@@ -200,7 +213,7 @@
             this.lblC0_1.AutoSize = true;
             this.lblC0_1.Location = new System.Drawing.Point(20, 74);
             this.lblC0_1.Name = "lblC0_1";
-            this.lblC0_1.Size = new System.Drawing.Size(57, 23);
+            this.lblC0_1.Size = new System.Drawing.Size(51, 20);
             this.lblC0_1.TabIndex = 2;
             this.lblC0_1.Text = "Klijent";
             // 
@@ -210,7 +223,7 @@
             this.cmbKlijent.FormattingEnabled = true;
             this.cmbKlijent.Location = new System.Drawing.Point(160, 70);
             this.cmbKlijent.Name = "cmbKlijent";
-            this.cmbKlijent.Size = new System.Drawing.Size(165, 31);
+            this.cmbKlijent.Size = new System.Drawing.Size(165, 28);
             this.cmbKlijent.TabIndex = 3;
             // 
             // lblC0_2
@@ -218,7 +231,7 @@
             this.lblC0_2.AutoSize = true;
             this.lblC0_2.Location = new System.Drawing.Point(20, 110);
             this.lblC0_2.Name = "lblC0_2";
-            this.lblC0_2.Size = new System.Drawing.Size(57, 23);
+            this.lblC0_2.Size = new System.Drawing.Size(49, 20);
             this.lblC0_2.TabIndex = 4;
             this.lblC0_2.Text = "Račun";
             // 
@@ -228,7 +241,7 @@
             this.cmbRacun.FormattingEnabled = true;
             this.cmbRacun.Location = new System.Drawing.Point(160, 106);
             this.cmbRacun.Name = "cmbRacun";
-            this.cmbRacun.Size = new System.Drawing.Size(165, 31);
+            this.cmbRacun.Size = new System.Drawing.Size(165, 28);
             this.cmbRacun.TabIndex = 5;
             // 
             // lblC0_3
@@ -236,7 +249,7 @@
             this.lblC0_3.AutoSize = true;
             this.lblC0_3.Location = new System.Drawing.Point(20, 146);
             this.lblC0_3.Name = "lblC0_3";
-            this.lblC0_3.Size = new System.Drawing.Size(50, 23);
+            this.lblC0_3.Size = new System.Drawing.Size(43, 20);
             this.lblC0_3.TabIndex = 6;
             this.lblC0_3.Text = "Iznos";
             // 
@@ -244,7 +257,7 @@
             // 
             this.txtIznos.Location = new System.Drawing.Point(160, 142);
             this.txtIznos.Name = "txtIznos";
-            this.txtIznos.Size = new System.Drawing.Size(165, 30);
+            this.txtIznos.Size = new System.Drawing.Size(165, 27);
             this.txtIznos.TabIndex = 7;
             // 
             // lblC0_4
@@ -252,7 +265,7 @@
             this.lblC0_4.AutoSize = true;
             this.lblC0_4.Location = new System.Drawing.Point(20, 182);
             this.lblC0_4.Name = "lblC0_4";
-            this.lblC0_4.Size = new System.Drawing.Size(58, 23);
+            this.lblC0_4.Size = new System.Drawing.Size(50, 20);
             this.lblC0_4.TabIndex = 8;
             this.lblC0_4.Text = "Valuta";
             // 
@@ -267,7 +280,7 @@
             "CHF"});
             this.cmbValuta.Location = new System.Drawing.Point(160, 178);
             this.cmbValuta.Name = "cmbValuta";
-            this.cmbValuta.Size = new System.Drawing.Size(165, 31);
+            this.cmbValuta.Size = new System.Drawing.Size(165, 28);
             this.cmbValuta.TabIndex = 9;
             // 
             // lblC1_0
@@ -275,7 +288,7 @@
             this.lblC1_0.AutoSize = true;
             this.lblC1_0.Location = new System.Drawing.Point(355, 38);
             this.lblC1_0.Name = "lblC1_0";
-            this.lblC1_0.Size = new System.Drawing.Size(125, 23);
+            this.lblC1_0.Size = new System.Drawing.Size(109, 20);
             this.lblC1_0.TabIndex = 10;
             this.lblC1_0.Text = "Kamatna stopa";
             // 
@@ -283,7 +296,7 @@
             // 
             this.txtKamatnaStopa.Location = new System.Drawing.Point(500, 34);
             this.txtKamatnaStopa.Name = "txtKamatnaStopa";
-            this.txtKamatnaStopa.Size = new System.Drawing.Size(155, 30);
+            this.txtKamatnaStopa.Size = new System.Drawing.Size(155, 27);
             this.txtKamatnaStopa.TabIndex = 11;
             // 
             // lblC1_1
@@ -291,7 +304,7 @@
             this.lblC1_1.AutoSize = true;
             this.lblC1_1.Location = new System.Drawing.Point(355, 74);
             this.lblC1_1.Name = "lblC1_1";
-            this.lblC1_1.Size = new System.Drawing.Size(129, 23);
+            this.lblC1_1.Size = new System.Drawing.Size(113, 20);
             this.lblC1_1.TabIndex = 12;
             this.lblC1_1.Text = "Period oročenja";
             // 
@@ -299,7 +312,7 @@
             // 
             this.txtPeriodOrocenja.Location = new System.Drawing.Point(500, 70);
             this.txtPeriodOrocenja.Name = "txtPeriodOrocenja";
-            this.txtPeriodOrocenja.Size = new System.Drawing.Size(155, 30);
+            this.txtPeriodOrocenja.Size = new System.Drawing.Size(155, 27);
             this.txtPeriodOrocenja.TabIndex = 13;
             // 
             // lblC1_2
@@ -307,7 +320,7 @@
             this.lblC1_2.AutoSize = true;
             this.lblC1_2.Location = new System.Drawing.Point(355, 110);
             this.lblC1_2.Name = "lblC1_2";
-            this.lblC1_2.Size = new System.Drawing.Size(127, 23);
+            this.lblC1_2.Size = new System.Drawing.Size(111, 20);
             this.lblC1_2.TabIndex = 14;
             this.lblC1_2.Text = "Datum početka";
             // 
@@ -317,7 +330,7 @@
             this.dtpDatumPocetka.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dtpDatumPocetka.Location = new System.Drawing.Point(500, 106);
             this.dtpDatumPocetka.Name = "dtpDatumPocetka";
-            this.dtpDatumPocetka.Size = new System.Drawing.Size(155, 30);
+            this.dtpDatumPocetka.Size = new System.Drawing.Size(155, 27);
             this.dtpDatumPocetka.TabIndex = 15;
             // 
             // lblC1_3
@@ -325,7 +338,7 @@
             this.lblC1_3.AutoSize = true;
             this.lblC1_3.Location = new System.Drawing.Point(355, 146);
             this.lblC1_3.Name = "lblC1_3";
-            this.lblC1_3.Size = new System.Drawing.Size(110, 23);
+            this.lblC1_3.Size = new System.Drawing.Size(96, 20);
             this.lblC1_3.TabIndex = 16;
             this.lblC1_3.Text = "Datum isteka";
             // 
@@ -335,7 +348,7 @@
             this.dtpDatumIsteka.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dtpDatumIsteka.Location = new System.Drawing.Point(500, 142);
             this.dtpDatumIsteka.Name = "dtpDatumIsteka";
-            this.dtpDatumIsteka.Size = new System.Drawing.Size(155, 30);
+            this.dtpDatumIsteka.Size = new System.Drawing.Size(155, 27);
             this.dtpDatumIsteka.TabIndex = 17;
             // 
             // lblC2_0
@@ -343,7 +356,7 @@
             this.lblC2_0.AutoSize = true;
             this.lblC2_0.Location = new System.Drawing.Point(690, 38);
             this.lblC2_0.Name = "lblC2_0";
-            this.lblC2_0.Size = new System.Drawing.Size(56, 23);
+            this.lblC2_0.Size = new System.Drawing.Size(49, 20);
             this.lblC2_0.TabIndex = 18;
             this.lblC2_0.Text = "Status";
             // 
@@ -357,7 +370,7 @@
             "Zatvoren"});
             this.cmbStatus.Location = new System.Drawing.Point(850, 34);
             this.cmbStatus.Name = "cmbStatus";
-            this.cmbStatus.Size = new System.Drawing.Size(155, 31);
+            this.cmbStatus.Size = new System.Drawing.Size(155, 28);
             this.cmbStatus.TabIndex = 19;
             // 
             // lblC2_1
@@ -365,7 +378,7 @@
             this.lblC2_1.AutoSize = true;
             this.lblC2_1.Location = new System.Drawing.Point(690, 74);
             this.lblC2_1.Name = "lblC2_1";
-            this.lblC2_1.Size = new System.Drawing.Size(149, 23);
+            this.lblC2_1.Size = new System.Drawing.Size(130, 20);
             this.lblC2_1.TabIndex = 20;
             this.lblC2_1.Text = "Očekivana kamata";
             // 
@@ -373,7 +386,7 @@
             // 
             this.txtOcekivanaKamata.Location = new System.Drawing.Point(850, 70);
             this.txtOcekivanaKamata.Name = "txtOcekivanaKamata";
-            this.txtOcekivanaKamata.Size = new System.Drawing.Size(155, 30);
+            this.txtOcekivanaKamata.Size = new System.Drawing.Size(155, 27);
             this.txtOcekivanaKamata.TabIndex = 21;
             // 
             // lblC2_2
@@ -381,7 +394,7 @@
             this.lblC2_2.AutoSize = true;
             this.lblC2_2.Location = new System.Drawing.Point(690, 110);
             this.lblC2_2.Name = "lblC2_2";
-            this.lblC2_2.Size = new System.Drawing.Size(85, 23);
+            this.lblC2_2.Size = new System.Drawing.Size(74, 20);
             this.lblC2_2.TabIndex = 22;
             this.lblC2_2.Text = "Komentar";
             // 
@@ -461,6 +474,48 @@
             this.btnOdustani.Text = "Odustani";
             this.btnOdustani.UseVisualStyleBackColor = true;
             // 
+            // ID
+            // 
+            this.ID.HeaderText = "ID";
+            this.ID.MinimumWidth = 6;
+            this.ID.Name = "ID";
+            this.ID.ReadOnly = true;
+            // 
+            // Klijent
+            // 
+            this.Klijent.HeaderText = "Klijent";
+            this.Klijent.MinimumWidth = 6;
+            this.Klijent.Name = "Klijent";
+            this.Klijent.ReadOnly = true;
+            // 
+            // Iznos
+            // 
+            this.Iznos.HeaderText = "Iznos";
+            this.Iznos.MinimumWidth = 6;
+            this.Iznos.Name = "Iznos";
+            this.Iznos.ReadOnly = true;
+            // 
+            // DatumPocetka
+            // 
+            this.DatumPocetka.HeaderText = "Datum pocetka";
+            this.DatumPocetka.MinimumWidth = 6;
+            this.DatumPocetka.Name = "DatumPocetka";
+            this.DatumPocetka.ReadOnly = true;
+            // 
+            // Valuta
+            // 
+            this.Valuta.HeaderText = "Valuta";
+            this.Valuta.MinimumWidth = 6;
+            this.Valuta.Name = "Valuta";
+            this.Valuta.ReadOnly = true;
+            // 
+            // Status
+            // 
+            this.Status.HeaderText = "Status";
+            this.Status.MinimumWidth = 6;
+            this.Status.Name = "Status";
+            this.Status.ReadOnly = true;
+            // 
             // UcDepoziti
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -519,5 +574,11 @@
         private System.Windows.Forms.Button btnObrisi;
         private System.Windows.Forms.Button btnSacuvaj;
         private System.Windows.Forms.Button btnOdustani;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Klijent;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Iznos;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DatumPocetka;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Valuta;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Status;
     }
 }

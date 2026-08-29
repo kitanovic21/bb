@@ -385,6 +385,8 @@ namespace Banka
             }
         }
 
+        //                  RACUN
+
         public static List<RacunPregled> GetRacunInfo()
         {
             List<RacunPregled> racunInfo = new List<RacunPregled>();
@@ -590,6 +592,133 @@ namespace Banka
                 racun.PredmetObracuna = po;
                 
                 await session.SaveAsync(racun);
+                await transaction.CommitAsync();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                if (transaction != null && transaction.IsActive)
+                    await transaction.RollbackAsync();
+
+                MessageBox.Show(
+                    ex.GetBaseException().Message,
+                    "Greška",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+
+                return false;
+            }
+            finally
+            {
+                if (session != null)
+                    session.Close();
+            }
+        }
+
+        public static async Task<bool> UpdateRacunBasic(RacunBasic rb)
+        {
+            ISession session = null;
+            ITransaction transaction = null;
+
+            try
+            {
+                session = DataLayer.GetSession();
+
+                if (session == null || rb == null || string.IsNullOrWhiteSpace(rb.BrojRacuna))
+                    return false;
+
+                transaction = session.BeginTransaction();
+
+                Racun r = await session.GetAsync<Racun>(rb.BrojRacuna);
+                if (r == null)
+                    return false;
+
+                r.TipRacuna = rb.TipRacuna;
+                r.StatusRacuna = rb.StatusRacuna;
+                r.DozvoljeniMinus = rb.DozvoljeniMinus;
+                r.TrenutnoStanje = rb.TrenutnoStanje;
+                r.Valuta = rb.Valuta;
+                r.Komentar = rb.Komentar;
+                r.DatumOtvaranja = rb.DatumOtvaranja;
+                r.KamatnaStopa = rb.KamatnaStopa;
+
+                if (r is TekuciRacun tekuci)
+                {
+                    tekuci.MogucnostPlatnihKartica = rb.MogucnostPlatnihKartica;
+                    tekuci.MesecniLimitTransakcija = rb.MesecniLimitTransakcija;
+                }
+                else if (r is StedniRacun stedni)
+                {
+                    stedni.MinimalniIznosZaOtvaranje = rb.MinimalniIznosZaOtvaranje;
+                    stedni.UsloviPodizanjaSredstava = rb.UsloviPodizanjaSredstava;
+                    stedni.Frekvencija = rb.Frekvencija;
+                    stedni.BonusiZaDugorocnuStednju = rb.BonusiZaDugorocnuStednju;
+                }
+                else if (r is DevizniRacun devizni)
+                {
+                    devizni.Namena = rb.NamenaDevizni;
+                    devizni.OgranicenjaDeviznihPropisa = rb.OgranicenjaDeviznihPropisa;
+                    devizni.KursnaRazlikaKonverzije = rb.KursnaRazlikaKonverzije;
+                }
+                else if (r is ZiroRacun ziro)
+                {
+                    ziro.Namena = rb.NamenaZiro;
+                    ziro.EBankarstvoZaFirme = rb.EBankarstvoZaFirme;
+                    ziro.LimitMasovnihPlacanja = rb.LimitMasovnihPlacanja;
+                    ziro.Integracija = rb.Integracija;
+                }
+
+                await session.UpdateAsync(r);
+                await session.FlushAsync();
+
+                await transaction.CommitAsync();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                if (transaction != null && transaction.IsActive)
+                    await transaction.RollbackAsync();
+
+                MessageBox.Show(
+                    ex.GetBaseException().Message,
+                    "Greška",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+
+                return false;
+            }
+            finally
+            {
+                if (session != null)
+                    session.Close();
+            }
+        }
+
+        public static async Task<bool> DeleteRacun(string brojRacuna)
+        {
+            ISession session = null;
+            ITransaction transaction = null;
+
+            try
+            {
+                session = DataLayer.GetSession();
+
+                if (session == null || string.IsNullOrWhiteSpace(brojRacuna))
+                    return false;
+
+                transaction = session.BeginTransaction();
+
+                Racun r = await session.GetAsync<Racun>(brojRacuna);
+
+                if (r == null)
+                    return false;
+
+                await session.DeleteAsync(r);
+
                 await transaction.CommitAsync();
 
                 return true;
@@ -1661,6 +1790,129 @@ namespace Banka
                     session.Close();
             }
         }
+
+        public static async Task<List<DepozitPregled>> GetDepozitInfos()
+        {
+            List<DepozitPregled> depozitInfos = new List<DepozitPregled>();
+            ISession session = null;
+
+            try
+            {
+                session = DataLayer.GetSession();
+
+                if (session != null)
+                {
+                    IEnumerable<Depozit> depoziti =
+                        from d in session.Query<Depozit>()
+                        select d;
+
+                    foreach (Depozit d in depoziti)
+                    {
+                        string imeNaziv = "";
+
+                        if (d.Klijent != null)
+                        {
+                            if (d.Klijent is FizickoLice)
+                            {
+                                FizickoLice f = (FizickoLice)d.Klijent;
+                                imeNaziv = f.Ime + " " + f.Prezime;
+                            }
+                            else if (d.Klijent is PravnoLice)
+                            {
+                                PravnoLice p = (PravnoLice)d.Klijent;
+                                imeNaziv = p.NazivFirme;
+                            }
+                        }
+
+                        depozitInfos.Add(
+                            new DepozitPregled(
+                                d.Id,
+                                d.Iznos,
+                                d.DatumPocetka,
+                                d.Valuta,
+                                d.Status,
+                                imeNaziv
+                            )
+                        );
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                if (session != null)
+                    session.Close();
+            }
+
+            return depozitInfos;
+        }
+
+        public static async Task<DepozitBasic> GetDepozitBasic(int idDepozita)
+        {
+            DepozitBasic db = new DepozitBasic();
+            ISession session = null;
+
+            try
+            {
+                session = DataLayer.GetSession();
+
+                if (session != null)
+                {
+                    Depozit d = await session.GetAsync<Depozit>(idDepozita);
+
+                    if (d != null)
+                    {
+                        db.Id = d.Id;
+                        db.Iznos = d.Iznos;
+                        db.Valuta = d.Valuta;
+                        db.KamatnaStopa = d.KamatnaStopa;
+                        db.PeriodOrocenja = d.PeriodOrocenja;
+                        db.DatumPocetka = d.DatumPocetka;
+                        db.DatumIsteka = d.DatumIsteka;
+                        db.Status = d.Status;
+                        db.OcekivanaKamata = d.OcekivanaKamata;
+                        db.Komentar = d.Komentar;
+
+                        if (d.Klijent != null)
+                        {
+                            db.KlijentId = d.Klijent.ID;
+
+                            if (d.Klijent is FizickoLice)
+                            {
+                                FizickoLice f = (FizickoLice)d.Klijent;
+                                db.KlijentImeNaziv = f.Ime + " " + f.Prezime;
+                            }
+                            else if (d.Klijent is PravnoLice)
+                            {
+                                PravnoLice p = (PravnoLice)d.Klijent;
+                                db.KlijentImeNaziv = p.NazivFirme;
+                            }
+                        }
+
+                        if (d.Racun != null)
+                        {
+                            db.BrojRacuna = d.Racun.BrojRacuna;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                if (session != null)
+                    session.Close();
+            }
+
+            return db;
+        }
+
+
 
         //KREDIT
 
