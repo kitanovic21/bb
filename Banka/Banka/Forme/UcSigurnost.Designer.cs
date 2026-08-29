@@ -12,7 +12,7 @@
         #region Component Designer generated code
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.lblNaslov = new System.Windows.Forms.Label();
             this.panelFilter = new System.Windows.Forms.Panel();
             this.lblFilter1 = new System.Windows.Forms.Label();
@@ -22,6 +22,14 @@
             this.lblFilter3 = new System.Windows.Forms.Label();
             this.cmbTipFilter = new System.Windows.Forms.ComboBox();
             this.dgvSigurnost = new System.Windows.Forms.DataGridView();
+            this.colId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colKlijent = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colRacun = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colTipDogadjaja = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colDatum = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colVreme = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colIpAdresa = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.grpPodaci = new System.Windows.Forms.GroupBox();
             this.lblC0_0 = new System.Windows.Forms.Label();
             this.txtId = new System.Windows.Forms.TextBox();
@@ -48,14 +56,6 @@
             this.btnObrisi = new System.Windows.Forms.Button();
             this.btnSacuvaj = new System.Windows.Forms.Button();
             this.btnOdustani = new System.Windows.Forms.Button();
-            this.colId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colKlijent = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colRacun = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colTipDogadjaja = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colDatum = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colVreme = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colIpAdresa = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panelFilter.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSigurnost)).BeginInit();
             this.grpPodaci.SuspendLayout();
@@ -99,13 +99,15 @@
             // 
             // cmbKlijentFilter
             // 
-            this.cmbKlijentFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbKlijentFilter.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.cmbKlijentFilter.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cmbKlijentFilter.FormattingEnabled = true;
             this.cmbKlijentFilter.Location = new System.Drawing.Point(88, 14);
             this.cmbKlijentFilter.Name = "cmbKlijentFilter";
             this.cmbKlijentFilter.Size = new System.Drawing.Size(150, 31);
             this.cmbKlijentFilter.TabIndex = 1;
             this.cmbKlijentFilter.SelectedIndexChanged += new System.EventHandler(this.cmbKlijentFilter_SelectedIndexChanged);
+            this.cmbKlijentFilter.TextUpdate += new System.EventHandler(this.cmbKlijentFilter_TextUpdate);
             // 
             // lblFilter2
             // 
@@ -155,14 +157,14 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvSigurnost.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvSigurnost.BackgroundColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(72)))), ((int)(((byte)(106)))));
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvSigurnost.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(72)))), ((int)(((byte)(106)))));
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvSigurnost.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dgvSigurnost.ColumnHeadersHeight = 32;
             this.dgvSigurnost.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colId,
@@ -183,6 +185,72 @@
             this.dgvSigurnost.Size = new System.Drawing.Size(1050, 210);
             this.dgvSigurnost.TabIndex = 2;
             this.dgvSigurnost.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSigurnost_CellClick);
+            // 
+            // colId
+            // 
+            this.colId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.colId.FillWeight = 265.1934F;
+            this.colId.HeaderText = "ID";
+            this.colId.MinimumWidth = 7;
+            this.colId.Name = "colId";
+            this.colId.ReadOnly = true;
+            this.colId.Width = 60;
+            // 
+            // colKlijent
+            // 
+            this.colKlijent.FillWeight = 76.40096F;
+            this.colKlijent.HeaderText = "Klijent";
+            this.colKlijent.MinimumWidth = 7;
+            this.colKlijent.Name = "colKlijent";
+            this.colKlijent.ReadOnly = true;
+            // 
+            // colRacun
+            // 
+            this.colRacun.FillWeight = 76.40096F;
+            this.colRacun.HeaderText = "Račun";
+            this.colRacun.MinimumWidth = 7;
+            this.colRacun.Name = "colRacun";
+            this.colRacun.ReadOnly = true;
+            // 
+            // colTipDogadjaja
+            // 
+            this.colTipDogadjaja.FillWeight = 76.40096F;
+            this.colTipDogadjaja.HeaderText = "Tip događaja";
+            this.colTipDogadjaja.MinimumWidth = 7;
+            this.colTipDogadjaja.Name = "colTipDogadjaja";
+            this.colTipDogadjaja.ReadOnly = true;
+            // 
+            // colDatum
+            // 
+            this.colDatum.FillWeight = 76.40096F;
+            this.colDatum.HeaderText = "Datum";
+            this.colDatum.MinimumWidth = 7;
+            this.colDatum.Name = "colDatum";
+            this.colDatum.ReadOnly = true;
+            // 
+            // colVreme
+            // 
+            this.colVreme.FillWeight = 76.40096F;
+            this.colVreme.HeaderText = "Vreme";
+            this.colVreme.MinimumWidth = 7;
+            this.colVreme.Name = "colVreme";
+            this.colVreme.ReadOnly = true;
+            // 
+            // colIpAdresa
+            // 
+            this.colIpAdresa.FillWeight = 76.40096F;
+            this.colIpAdresa.HeaderText = "IP adresa";
+            this.colIpAdresa.MinimumWidth = 7;
+            this.colIpAdresa.Name = "colIpAdresa";
+            this.colIpAdresa.ReadOnly = true;
+            // 
+            // colStatus
+            // 
+            this.colStatus.FillWeight = 76.40096F;
+            this.colStatus.HeaderText = "Status";
+            this.colStatus.MinimumWidth = 7;
+            this.colStatus.Name = "colStatus";
+            this.colStatus.ReadOnly = true;
             // 
             // grpPodaci
             // 
@@ -483,72 +551,6 @@
             this.btnOdustani.Text = "Odustani";
             this.btnOdustani.UseVisualStyleBackColor = true;
             this.btnOdustani.Click += new System.EventHandler(this.btnOdustani_Click);
-            // 
-            // colId
-            // 
-            this.colId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.colId.FillWeight = 265.1934F;
-            this.colId.HeaderText = "ID";
-            this.colId.MinimumWidth = 7;
-            this.colId.Name = "colId";
-            this.colId.ReadOnly = true;
-            this.colId.Width = 60;
-            // 
-            // colKlijent
-            // 
-            this.colKlijent.FillWeight = 76.40096F;
-            this.colKlijent.HeaderText = "Klijent";
-            this.colKlijent.MinimumWidth = 7;
-            this.colKlijent.Name = "colKlijent";
-            this.colKlijent.ReadOnly = true;
-            // 
-            // colRacun
-            // 
-            this.colRacun.FillWeight = 76.40096F;
-            this.colRacun.HeaderText = "Račun";
-            this.colRacun.MinimumWidth = 7;
-            this.colRacun.Name = "colRacun";
-            this.colRacun.ReadOnly = true;
-            // 
-            // colTipDogadjaja
-            // 
-            this.colTipDogadjaja.FillWeight = 76.40096F;
-            this.colTipDogadjaja.HeaderText = "Tip događaja";
-            this.colTipDogadjaja.MinimumWidth = 7;
-            this.colTipDogadjaja.Name = "colTipDogadjaja";
-            this.colTipDogadjaja.ReadOnly = true;
-            // 
-            // colDatum
-            // 
-            this.colDatum.FillWeight = 76.40096F;
-            this.colDatum.HeaderText = "Datum";
-            this.colDatum.MinimumWidth = 7;
-            this.colDatum.Name = "colDatum";
-            this.colDatum.ReadOnly = true;
-            // 
-            // colVreme
-            // 
-            this.colVreme.FillWeight = 76.40096F;
-            this.colVreme.HeaderText = "Vreme";
-            this.colVreme.MinimumWidth = 7;
-            this.colVreme.Name = "colVreme";
-            this.colVreme.ReadOnly = true;
-            // 
-            // colIpAdresa
-            // 
-            this.colIpAdresa.FillWeight = 76.40096F;
-            this.colIpAdresa.HeaderText = "IP adresa";
-            this.colIpAdresa.MinimumWidth = 7;
-            this.colIpAdresa.Name = "colIpAdresa";
-            this.colIpAdresa.ReadOnly = true;
-            // 
-            // colStatus
-            // 
-            this.colStatus.FillWeight = 76.40096F;
-            this.colStatus.HeaderText = "Status";
-            this.colStatus.MinimumWidth = 7;
-            this.colStatus.Name = "colStatus";
-            this.colStatus.ReadOnly = true;
             // 
             // UcSigurnost
             // 

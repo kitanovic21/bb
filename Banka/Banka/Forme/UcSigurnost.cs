@@ -168,10 +168,10 @@ namespace Banka.Forme
         {
             IEnumerable<SigurnosnaKontrolaPregled> rezultat = sveKontrole;
 
-            int klijentId = Convert.ToInt32(cmbKlijentFilter.SelectedValue);
+            string klijent = cmbKlijentFilter.Text.Trim();
 
-            if (klijentId != 0)
-                rezultat = rezultat.Where(k => k.KlijentId == klijentId);
+            if (!string.IsNullOrEmpty(klijent) && klijent != "Svi")
+                rezultat = rezultat.Where(k => k.KlijentNaziv != null && k.KlijentNaziv.IndexOf(klijent, StringComparison.OrdinalIgnoreCase) >= 0);
 
             string brojRacuna = cmbRacunFilter.SelectedValue?.ToString();
 
@@ -375,6 +375,11 @@ namespace Banka.Forme
         }
 
         private void cmbTipFilter_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            PrimeniFiltere();
+        }
+
+        private void cmbKlijentFilter_TextUpdate(object sender, EventArgs e)
         {
             PrimeniFiltere();
         }

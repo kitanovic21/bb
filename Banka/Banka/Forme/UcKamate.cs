@@ -9,6 +9,7 @@ namespace Banka.Forme
     public partial class UcKamate : UserControl
     {
         private List<KamataPregled> sveKamate = new List<KamataPregled>();
+        private List<PredmetObracunaOpcija> sviKonkretniPredmeti = new List<PredmetObracunaOpcija>();
         private int? selektovanaKamataId = null;
 
         public UcKamate()
@@ -110,11 +111,11 @@ namespace Banka.Forme
                 return;
 
             string tip = cmbPredmet.SelectedItem.ToString();
-            List<PredmetObracunaOpcija> predmeti = DTOManager.GetPredmetiObracuna(tip);
+            sviKonkretniPredmeti = DTOManager.GetPredmetiObracuna(tip);
 
             cmbKonkretanPredmet.DisplayMember = "Prikaz";
             cmbKonkretanPredmet.ValueMember = "PredmetObracunaId";
-            cmbKonkretanPredmet.DataSource = predmeti;
+            cmbKonkretanPredmet.DataSource = sviKonkretniPredmeti;
         }
 
         private void cmbPredmet_SelectedIndexChanged(object sender, EventArgs e)
@@ -317,6 +318,23 @@ namespace Banka.Forme
         private void cmbStatusFilter_SelectedIndexChanged(object sender, EventArgs e)
         {
             PrimeniFiltere();
+        }
+
+        private void cmbKonkretanPredmet_TextUpdate(object sender, EventArgs e)
+        {
+            string tekst = cmbKonkretanPredmet.Text.Trim();
+
+            List<PredmetObracunaOpcija> rezultat = sviKonkretniPredmeti
+                .Where(p => p.Prikaz != null && p.Prikaz.IndexOf(tekst, StringComparison.OrdinalIgnoreCase) >= 0)
+                .ToList();
+
+            cmbKonkretanPredmet.DataSource = rezultat;
+            cmbKonkretanPredmet.DisplayMember = "Prikaz";
+            cmbKonkretanPredmet.ValueMember = "PredmetObracunaId";
+
+            cmbKonkretanPredmet.Text = tekst;
+            cmbKonkretanPredmet.SelectionStart = tekst.Length;
+            cmbKonkretanPredmet.DroppedDown = true;
         }
     }
 }

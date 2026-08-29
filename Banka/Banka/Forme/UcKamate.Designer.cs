@@ -19,6 +19,14 @@
             this.lblFilter2 = new System.Windows.Forms.Label();
             this.cmbStatusFilter = new System.Windows.Forms.ComboBox();
             this.dgvKamate = new System.Windows.Forms.DataGridView();
+            this.colId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPredmet = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colKonkretanPredmet = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colTipKamate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colIznos = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPeriod = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colDatum = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.grpPodaci = new System.Windows.Forms.GroupBox();
             this.lblC0_0 = new System.Windows.Forms.Label();
             this.txtId = new System.Windows.Forms.TextBox();
@@ -41,14 +49,6 @@
             this.btnObrisi = new System.Windows.Forms.Button();
             this.btnSacuvaj = new System.Windows.Forms.Button();
             this.btnOdustani = new System.Windows.Forms.Button();
-            this.colId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colPredmet = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colKonkretanPredmet = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colTipKamate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colIznos = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colPeriod = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colDatum = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panelFilter.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvKamate)).BeginInit();
             this.grpPodaci.SuspendLayout();
@@ -157,6 +157,72 @@
             this.dgvKamate.TabIndex = 2;
             this.dgvKamate.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvKamate_CellClick);
             // 
+            // colId
+            // 
+            this.colId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.colId.FillWeight = 265.1934F;
+            this.colId.HeaderText = "ID";
+            this.colId.MinimumWidth = 7;
+            this.colId.Name = "colId";
+            this.colId.ReadOnly = true;
+            this.colId.Width = 60;
+            // 
+            // colPredmet
+            // 
+            this.colPredmet.FillWeight = 76.40095F;
+            this.colPredmet.HeaderText = "Predmet";
+            this.colPredmet.MinimumWidth = 7;
+            this.colPredmet.Name = "colPredmet";
+            this.colPredmet.ReadOnly = true;
+            // 
+            // colKonkretanPredmet
+            // 
+            this.colKonkretanPredmet.FillWeight = 76.40095F;
+            this.colKonkretanPredmet.HeaderText = "Konkretan predmet";
+            this.colKonkretanPredmet.MinimumWidth = 7;
+            this.colKonkretanPredmet.Name = "colKonkretanPredmet";
+            this.colKonkretanPredmet.ReadOnly = true;
+            // 
+            // colTipKamate
+            // 
+            this.colTipKamate.FillWeight = 76.40095F;
+            this.colTipKamate.HeaderText = "Tip kamate";
+            this.colTipKamate.MinimumWidth = 7;
+            this.colTipKamate.Name = "colTipKamate";
+            this.colTipKamate.ReadOnly = true;
+            // 
+            // colIznos
+            // 
+            this.colIznos.FillWeight = 76.40095F;
+            this.colIznos.HeaderText = "Iznos kamate";
+            this.colIznos.MinimumWidth = 7;
+            this.colIznos.Name = "colIznos";
+            this.colIznos.ReadOnly = true;
+            // 
+            // colPeriod
+            // 
+            this.colPeriod.FillWeight = 76.40095F;
+            this.colPeriod.HeaderText = "Period obračuna";
+            this.colPeriod.MinimumWidth = 7;
+            this.colPeriod.Name = "colPeriod";
+            this.colPeriod.ReadOnly = true;
+            // 
+            // colDatum
+            // 
+            this.colDatum.FillWeight = 76.40095F;
+            this.colDatum.HeaderText = "Datum obračuna";
+            this.colDatum.MinimumWidth = 7;
+            this.colDatum.Name = "colDatum";
+            this.colDatum.ReadOnly = true;
+            // 
+            // colStatus
+            // 
+            this.colStatus.FillWeight = 76.40095F;
+            this.colStatus.HeaderText = "Status";
+            this.colStatus.MinimumWidth = 7;
+            this.colStatus.Name = "colStatus";
+            this.colStatus.ReadOnly = true;
+            // 
             // grpPodaci
             // 
             this.grpPodaci.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -241,12 +307,14 @@
             // 
             // cmbKonkretanPredmet
             // 
-            this.cmbKonkretanPredmet.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbKonkretanPredmet.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.cmbKonkretanPredmet.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cmbKonkretanPredmet.FormattingEnabled = true;
             this.cmbKonkretanPredmet.Location = new System.Drawing.Point(180, 106);
             this.cmbKonkretanPredmet.Name = "cmbKonkretanPredmet";
             this.cmbKonkretanPredmet.Size = new System.Drawing.Size(165, 31);
             this.cmbKonkretanPredmet.TabIndex = 5;
+            this.cmbKonkretanPredmet.TextUpdate += new System.EventHandler(this.cmbKonkretanPredmet_TextUpdate);
             // 
             // lblC1_0
             // 
@@ -422,72 +490,6 @@
             this.btnOdustani.Text = "Odustani";
             this.btnOdustani.UseVisualStyleBackColor = true;
             this.btnOdustani.Click += new System.EventHandler(this.btnOdustani_Click);
-            // 
-            // colId
-            // 
-            this.colId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.colId.FillWeight = 265.1934F;
-            this.colId.HeaderText = "ID";
-            this.colId.MinimumWidth = 7;
-            this.colId.Name = "colId";
-            this.colId.ReadOnly = true;
-            this.colId.Width = 60;
-            // 
-            // colPredmet
-            // 
-            this.colPredmet.FillWeight = 76.40095F;
-            this.colPredmet.HeaderText = "Predmet";
-            this.colPredmet.MinimumWidth = 7;
-            this.colPredmet.Name = "colPredmet";
-            this.colPredmet.ReadOnly = true;
-            // 
-            // colKonkretanPredmet
-            // 
-            this.colKonkretanPredmet.FillWeight = 76.40095F;
-            this.colKonkretanPredmet.HeaderText = "Konkretan predmet";
-            this.colKonkretanPredmet.MinimumWidth = 7;
-            this.colKonkretanPredmet.Name = "colKonkretanPredmet";
-            this.colKonkretanPredmet.ReadOnly = true;
-            // 
-            // colTipKamate
-            // 
-            this.colTipKamate.FillWeight = 76.40095F;
-            this.colTipKamate.HeaderText = "Tip kamate";
-            this.colTipKamate.MinimumWidth = 7;
-            this.colTipKamate.Name = "colTipKamate";
-            this.colTipKamate.ReadOnly = true;
-            // 
-            // colIznos
-            // 
-            this.colIznos.FillWeight = 76.40095F;
-            this.colIznos.HeaderText = "Iznos kamate";
-            this.colIznos.MinimumWidth = 7;
-            this.colIznos.Name = "colIznos";
-            this.colIznos.ReadOnly = true;
-            // 
-            // colPeriod
-            // 
-            this.colPeriod.FillWeight = 76.40095F;
-            this.colPeriod.HeaderText = "Period obračuna";
-            this.colPeriod.MinimumWidth = 7;
-            this.colPeriod.Name = "colPeriod";
-            this.colPeriod.ReadOnly = true;
-            // 
-            // colDatum
-            // 
-            this.colDatum.FillWeight = 76.40095F;
-            this.colDatum.HeaderText = "Datum obračuna";
-            this.colDatum.MinimumWidth = 7;
-            this.colDatum.Name = "colDatum";
-            this.colDatum.ReadOnly = true;
-            // 
-            // colStatus
-            // 
-            this.colStatus.FillWeight = 76.40095F;
-            this.colStatus.HeaderText = "Status";
-            this.colStatus.MinimumWidth = 7;
-            this.colStatus.Name = "colStatus";
-            this.colStatus.ReadOnly = true;
             // 
             // UcKamate
             // 
