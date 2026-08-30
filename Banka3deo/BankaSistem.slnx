@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="BankaLibrary/BankaLibrary.csproj" />
+  <Project Path="WebApi/WebApi.csproj" />
+</Solution>
