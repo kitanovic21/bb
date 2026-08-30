@@ -2214,5 +2214,68 @@ namespace Banka
                     session.Close();
             }
         }
+        public static async Task<bool> DeleteKredit(int idKredita)
+        {
+            ISession session = null;
+            ITransaction transaction = null;
+
+            try
+            {
+                session = DataLayer.GetSession();
+                if (session == null)
+                    return false;
+
+                transaction = session.BeginTransaction();
+
+                Kredit kredit = await session.GetAsync<Kredit>(idKredita);
+
+                if (kredit == null)
+                {
+                    MessageBox.Show("Izabrani kredit ne postoji u bazi.",
+                                    "Upozorenje", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
+
+                var predmetObracuna = kredit.PredmetObracuna;
+
+                if (predmetObracuna != null)
+                {
+                    int predmetId = predmetObracuna.ID;
+                    Kamata kamata = await session.Query<Kamata>()
+                                                 .FirstOrDefaultAsync(k => k.PredmetObracuna.ID == predmetId);
+
+                    if (kamata != null)
+                        await session.DeleteAsync(kamata);
+
+                    await session.DeleteAsync(kredit);
+                    await session.DeleteAsync(predmetObracuna);
+                }
+                else // ako nema predmetObracuna onda nema ni vezanu kamatu pa brisem samo kredit
+                    await session.DeleteAsync(kredit);
+
+                await transaction.CommitAsync();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                if (transaction != null && transaction.IsActive)
+                    await transaction.RollbackAsync();
+
+                MessageBox.Show(
+                    ex.GetBaseException().Message,
+                    "Greška pri brisanju kredita",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+
+                return false;
+            }
+            finally
+            {
+                if (session != null)
+                    session.Close();
+            }
+        }
     }
 }

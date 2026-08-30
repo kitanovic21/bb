@@ -425,6 +425,7 @@
             this.btnObrisi.TabIndex = 28;
             this.btnObrisi.Text = "Obriši";
             this.btnObrisi.UseVisualStyleBackColor = true;
+            this.btnObrisi.Click += new System.EventHandler(this.btnObrisi_Click);
             // 
             // btnSacuvaj
             // 

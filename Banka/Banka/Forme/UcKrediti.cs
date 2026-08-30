@@ -424,5 +424,45 @@ namespace Banka.Forme
         {
             PrimeniFiltere();
         }
+
+        private async void btnObrisi_Click(object sender, EventArgs e)
+        {
+            if (!selektovanKredit.HasValue)
+            {
+                MessageBox.Show(
+                    "Prvo izaberite kredit iz tabele.",
+                    "Brisanje kredita",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
+
+                return;
+            }
+
+            DialogResult rezultat = MessageBox.Show(
+                "Da li ste sigurni da želite da obrišete izabrani kredit?",
+                "Potvrda brisanja",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning
+            );
+
+            if (rezultat != DialogResult.Yes)
+                return;
+
+            bool success = await DTOManager.DeleteKredit(selektovanKredit.Value);
+
+            if (success)
+            {
+                MessageBox.Show(
+                    "Transakcija je uspešno obrisana.",
+                    "Uspeh",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
+
+                PopulateInfos();
+                OcistiFormu();
+            }
+        }
     }
 }
