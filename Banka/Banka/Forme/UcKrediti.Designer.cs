@@ -12,6 +12,8 @@
         #region Component Designer generated code
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.lblNaslov = new System.Windows.Forms.Label();
             this.panelFilter = new System.Windows.Forms.Panel();
             this.lblFilter1 = new System.Windows.Forms.Label();
@@ -68,7 +70,7 @@
             this.lblNaslov.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(72)))), ((int)(((byte)(106)))));
             this.lblNaslov.Location = new System.Drawing.Point(25, 18);
             this.lblNaslov.Name = "lblNaslov";
-            this.lblNaslov.Size = new System.Drawing.Size(109, 35);
+            this.lblNaslov.Size = new System.Drawing.Size(154, 47);
             this.lblNaslov.TabIndex = 0;
             this.lblNaslov.Text = "KREDITI";
             // 
@@ -91,7 +93,7 @@
             this.lblFilter1.AutoSize = true;
             this.lblFilter1.Location = new System.Drawing.Point(14, 18);
             this.lblFilter1.Name = "lblFilter1";
-            this.lblFilter1.Size = new System.Drawing.Size(40, 15);
+            this.lblFilter1.Size = new System.Drawing.Size(57, 23);
             this.lblFilter1.TabIndex = 0;
             this.lblFilter1.Text = "Klijent";
             // 
@@ -102,7 +104,7 @@
             this.cmbKlijentFilter.FormattingEnabled = true;
             this.cmbKlijentFilter.Location = new System.Drawing.Point(88, 14);
             this.cmbKlijentFilter.Name = "cmbKlijentFilter";
-            this.cmbKlijentFilter.Size = new System.Drawing.Size(180, 23);
+            this.cmbKlijentFilter.Size = new System.Drawing.Size(180, 31);
             this.cmbKlijentFilter.TabIndex = 1;
             this.cmbKlijentFilter.SelectedIndexChanged += new System.EventHandler(this.cmbKlijentFilter_SelectedIndexChanged);
             // 
@@ -111,7 +113,7 @@
             this.lblFilter2.AutoSize = true;
             this.lblFilter2.Location = new System.Drawing.Point(294, 18);
             this.lblFilter2.Name = "lblFilter2";
-            this.lblFilter2.Size = new System.Drawing.Size(39, 15);
+            this.lblFilter2.Size = new System.Drawing.Size(56, 23);
             this.lblFilter2.TabIndex = 2;
             this.lblFilter2.Text = "Status";
             // 
@@ -127,7 +129,7 @@
             "Zatvoren"});
             this.cmbStatusFilter.Location = new System.Drawing.Point(364, 14);
             this.cmbStatusFilter.Name = "cmbStatusFilter";
-            this.cmbStatusFilter.Size = new System.Drawing.Size(160, 23);
+            this.cmbStatusFilter.Size = new System.Drawing.Size(160, 31);
             this.cmbStatusFilter.TabIndex = 3;
             this.cmbStatusFilter.SelectedIndexChanged += new System.EventHandler(this.cmbStatusFilter_SelectedIndexChanged);
             // 
@@ -141,7 +143,18 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvKrediti.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvKrediti.BackgroundColor = System.Drawing.Color.White;
-            this.dgvKrediti.ColumnHeadersHeight = 32;
+            this.dgvKrediti.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
+            this.dgvKrediti.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(72)))), ((int)(((byte)(106)))));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9.134328F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(72)))), ((int)(((byte)(106)))));
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvKrediti.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.dgvKrediti.ColumnHeadersHeight = 34;
+            this.dgvKrediti.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dgvKrediti.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ID,
             this.Status,
@@ -154,7 +167,18 @@
             this.DatumDospeca,
             this.Racun,
             this.Klijent});
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(234)))), ((int)(((byte)(244)))));
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvKrediti.DefaultCellStyle = dataGridViewCellStyle2;
+            this.dgvKrediti.EnableHeadersVisualStyles = false;
+            this.dgvKrediti.GridColor = System.Drawing.Color.Gainsboro;
             this.dgvKrediti.Location = new System.Drawing.Point(25, 135);
+            this.dgvKrediti.MultiSelect = false;
             this.dgvKrediti.Name = "dgvKrediti";
             this.dgvKrediti.ReadOnly = true;
             this.dgvKrediti.RowHeadersVisible = false;
@@ -206,7 +230,7 @@
             this.lblC0_1.AutoSize = true;
             this.lblC0_1.Location = new System.Drawing.Point(20, 42);
             this.lblC0_1.Name = "lblC0_1";
-            this.lblC0_1.Size = new System.Drawing.Size(40, 15);
+            this.lblC0_1.Size = new System.Drawing.Size(57, 23);
             this.lblC0_1.TabIndex = 2;
             this.lblC0_1.Text = "Klijent";
             // 
@@ -217,7 +241,7 @@
             this.cmbKlijent.FormattingEnabled = true;
             this.cmbKlijent.Location = new System.Drawing.Point(160, 38);
             this.cmbKlijent.Name = "cmbKlijent";
-            this.cmbKlijent.Size = new System.Drawing.Size(165, 23);
+            this.cmbKlijent.Size = new System.Drawing.Size(165, 31);
             this.cmbKlijent.TabIndex = 3;
             // 
             // lblC0_2
@@ -225,7 +249,7 @@
             this.lblC0_2.AutoSize = true;
             this.lblC0_2.Location = new System.Drawing.Point(20, 78);
             this.lblC0_2.Name = "lblC0_2";
-            this.lblC0_2.Size = new System.Drawing.Size(40, 15);
+            this.lblC0_2.Size = new System.Drawing.Size(57, 23);
             this.lblC0_2.TabIndex = 4;
             this.lblC0_2.Text = "Račun";
             // 
@@ -236,7 +260,7 @@
             this.cmbRacun.FormattingEnabled = true;
             this.cmbRacun.Location = new System.Drawing.Point(160, 74);
             this.cmbRacun.Name = "cmbRacun";
-            this.cmbRacun.Size = new System.Drawing.Size(165, 23);
+            this.cmbRacun.Size = new System.Drawing.Size(165, 31);
             this.cmbRacun.TabIndex = 5;
             // 
             // lblC0_3
@@ -244,7 +268,7 @@
             this.lblC0_3.AutoSize = true;
             this.lblC0_3.Location = new System.Drawing.Point(20, 114);
             this.lblC0_3.Name = "lblC0_3";
-            this.lblC0_3.Size = new System.Drawing.Size(34, 15);
+            this.lblC0_3.Size = new System.Drawing.Size(50, 23);
             this.lblC0_3.TabIndex = 6;
             this.lblC0_3.Text = "Iznos";
             // 
@@ -252,7 +276,7 @@
             // 
             this.txtIznos.Location = new System.Drawing.Point(160, 110);
             this.txtIznos.Name = "txtIznos";
-            this.txtIznos.Size = new System.Drawing.Size(165, 23);
+            this.txtIznos.Size = new System.Drawing.Size(165, 30);
             this.txtIznos.TabIndex = 7;
             // 
             // lblC0_4
@@ -260,7 +284,7 @@
             this.lblC0_4.AutoSize = true;
             this.lblC0_4.Location = new System.Drawing.Point(20, 150);
             this.lblC0_4.Name = "lblC0_4";
-            this.lblC0_4.Size = new System.Drawing.Size(39, 15);
+            this.lblC0_4.Size = new System.Drawing.Size(58, 23);
             this.lblC0_4.TabIndex = 8;
             this.lblC0_4.Text = "Valuta";
             // 
@@ -275,7 +299,7 @@
             "CHF"});
             this.cmbValuta.Location = new System.Drawing.Point(160, 146);
             this.cmbValuta.Name = "cmbValuta";
-            this.cmbValuta.Size = new System.Drawing.Size(165, 23);
+            this.cmbValuta.Size = new System.Drawing.Size(165, 31);
             this.cmbValuta.TabIndex = 9;
             // 
             // lblC1_0
@@ -283,7 +307,7 @@
             this.lblC1_0.AutoSize = true;
             this.lblC1_0.Location = new System.Drawing.Point(355, 38);
             this.lblC1_0.Name = "lblC1_0";
-            this.lblC1_0.Size = new System.Drawing.Size(86, 15);
+            this.lblC1_0.Size = new System.Drawing.Size(125, 23);
             this.lblC1_0.TabIndex = 10;
             this.lblC1_0.Text = "Kamatna stopa";
             // 
@@ -291,7 +315,7 @@
             // 
             this.txtKamatnaStopa.Location = new System.Drawing.Point(500, 34);
             this.txtKamatnaStopa.Name = "txtKamatnaStopa";
-            this.txtKamatnaStopa.Size = new System.Drawing.Size(155, 23);
+            this.txtKamatnaStopa.Size = new System.Drawing.Size(155, 30);
             this.txtKamatnaStopa.TabIndex = 11;
             // 
             // lblC1_1
@@ -299,7 +323,7 @@
             this.lblC1_1.AutoSize = true;
             this.lblC1_1.Location = new System.Drawing.Point(355, 74);
             this.lblC1_1.Name = "lblC1_1";
-            this.lblC1_1.Size = new System.Drawing.Size(103, 15);
+            this.lblC1_1.Size = new System.Drawing.Size(147, 23);
             this.lblC1_1.TabIndex = 12;
             this.lblC1_1.Text = "Rok otplate (mes.)";
             // 
@@ -307,7 +331,7 @@
             // 
             this.txtRokOtplate.Location = new System.Drawing.Point(500, 70);
             this.txtRokOtplate.Name = "txtRokOtplate";
-            this.txtRokOtplate.Size = new System.Drawing.Size(155, 23);
+            this.txtRokOtplate.Size = new System.Drawing.Size(155, 30);
             this.txtRokOtplate.TabIndex = 13;
             // 
             // lblC1_3
@@ -315,7 +339,7 @@
             this.lblC1_3.AutoSize = true;
             this.lblC1_3.Location = new System.Drawing.Point(355, 114);
             this.lblC1_3.Name = "lblC1_3";
-            this.lblC1_3.Size = new System.Drawing.Size(100, 15);
+            this.lblC1_3.Size = new System.Drawing.Size(145, 23);
             this.lblC1_3.TabIndex = 16;
             this.lblC1_3.Text = "Datum odobrenja";
             // 
@@ -325,7 +349,7 @@
             this.dtpDatumOdobrenja.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dtpDatumOdobrenja.Location = new System.Drawing.Point(500, 110);
             this.dtpDatumOdobrenja.Name = "dtpDatumOdobrenja";
-            this.dtpDatumOdobrenja.Size = new System.Drawing.Size(155, 23);
+            this.dtpDatumOdobrenja.Size = new System.Drawing.Size(155, 30);
             this.dtpDatumOdobrenja.TabIndex = 17;
             // 
             // lblC2_0
@@ -333,7 +357,7 @@
             this.lblC2_0.AutoSize = true;
             this.lblC2_0.Location = new System.Drawing.Point(690, 38);
             this.lblC2_0.Name = "lblC2_0";
-            this.lblC2_0.Size = new System.Drawing.Size(78, 15);
+            this.lblC2_0.Size = new System.Drawing.Size(113, 23);
             this.lblC2_0.TabIndex = 20;
             this.lblC2_0.Text = "Status kredita";
             // 
@@ -348,7 +372,7 @@
             "Zatvoren"});
             this.cmbStatus.Location = new System.Drawing.Point(850, 34);
             this.cmbStatus.Name = "cmbStatus";
-            this.cmbStatus.Size = new System.Drawing.Size(155, 23);
+            this.cmbStatus.Size = new System.Drawing.Size(155, 31);
             this.cmbStatus.TabIndex = 21;
             // 
             // lblC2_1
@@ -356,7 +380,7 @@
             this.lblC2_1.AutoSize = true;
             this.lblC2_1.Location = new System.Drawing.Point(690, 74);
             this.lblC2_1.Name = "lblC2_1";
-            this.lblC2_1.Size = new System.Drawing.Size(52, 15);
+            this.lblC2_1.Size = new System.Drawing.Size(75, 23);
             this.lblC2_1.TabIndex = 22;
             this.lblC2_1.Text = "Namena";
             // 
@@ -364,7 +388,7 @@
             // 
             this.txtNamena.Location = new System.Drawing.Point(850, 70);
             this.txtNamena.Name = "txtNamena";
-            this.txtNamena.Size = new System.Drawing.Size(155, 23);
+            this.txtNamena.Size = new System.Drawing.Size(155, 30);
             this.txtNamena.TabIndex = 23;
             // 
             // lblC2_2
@@ -372,7 +396,7 @@
             this.lblC2_2.AutoSize = true;
             this.lblC2_2.Location = new System.Drawing.Point(690, 110);
             this.lblC2_2.Name = "lblC2_2";
-            this.lblC2_2.Size = new System.Drawing.Size(59, 15);
+            this.lblC2_2.Size = new System.Drawing.Size(85, 23);
             this.lblC2_2.TabIndex = 24;
             this.lblC2_2.Text = "Komentar";
             // 
@@ -459,67 +483,80 @@
             // 
             // ID
             // 
+            this.ID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.ID.HeaderText = "ID";
+            this.ID.MinimumWidth = 7;
             this.ID.Name = "ID";
             this.ID.ReadOnly = true;
+            this.ID.Width = 60;
             // 
             // Status
             // 
             this.Status.HeaderText = "Status";
+            this.Status.MinimumWidth = 7;
             this.Status.Name = "Status";
             this.Status.ReadOnly = true;
             // 
             // Namena
             // 
             this.Namena.HeaderText = "Namena";
+            this.Namena.MinimumWidth = 7;
             this.Namena.Name = "Namena";
             this.Namena.ReadOnly = true;
             // 
             // Iznos
             // 
             this.Iznos.HeaderText = "Iznos";
+            this.Iznos.MinimumWidth = 7;
             this.Iznos.Name = "Iznos";
             this.Iznos.ReadOnly = true;
             // 
             // Valuta
             // 
             this.Valuta.HeaderText = "Valuta";
+            this.Valuta.MinimumWidth = 7;
             this.Valuta.Name = "Valuta";
             this.Valuta.ReadOnly = true;
             // 
             // KamatnaStopa
             // 
             this.KamatnaStopa.HeaderText = "Kamatna Stopa";
+            this.KamatnaStopa.MinimumWidth = 7;
             this.KamatnaStopa.Name = "KamatnaStopa";
             this.KamatnaStopa.ReadOnly = true;
             // 
             // MesecnaRata
             // 
             this.MesecnaRata.HeaderText = "Mesecna Rata";
+            this.MesecnaRata.MinimumWidth = 7;
             this.MesecnaRata.Name = "MesecnaRata";
             this.MesecnaRata.ReadOnly = true;
             // 
             // DatumOdobrenja
             // 
             this.DatumOdobrenja.HeaderText = "Datum Odobrenja";
+            this.DatumOdobrenja.MinimumWidth = 7;
             this.DatumOdobrenja.Name = "DatumOdobrenja";
             this.DatumOdobrenja.ReadOnly = true;
             // 
             // DatumDospeca
             // 
             this.DatumDospeca.HeaderText = "Datum Dospeca";
+            this.DatumDospeca.MinimumWidth = 7;
             this.DatumDospeca.Name = "DatumDospeca";
             this.DatumDospeca.ReadOnly = true;
             // 
             // Racun
             // 
             this.Racun.HeaderText = "Racun";
+            this.Racun.MinimumWidth = 7;
             this.Racun.Name = "Racun";
             this.Racun.ReadOnly = true;
             // 
             // Klijent
             // 
             this.Klijent.HeaderText = "Klijent";
+            this.Klijent.MinimumWidth = 7;
             this.Klijent.Name = "Klijent";
             this.Klijent.ReadOnly = true;
             // 
