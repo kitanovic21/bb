@@ -189,7 +189,6 @@
             this.dgvTransakcije.Size = new System.Drawing.Size(1050, 210);
             this.dgvTransakcije.TabIndex = 2;
             this.dgvTransakcije.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvTransakcije_CellClick);
-            this.dgvTransakcije.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvTransakcije_CellContentClick);
             // 
             // KodTransakcije
             // 
@@ -463,7 +462,6 @@
             this.lblC2_0.Size = new System.Drawing.Size(93, 15);
             this.lblC2_0.TabIndex = 20;
             this.lblC2_0.Text = "Potiče sa računa";
-            this.lblC2_0.Click += new System.EventHandler(this.lblC2_0_Click);
             // 
             // cmbPoticeSa
             // 

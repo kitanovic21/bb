@@ -1664,5 +1664,303 @@ namespace Banka
 
         //KREDIT
 
+        public static List<KreditPregled> GetKreditiInfos()
+        {
+            List<KreditPregled> kreditiInfo = new List<KreditPregled>();
+            ISession session = null;
+
+            try
+            {
+                session = DataLayer.GetSession();
+
+                if (session != null)
+                {
+                    kreditiInfo = (from k in session.Query<Kredit>()
+                                   select new KreditPregled(
+                                       k.Id,
+                                       k.StatusKredita,
+                                       k.Namena,
+                                       k.Iznos,
+                                       k.Valuta,
+                                       k.KamatnaStopa ?? 0,
+                                       k.DatumDospeca ?? DateTime.MinValue,
+                                       k.DatumOdobrenja,
+                                       k.Racun,
+                                       k.Klijent,
+                                       k.MesecnaRata ?? 0
+                                   )).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                if (session != null)
+                    session.Close();
+            }
+
+            return kreditiInfo;
+        }
+        public static async Task<KreditBasic> GetKreditBasic(int id)
+        {
+            KreditBasic kb = null;
+            ISession session = null;
+
+            try
+            {
+                session = DataLayer.GetSession();
+
+                if (session != null)
+                {
+                    // Da bi ovo radilo sam dodao using NHibernate.Linq;
+                    // Bez ovoga ne bi mogo da imam sacuvano Racun ili Klijent
+                    // nakon sto se zatvori session
+                    Kredit k = await session.Query<Kredit>()
+                                                        .Fetch(x => x.Klijent)
+                                                        .Fetch(x => x.Racun)
+                                                        .FirstOrDefaultAsync(x => x.Id == id);
+
+                    if (k != null)
+                    {
+                        kb = new KreditBasic();
+
+                        kb.Id = k.Id;
+                        kb.StatusKredita = k.StatusKredita;
+                        kb.Namena = k.Namena;
+                        kb.Komentar = k.Komentar;
+                        kb.Iznos = k.Iznos;
+                        kb.Valuta = k.Valuta;
+                        kb.KamatnaStopa = k.KamatnaStopa;
+                        kb.RokOtplate = k.RokOtplate;
+                        kb.MesecnaRata = k.MesecnaRata ?? 0;
+                        kb.DatumDospeca = k.DatumDospeca;
+                        kb.DatumOdobrenja = k.DatumOdobrenja;
+                        kb.Racun = k.Racun;
+                        kb.Klijent = k.Klijent;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                if (session != null)
+                    session.Close();
+            }
+
+            return kb;
+        }
+        public static bool ProveriDaLiRacunPripadaKlijentu(string identificatorKlijenta, string brojRacuna)
+        {
+            ISession session = null;
+
+            try
+            {
+                session = DataLayer.GetSession();
+
+                if (session == null || string.IsNullOrEmpty(identificatorKlijenta) || string.IsNullOrEmpty(brojRacuna))
+                    return false;
+
+                return session.Query<Racun>()
+                              .Any(r => r.BrojRacuna == brojRacuna &&
+                                       ((r.Klijent is FizickoLice && ((FizickoLice)r.Klijent).JMBG == identificatorKlijenta) ||
+                                        (r.Klijent is PravnoLice && ((PravnoLice)r.Klijent).PIB == identificatorKlijenta)));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    ex.GetBaseException().Message,
+                    "Greška",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+
+                return false;
+            }
+            finally
+            {
+                if (session != null)
+                    session.Close();
+            }
+        }
+
+        public static double IzracunajMesecnuRatu(double iznos, double kamatnaStopa, int rokOtplate)
+        {
+            double r = (kamatnaStopa / 100.0) / 12.0; 
+            double rata = iznos * (r * Math.Pow(1 + r, rokOtplate)) / (Math.Pow(1 + r, rokOtplate) - 1);
+            return Math.Round(rata, 2); 
+        }
+        public static async Task<bool> AddKredit(KreditBasic kb)
+        {
+            ISession session = null;
+            ITransaction transaction = null;
+
+            try
+            {
+                session = DataLayer.GetSession();
+                if (session == null || kb == null)
+                    return false;
+                transaction = session.BeginTransaction();
+
+                Racun racun = await session.Query<Racun>()
+                                           .FirstOrDefaultAsync(r => r.BrojRacuna == kb.BrojRacuna);
+                if (racun == null)
+                {
+                    MessageBox.Show("Izabrani račun ne postoji u bazi.", "Greška", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
+
+                Klijent klijent = await session.Query<Klijent>()
+                                               .FirstOrDefaultAsync(k => (k is FizickoLice && ((FizickoLice)k).JMBG == kb.KlijentIdentifikator) ||
+                                                                         (k is PravnoLice && ((PravnoLice)k).PIB == kb.KlijentIdentifikator));
+                if (klijent == null)
+                {
+                    MessageBox.Show("Izabrani klijent ne postoji u bazi.", "Greška", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
+
+                Kredit kredit = new Kredit();
+
+                kredit.StatusKredita = kb.StatusKredita;
+                kredit.Namena = kb.Namena;
+                kredit.Komentar = kb.Komentar;
+                kredit.Iznos = kb.Iznos;
+                kredit.Valuta = kb.Valuta;
+                kredit.KamatnaStopa = kb.KamatnaStopa;
+                kredit.RokOtplate = kb.RokOtplate;
+                kredit.DatumOdobrenja = kb.DatumOdobrenja ?? DateTime.Now;
+                if (kb.RokOtplate.HasValue && kb.RokOtplate.Value > 0)
+                    kredit.DatumDospeca = kredit.DatumOdobrenja.AddMonths(kb.RokOtplate.Value);
+
+                // ako se nesto sjebalo dobijam cu dobijem NaN jer cu delim sa 0
+                double kStopa = kb.KamatnaStopa ?? 0;
+                int rok = kb.RokOtplate ?? 0;
+
+                kredit.MesecnaRata = IzracunajMesecnuRatu(kb.Iznos, kStopa, rok);
+
+                PredmetObracuna predmet = new PredmetObracuna();
+                await session.SaveAsync(predmet);
+
+                kredit.Racun = racun;
+                kredit.Klijent = klijent;
+                kredit.PredmetObracuna = predmet;
+
+                await session.SaveAsync(kredit);
+                await transaction.CommitAsync();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                if (transaction != null && transaction.IsActive)
+                    await transaction.RollbackAsync();
+
+                MessageBox.Show(
+                    ex.GetBaseException().Message,
+                    "Greška",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+
+                return false;
+            }
+            finally
+            {
+                if (session != null)
+                    session.Close();
+            }
+        }
+
+        public static async Task<bool> UpdateKredit(KreditBasic kb)
+        {
+            ISession session = null;
+            ITransaction transaction = null;
+
+            try
+            {
+                session = DataLayer.GetSession();
+                if (session == null || kb == null)
+                    return false;
+
+                transaction = session.BeginTransaction();
+
+                Kredit kredit = await session.GetAsync<Kredit>(kb.Id);
+                if (kredit == null)
+                {
+                    MessageBox.Show("Kredit koji pokušavate da izmenite ne postoji u bazi.",
+                                    "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
+
+                Racun racun = await session.Query<Racun>()
+                                           .FirstOrDefaultAsync(r => r.BrojRacuna == kb.BrojRacuna);
+                if (racun == null)
+                {
+                    MessageBox.Show("Izabrani račun ne postoji u bazi.",
+                                    "Greška", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
+
+                Klijent klijent = await session.Query<Klijent>()
+                                               .FirstOrDefaultAsync(k => (k is FizickoLice && ((FizickoLice)k).JMBG == kb.KlijentIdentifikator) ||
+                                                                         (k is PravnoLice && ((PravnoLice)k).PIB == kb.KlijentIdentifikator));
+                if (klijent == null)
+                {
+                    MessageBox.Show("Izabrani klijent ne postoji u bazi.",
+                                    "Greška", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
+
+                kredit.StatusKredita = kb.StatusKredita;
+                kredit.Namena = kb.Namena;
+                kredit.Komentar = kb.Komentar;
+                kredit.Iznos = kb.Iznos;
+                kredit.Valuta = kb.Valuta;
+                kredit.KamatnaStopa = kb.KamatnaStopa;
+                kredit.RokOtplate = kb.RokOtplate;
+                kredit.DatumOdobrenja = kb.DatumOdobrenja ?? kredit.DatumOdobrenja;
+
+                if (kb.RokOtplate.HasValue && kb.RokOtplate.Value > 0)
+                {
+                    kredit.DatumDospeca = kredit.DatumOdobrenja.AddMonths(kb.RokOtplate.Value);
+                }
+                else
+                {
+                    kredit.DatumDospeca = null;
+                }
+
+                double kStopa = kb.KamatnaStopa ?? 0;
+                int rok = kb.RokOtplate ?? 0;
+                kredit.MesecnaRata = IzracunajMesecnuRatu(kb.Iznos, kStopa, rok);
+
+                kredit.Racun = racun;
+                kredit.Klijent = klijent;
+
+                await session.UpdateAsync(kredit);
+                await transaction.CommitAsync();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                if (transaction != null && transaction.IsActive)
+                    await transaction.RollbackAsync();
+
+                MessageBox.Show(
+                    ex.GetBaseException().Message,
+                    "Greška pri izmeni",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+
+                return false;
+            }
+            finally
+            {
+                if (session != null)
+                    session.Close();
+            }
+        }
     }
 }

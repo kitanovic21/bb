@@ -14,7 +14,7 @@ namespace Banka.Mapiranja
         {
             Table("KREDIT");
 
-            Id(x => x.Id, "ID").GeneratedBy.Identity();
+            Id(x => x.Id, "ID").GeneratedBy.TriggerIdentity();
 
             Map(x => x.StatusKredita, "STATUS_KREDITA");
             Map(x => x.Namena, "NAMENA");

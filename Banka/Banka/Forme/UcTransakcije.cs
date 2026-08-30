@@ -26,6 +26,7 @@ namespace Banka.Forme
 
         private void PopulateInfos()
         {
+            sveTransakcije = DTOManager.GetTransakcijeInfos();
             dgvTransakcije.Rows.Clear();
 
             foreach (TransakcijaPregled transakcija in sveTransakcije)
@@ -116,7 +117,8 @@ namespace Banka.Forme
 
             List<RacunPregled> racuni = DTOManager.GetRacunInfo();
 
-
+            cmbRacunFilter.Items.Add("Svi");
+            cmbRacunFilter.SelectedIndex = 0;
             foreach (RacunPregled racun in racuni)
             {
                 string brojRacuna = racun.BrojRacuna.ToString();
@@ -189,13 +191,7 @@ namespace Banka.Forme
                 return false;
             }
 
-
             return true;
-        }
-
-        private void dgvTransakcije_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
         }
         private TransakcijaBasic ProcitajPodatkeSaForme()
         {
@@ -290,7 +286,7 @@ namespace Banka.Forme
 
         private void cmbTip_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cmbTip.Text == "Isplata" || cmbTip.Text == "Konverzija")
+            if (cmbTip.Text == "Isplata")
             {
                 cmbRacun.Enabled = false;
                 cmbRacun.SelectedIndex = -1;
@@ -301,12 +297,6 @@ namespace Banka.Forme
                 cmbRacun.Enabled = true;
             }
         }
-
-        private void lblC2_0_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private async void btnObrisi_Click(object sender, EventArgs e)
         {
             if (!selektovanaTransakcija.HasValue || seleketovaniBrojRacunaPosiljaoca == null)

@@ -20,8 +20,6 @@
             this.cmbStatusFilter = new System.Windows.Forms.ComboBox();
             this.dgvKrediti = new System.Windows.Forms.DataGridView();
             this.grpPodaci = new System.Windows.Forms.GroupBox();
-            this.lblC0_0 = new System.Windows.Forms.Label();
-            this.txtId = new System.Windows.Forms.TextBox();
             this.lblC0_1 = new System.Windows.Forms.Label();
             this.cmbKlijent = new System.Windows.Forms.ComboBox();
             this.lblC0_2 = new System.Windows.Forms.Label();
@@ -34,12 +32,8 @@
             this.txtKamatnaStopa = new System.Windows.Forms.TextBox();
             this.lblC1_1 = new System.Windows.Forms.Label();
             this.txtRokOtplate = new System.Windows.Forms.TextBox();
-            this.lblC1_2 = new System.Windows.Forms.Label();
-            this.txtMesecnaRata = new System.Windows.Forms.TextBox();
             this.lblC1_3 = new System.Windows.Forms.Label();
             this.dtpDatumOdobrenja = new System.Windows.Forms.DateTimePicker();
-            this.lblC1_4 = new System.Windows.Forms.Label();
-            this.dtpDatumDospeca = new System.Windows.Forms.DateTimePicker();
             this.lblC2_0 = new System.Windows.Forms.Label();
             this.cmbStatus = new System.Windows.Forms.ComboBox();
             this.lblC2_1 = new System.Windows.Forms.Label();
@@ -51,6 +45,17 @@
             this.btnObrisi = new System.Windows.Forms.Button();
             this.btnSacuvaj = new System.Windows.Forms.Button();
             this.btnOdustani = new System.Windows.Forms.Button();
+            this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Namena = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Iznos = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Valuta = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.KamatnaStopa = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.MesecnaRata = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DatumOdobrenja = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DatumDospeca = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Racun = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Klijent = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panelFilter.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvKrediti)).BeginInit();
             this.grpPodaci.SuspendLayout();
@@ -63,7 +68,7 @@
             this.lblNaslov.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(72)))), ((int)(((byte)(106)))));
             this.lblNaslov.Location = new System.Drawing.Point(25, 18);
             this.lblNaslov.Name = "lblNaslov";
-            this.lblNaslov.Size = new System.Drawing.Size(154, 47);
+            this.lblNaslov.Size = new System.Drawing.Size(109, 35);
             this.lblNaslov.TabIndex = 0;
             this.lblNaslov.Text = "KREDITI";
             // 
@@ -86,25 +91,27 @@
             this.lblFilter1.AutoSize = true;
             this.lblFilter1.Location = new System.Drawing.Point(14, 18);
             this.lblFilter1.Name = "lblFilter1";
-            this.lblFilter1.Size = new System.Drawing.Size(57, 23);
+            this.lblFilter1.Size = new System.Drawing.Size(40, 15);
             this.lblFilter1.TabIndex = 0;
             this.lblFilter1.Text = "Klijent";
             // 
             // cmbKlijentFilter
             // 
-            this.cmbKlijentFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbKlijentFilter.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cmbKlijentFilter.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cmbKlijentFilter.FormattingEnabled = true;
             this.cmbKlijentFilter.Location = new System.Drawing.Point(88, 14);
             this.cmbKlijentFilter.Name = "cmbKlijentFilter";
-            this.cmbKlijentFilter.Size = new System.Drawing.Size(180, 31);
+            this.cmbKlijentFilter.Size = new System.Drawing.Size(180, 23);
             this.cmbKlijentFilter.TabIndex = 1;
+            this.cmbKlijentFilter.SelectedIndexChanged += new System.EventHandler(this.cmbKlijentFilter_SelectedIndexChanged);
             // 
             // lblFilter2
             // 
             this.lblFilter2.AutoSize = true;
             this.lblFilter2.Location = new System.Drawing.Point(294, 18);
             this.lblFilter2.Name = "lblFilter2";
-            this.lblFilter2.Size = new System.Drawing.Size(56, 23);
+            this.lblFilter2.Size = new System.Drawing.Size(39, 15);
             this.lblFilter2.TabIndex = 2;
             this.lblFilter2.Text = "Status";
             // 
@@ -120,8 +127,9 @@
             "Zatvoren"});
             this.cmbStatusFilter.Location = new System.Drawing.Point(364, 14);
             this.cmbStatusFilter.Name = "cmbStatusFilter";
-            this.cmbStatusFilter.Size = new System.Drawing.Size(160, 31);
+            this.cmbStatusFilter.Size = new System.Drawing.Size(160, 23);
             this.cmbStatusFilter.TabIndex = 3;
+            this.cmbStatusFilter.SelectedIndexChanged += new System.EventHandler(this.cmbStatusFilter_SelectedIndexChanged);
             // 
             // dgvKrediti
             // 
@@ -134,6 +142,18 @@
             this.dgvKrediti.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvKrediti.BackgroundColor = System.Drawing.Color.White;
             this.dgvKrediti.ColumnHeadersHeight = 32;
+            this.dgvKrediti.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.ID,
+            this.Status,
+            this.Namena,
+            this.Iznos,
+            this.Valuta,
+            this.KamatnaStopa,
+            this.MesecnaRata,
+            this.DatumOdobrenja,
+            this.DatumDospeca,
+            this.Racun,
+            this.Klijent});
             this.dgvKrediti.Location = new System.Drawing.Point(25, 135);
             this.dgvKrediti.Name = "dgvKrediti";
             this.dgvKrediti.ReadOnly = true;
@@ -142,14 +162,13 @@
             this.dgvKrediti.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvKrediti.Size = new System.Drawing.Size(1050, 210);
             this.dgvKrediti.TabIndex = 2;
+            this.dgvKrediti.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvKrediti_CellClick);
             // 
             // grpPodaci
             // 
             this.grpPodaci.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.grpPodaci.Controls.Add(this.lblC0_0);
-            this.grpPodaci.Controls.Add(this.txtId);
             this.grpPodaci.Controls.Add(this.lblC0_1);
             this.grpPodaci.Controls.Add(this.cmbKlijent);
             this.grpPodaci.Controls.Add(this.lblC0_2);
@@ -162,12 +181,8 @@
             this.grpPodaci.Controls.Add(this.txtKamatnaStopa);
             this.grpPodaci.Controls.Add(this.lblC1_1);
             this.grpPodaci.Controls.Add(this.txtRokOtplate);
-            this.grpPodaci.Controls.Add(this.lblC1_2);
-            this.grpPodaci.Controls.Add(this.txtMesecnaRata);
             this.grpPodaci.Controls.Add(this.lblC1_3);
             this.grpPodaci.Controls.Add(this.dtpDatumOdobrenja);
-            this.grpPodaci.Controls.Add(this.lblC1_4);
-            this.grpPodaci.Controls.Add(this.dtpDatumDospeca);
             this.grpPodaci.Controls.Add(this.lblC2_0);
             this.grpPodaci.Controls.Add(this.cmbStatus);
             this.grpPodaci.Controls.Add(this.lblC2_1);
@@ -186,80 +201,66 @@
             this.grpPodaci.TabStop = false;
             this.grpPodaci.Text = "Podaci o kreditu";
             // 
-            // lblC0_0
-            // 
-            this.lblC0_0.AutoSize = true;
-            this.lblC0_0.Location = new System.Drawing.Point(20, 38);
-            this.lblC0_0.Name = "lblC0_0";
-            this.lblC0_0.Size = new System.Drawing.Size(27, 23);
-            this.lblC0_0.TabIndex = 0;
-            this.lblC0_0.Text = "ID";
-            // 
-            // txtId
-            // 
-            this.txtId.Location = new System.Drawing.Point(160, 34);
-            this.txtId.Name = "txtId";
-            this.txtId.Size = new System.Drawing.Size(165, 30);
-            this.txtId.TabIndex = 1;
-            // 
             // lblC0_1
             // 
             this.lblC0_1.AutoSize = true;
-            this.lblC0_1.Location = new System.Drawing.Point(20, 74);
+            this.lblC0_1.Location = new System.Drawing.Point(20, 42);
             this.lblC0_1.Name = "lblC0_1";
-            this.lblC0_1.Size = new System.Drawing.Size(57, 23);
+            this.lblC0_1.Size = new System.Drawing.Size(40, 15);
             this.lblC0_1.TabIndex = 2;
             this.lblC0_1.Text = "Klijent";
             // 
             // cmbKlijent
             // 
-            this.cmbKlijent.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbKlijent.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cmbKlijent.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cmbKlijent.FormattingEnabled = true;
-            this.cmbKlijent.Location = new System.Drawing.Point(160, 70);
+            this.cmbKlijent.Location = new System.Drawing.Point(160, 38);
             this.cmbKlijent.Name = "cmbKlijent";
-            this.cmbKlijent.Size = new System.Drawing.Size(165, 31);
+            this.cmbKlijent.Size = new System.Drawing.Size(165, 23);
             this.cmbKlijent.TabIndex = 3;
             // 
             // lblC0_2
             // 
             this.lblC0_2.AutoSize = true;
-            this.lblC0_2.Location = new System.Drawing.Point(20, 110);
+            this.lblC0_2.Location = new System.Drawing.Point(20, 78);
             this.lblC0_2.Name = "lblC0_2";
-            this.lblC0_2.Size = new System.Drawing.Size(57, 23);
+            this.lblC0_2.Size = new System.Drawing.Size(40, 15);
             this.lblC0_2.TabIndex = 4;
             this.lblC0_2.Text = "Račun";
             // 
             // cmbRacun
             // 
-            this.cmbRacun.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbRacun.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cmbRacun.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cmbRacun.FormattingEnabled = true;
-            this.cmbRacun.Location = new System.Drawing.Point(160, 106);
+            this.cmbRacun.Location = new System.Drawing.Point(160, 74);
             this.cmbRacun.Name = "cmbRacun";
-            this.cmbRacun.Size = new System.Drawing.Size(165, 31);
+            this.cmbRacun.Size = new System.Drawing.Size(165, 23);
             this.cmbRacun.TabIndex = 5;
             // 
             // lblC0_3
             // 
             this.lblC0_3.AutoSize = true;
-            this.lblC0_3.Location = new System.Drawing.Point(20, 146);
+            this.lblC0_3.Location = new System.Drawing.Point(20, 114);
             this.lblC0_3.Name = "lblC0_3";
-            this.lblC0_3.Size = new System.Drawing.Size(50, 23);
+            this.lblC0_3.Size = new System.Drawing.Size(34, 15);
             this.lblC0_3.TabIndex = 6;
             this.lblC0_3.Text = "Iznos";
             // 
             // txtIznos
             // 
-            this.txtIznos.Location = new System.Drawing.Point(160, 142);
+            this.txtIznos.Location = new System.Drawing.Point(160, 110);
             this.txtIznos.Name = "txtIznos";
-            this.txtIznos.Size = new System.Drawing.Size(165, 30);
+            this.txtIznos.Size = new System.Drawing.Size(165, 23);
             this.txtIznos.TabIndex = 7;
             // 
             // lblC0_4
             // 
             this.lblC0_4.AutoSize = true;
-            this.lblC0_4.Location = new System.Drawing.Point(20, 182);
+            this.lblC0_4.Location = new System.Drawing.Point(20, 150);
             this.lblC0_4.Name = "lblC0_4";
-            this.lblC0_4.Size = new System.Drawing.Size(58, 23);
+            this.lblC0_4.Size = new System.Drawing.Size(39, 15);
             this.lblC0_4.TabIndex = 8;
             this.lblC0_4.Text = "Valuta";
             // 
@@ -272,9 +273,9 @@
             "EUR",
             "USD",
             "CHF"});
-            this.cmbValuta.Location = new System.Drawing.Point(160, 178);
+            this.cmbValuta.Location = new System.Drawing.Point(160, 146);
             this.cmbValuta.Name = "cmbValuta";
-            this.cmbValuta.Size = new System.Drawing.Size(165, 31);
+            this.cmbValuta.Size = new System.Drawing.Size(165, 23);
             this.cmbValuta.TabIndex = 9;
             // 
             // lblC1_0
@@ -282,7 +283,7 @@
             this.lblC1_0.AutoSize = true;
             this.lblC1_0.Location = new System.Drawing.Point(355, 38);
             this.lblC1_0.Name = "lblC1_0";
-            this.lblC1_0.Size = new System.Drawing.Size(125, 23);
+            this.lblC1_0.Size = new System.Drawing.Size(86, 15);
             this.lblC1_0.TabIndex = 10;
             this.lblC1_0.Text = "Kamatna stopa";
             // 
@@ -290,7 +291,7 @@
             // 
             this.txtKamatnaStopa.Location = new System.Drawing.Point(500, 34);
             this.txtKamatnaStopa.Name = "txtKamatnaStopa";
-            this.txtKamatnaStopa.Size = new System.Drawing.Size(155, 30);
+            this.txtKamatnaStopa.Size = new System.Drawing.Size(155, 23);
             this.txtKamatnaStopa.TabIndex = 11;
             // 
             // lblC1_1
@@ -298,7 +299,7 @@
             this.lblC1_1.AutoSize = true;
             this.lblC1_1.Location = new System.Drawing.Point(355, 74);
             this.lblC1_1.Name = "lblC1_1";
-            this.lblC1_1.Size = new System.Drawing.Size(147, 23);
+            this.lblC1_1.Size = new System.Drawing.Size(103, 15);
             this.lblC1_1.TabIndex = 12;
             this.lblC1_1.Text = "Rok otplate (mes.)";
             // 
@@ -306,31 +307,15 @@
             // 
             this.txtRokOtplate.Location = new System.Drawing.Point(500, 70);
             this.txtRokOtplate.Name = "txtRokOtplate";
-            this.txtRokOtplate.Size = new System.Drawing.Size(155, 30);
+            this.txtRokOtplate.Size = new System.Drawing.Size(155, 23);
             this.txtRokOtplate.TabIndex = 13;
-            // 
-            // lblC1_2
-            // 
-            this.lblC1_2.AutoSize = true;
-            this.lblC1_2.Location = new System.Drawing.Point(355, 110);
-            this.lblC1_2.Name = "lblC1_2";
-            this.lblC1_2.Size = new System.Drawing.Size(112, 23);
-            this.lblC1_2.TabIndex = 14;
-            this.lblC1_2.Text = "Mesečna rata";
-            // 
-            // txtMesecnaRata
-            // 
-            this.txtMesecnaRata.Location = new System.Drawing.Point(500, 106);
-            this.txtMesecnaRata.Name = "txtMesecnaRata";
-            this.txtMesecnaRata.Size = new System.Drawing.Size(155, 30);
-            this.txtMesecnaRata.TabIndex = 15;
             // 
             // lblC1_3
             // 
             this.lblC1_3.AutoSize = true;
-            this.lblC1_3.Location = new System.Drawing.Point(355, 146);
+            this.lblC1_3.Location = new System.Drawing.Point(355, 114);
             this.lblC1_3.Name = "lblC1_3";
-            this.lblC1_3.Size = new System.Drawing.Size(145, 23);
+            this.lblC1_3.Size = new System.Drawing.Size(100, 15);
             this.lblC1_3.TabIndex = 16;
             this.lblC1_3.Text = "Datum odobrenja";
             // 
@@ -338,35 +323,17 @@
             // 
             this.dtpDatumOdobrenja.CustomFormat = "dd.MM.yyyy.";
             this.dtpDatumOdobrenja.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpDatumOdobrenja.Location = new System.Drawing.Point(500, 142);
+            this.dtpDatumOdobrenja.Location = new System.Drawing.Point(500, 110);
             this.dtpDatumOdobrenja.Name = "dtpDatumOdobrenja";
-            this.dtpDatumOdobrenja.Size = new System.Drawing.Size(155, 30);
+            this.dtpDatumOdobrenja.Size = new System.Drawing.Size(155, 23);
             this.dtpDatumOdobrenja.TabIndex = 17;
-            // 
-            // lblC1_4
-            // 
-            this.lblC1_4.AutoSize = true;
-            this.lblC1_4.Location = new System.Drawing.Point(355, 182);
-            this.lblC1_4.Name = "lblC1_4";
-            this.lblC1_4.Size = new System.Drawing.Size(130, 23);
-            this.lblC1_4.TabIndex = 18;
-            this.lblC1_4.Text = "Datum dospeća";
-            // 
-            // dtpDatumDospeca
-            // 
-            this.dtpDatumDospeca.CustomFormat = "dd.MM.yyyy.";
-            this.dtpDatumDospeca.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpDatumDospeca.Location = new System.Drawing.Point(500, 178);
-            this.dtpDatumDospeca.Name = "dtpDatumDospeca";
-            this.dtpDatumDospeca.Size = new System.Drawing.Size(155, 30);
-            this.dtpDatumDospeca.TabIndex = 19;
             // 
             // lblC2_0
             // 
             this.lblC2_0.AutoSize = true;
             this.lblC2_0.Location = new System.Drawing.Point(690, 38);
             this.lblC2_0.Name = "lblC2_0";
-            this.lblC2_0.Size = new System.Drawing.Size(113, 23);
+            this.lblC2_0.Size = new System.Drawing.Size(78, 15);
             this.lblC2_0.TabIndex = 20;
             this.lblC2_0.Text = "Status kredita";
             // 
@@ -375,12 +342,13 @@
             this.cmbStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbStatus.FormattingEnabled = true;
             this.cmbStatus.Items.AddRange(new object[] {
+            "Aktivan",
             "Odobren",
             "Otplata",
             "Zatvoren"});
             this.cmbStatus.Location = new System.Drawing.Point(850, 34);
             this.cmbStatus.Name = "cmbStatus";
-            this.cmbStatus.Size = new System.Drawing.Size(155, 31);
+            this.cmbStatus.Size = new System.Drawing.Size(155, 23);
             this.cmbStatus.TabIndex = 21;
             // 
             // lblC2_1
@@ -388,7 +356,7 @@
             this.lblC2_1.AutoSize = true;
             this.lblC2_1.Location = new System.Drawing.Point(690, 74);
             this.lblC2_1.Name = "lblC2_1";
-            this.lblC2_1.Size = new System.Drawing.Size(75, 23);
+            this.lblC2_1.Size = new System.Drawing.Size(52, 15);
             this.lblC2_1.TabIndex = 22;
             this.lblC2_1.Text = "Namena";
             // 
@@ -396,7 +364,7 @@
             // 
             this.txtNamena.Location = new System.Drawing.Point(850, 70);
             this.txtNamena.Name = "txtNamena";
-            this.txtNamena.Size = new System.Drawing.Size(155, 30);
+            this.txtNamena.Size = new System.Drawing.Size(155, 23);
             this.txtNamena.TabIndex = 23;
             // 
             // lblC2_2
@@ -404,7 +372,7 @@
             this.lblC2_2.AutoSize = true;
             this.lblC2_2.Location = new System.Drawing.Point(690, 110);
             this.lblC2_2.Name = "lblC2_2";
-            this.lblC2_2.Size = new System.Drawing.Size(85, 23);
+            this.lblC2_2.Size = new System.Drawing.Size(59, 15);
             this.lblC2_2.TabIndex = 24;
             this.lblC2_2.Text = "Komentar";
             // 
@@ -428,6 +396,7 @@
             this.btnNovi.TabIndex = 26;
             this.btnNovi.Text = "Novi";
             this.btnNovi.UseVisualStyleBackColor = true;
+            this.btnNovi.Click += new System.EventHandler(this.btnNovi_Click);
             // 
             // btnIzmeni
             // 
@@ -441,6 +410,7 @@
             this.btnIzmeni.TabIndex = 27;
             this.btnIzmeni.Text = "Izmeni";
             this.btnIzmeni.UseVisualStyleBackColor = true;
+            this.btnIzmeni.Click += new System.EventHandler(this.btnIzmeni_Click);
             // 
             // btnObrisi
             // 
@@ -470,6 +440,7 @@
             this.btnSacuvaj.TabIndex = 29;
             this.btnSacuvaj.Text = "Sačuvaj";
             this.btnSacuvaj.UseVisualStyleBackColor = false;
+            this.btnSacuvaj.Click += new System.EventHandler(this.btnSacuvaj_Click);
             // 
             // btnOdustani
             // 
@@ -483,6 +454,73 @@
             this.btnOdustani.TabIndex = 30;
             this.btnOdustani.Text = "Odustani";
             this.btnOdustani.UseVisualStyleBackColor = true;
+            this.btnOdustani.Click += new System.EventHandler(this.btnOdustani_Click);
+            // 
+            // ID
+            // 
+            this.ID.HeaderText = "ID";
+            this.ID.Name = "ID";
+            this.ID.ReadOnly = true;
+            // 
+            // Status
+            // 
+            this.Status.HeaderText = "Status";
+            this.Status.Name = "Status";
+            this.Status.ReadOnly = true;
+            // 
+            // Namena
+            // 
+            this.Namena.HeaderText = "Namena";
+            this.Namena.Name = "Namena";
+            this.Namena.ReadOnly = true;
+            // 
+            // Iznos
+            // 
+            this.Iznos.HeaderText = "Iznos";
+            this.Iznos.Name = "Iznos";
+            this.Iznos.ReadOnly = true;
+            // 
+            // Valuta
+            // 
+            this.Valuta.HeaderText = "Valuta";
+            this.Valuta.Name = "Valuta";
+            this.Valuta.ReadOnly = true;
+            // 
+            // KamatnaStopa
+            // 
+            this.KamatnaStopa.HeaderText = "Kamatna Stopa";
+            this.KamatnaStopa.Name = "KamatnaStopa";
+            this.KamatnaStopa.ReadOnly = true;
+            // 
+            // MesecnaRata
+            // 
+            this.MesecnaRata.HeaderText = "Mesecna Rata";
+            this.MesecnaRata.Name = "MesecnaRata";
+            this.MesecnaRata.ReadOnly = true;
+            // 
+            // DatumOdobrenja
+            // 
+            this.DatumOdobrenja.HeaderText = "Datum Odobrenja";
+            this.DatumOdobrenja.Name = "DatumOdobrenja";
+            this.DatumOdobrenja.ReadOnly = true;
+            // 
+            // DatumDospeca
+            // 
+            this.DatumDospeca.HeaderText = "Datum Dospeca";
+            this.DatumDospeca.Name = "DatumDospeca";
+            this.DatumDospeca.ReadOnly = true;
+            // 
+            // Racun
+            // 
+            this.Racun.HeaderText = "Racun";
+            this.Racun.Name = "Racun";
+            this.Racun.ReadOnly = true;
+            // 
+            // Klijent
+            // 
+            this.Klijent.HeaderText = "Klijent";
+            this.Klijent.Name = "Klijent";
+            this.Klijent.ReadOnly = true;
             // 
             // UcKrediti
             // 
@@ -514,8 +552,6 @@
         private System.Windows.Forms.ComboBox cmbStatusFilter;
         private System.Windows.Forms.DataGridView dgvKrediti;
         private System.Windows.Forms.GroupBox grpPodaci;
-        private System.Windows.Forms.Label lblC0_0;
-        private System.Windows.Forms.TextBox txtId;
         private System.Windows.Forms.Label lblC0_1;
         private System.Windows.Forms.ComboBox cmbKlijent;
         private System.Windows.Forms.Label lblC0_2;
@@ -528,12 +564,8 @@
         private System.Windows.Forms.TextBox txtKamatnaStopa;
         private System.Windows.Forms.Label lblC1_1;
         private System.Windows.Forms.TextBox txtRokOtplate;
-        private System.Windows.Forms.Label lblC1_2;
-        private System.Windows.Forms.TextBox txtMesecnaRata;
         private System.Windows.Forms.Label lblC1_3;
         private System.Windows.Forms.DateTimePicker dtpDatumOdobrenja;
-        private System.Windows.Forms.Label lblC1_4;
-        private System.Windows.Forms.DateTimePicker dtpDatumDospeca;
         private System.Windows.Forms.Label lblC2_0;
         private System.Windows.Forms.ComboBox cmbStatus;
         private System.Windows.Forms.Label lblC2_1;
@@ -545,5 +577,16 @@
         private System.Windows.Forms.Button btnObrisi;
         private System.Windows.Forms.Button btnSacuvaj;
         private System.Windows.Forms.Button btnOdustani;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Status;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Namena;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Iznos;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Valuta;
+        private System.Windows.Forms.DataGridViewTextBoxColumn KamatnaStopa;
+        private System.Windows.Forms.DataGridViewTextBoxColumn MesecnaRata;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DatumOdobrenja;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DatumDospeca;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Racun;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Klijent;
     }
 }

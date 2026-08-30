@@ -2,8 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Banka.DTOs
 {
@@ -184,6 +186,69 @@ namespace Banka.DTOs
             Datum = datum;
             Vreme = vreme;
             BrojRacunaPrimalac = brojRacunaPrimalac;
+        }
+    }
+
+    //KREDIT
+
+    public class KreditBasic
+    {
+        public int Id { get; set; }
+        public string StatusKredita { get; set; }
+        public string Namena { get; set; }
+        public string Komentar { get; set; }
+        public double Iznos { get; set; }
+        public string Valuta { get; set; }
+        public double? KamatnaStopa { get; set; }
+        public int? RokOtplate { get; set; }
+        public DateTime? DatumDospeca { get; set; }
+        public DateTime? DatumOdobrenja { get; set; }
+        public string BrojRacuna { get; set; }
+        public string KlijentIdentifikator { get; set; }
+        public Racun Racun { get; set; }
+        public Klijent Klijent { get; set; }
+        public double MesecnaRata { get; set; }
+    }
+
+    public class KreditPregled
+    {
+        public int Id { get; set; }
+        public string StatusKredita { get; set; }
+        public string Namena { get; set; }
+        public double Iznos { get; set; }
+        public string Valuta { get; set; }
+        public double? KamatnaStopa { get; set; }
+        public double MesecnaRata { get; set; }
+        public DateTime? DatumDospeca { get; set; }
+        public DateTime? DatumOdobrenja { get; set; }
+        public Racun Racun { get; set; }
+        public Klijent Klijent { get; set; }
+
+        public KreditPregled(
+                    int id,
+                    string statusKredita,
+                    string namena,
+                    double iznos,
+                    string valuta,
+                    double kamatnaStopa,
+                    DateTime datumDospeca,
+                    DateTime datumOdobrenja,
+                    Racun racun,
+                    Klijent klijent,
+                    double mesecnaRata
+                )
+        {
+            Id = id;
+            StatusKredita = statusKredita;
+            Namena = namena;
+            Iznos = iznos;
+            Valuta = valuta;
+            KamatnaStopa = kamatnaStopa;
+            DatumDospeca = datumDospeca;
+            DatumOdobrenja = datumOdobrenja;
+            Racun = racun;
+            Klijent = klijent;
+            MesecnaRata = mesecnaRata;
         }
     }
 
