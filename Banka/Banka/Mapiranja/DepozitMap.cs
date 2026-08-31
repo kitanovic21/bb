@@ -14,7 +14,7 @@ namespace Banka.Mapiranja
         {
             Table("DEPOZIT");
 
-            Id(x => x.Id, "ID").GeneratedBy.Identity();
+            Id(x => x.Id, "ID").GeneratedBy.Increment();
 
             Map(x => x.Iznos, "IZNOS");
             Map(x => x.Komentar, "KOMENTAR");

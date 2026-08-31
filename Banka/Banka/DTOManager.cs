@@ -1791,9 +1791,10 @@ namespace Banka
             }
         }
 
-        public static async Task<List<DepozitPregled>> GetDepozitInfos()
+        //DEPOZIT
+        public static List<DepozitPregled> GetDepozitiInfos()
         {
-            List<DepozitPregled> depozitInfos = new List<DepozitPregled>();
+            List<DepozitPregled> depozitiInfo = new List<DepozitPregled>();
             ISession session = null;
 
             try
@@ -1802,44 +1803,49 @@ namespace Banka
 
                 if (session != null)
                 {
-                    IEnumerable<Depozit> depoziti =
-                        from d in session.Query<Depozit>()
-                        select d;
+                    List<Depozit> depoziti = session.Query<Depozit>().ToList();
 
                     foreach (Depozit d in depoziti)
                     {
-                        string imeNaziv = "";
+                        string klijentNaziv = "";
 
                         if (d.Klijent != null)
                         {
-                            if (d.Klijent is FizickoLice)
+                            Type tipKlijenta = NHibernateUtil.GetClass(d.Klijent);
+
+                            if (tipKlijenta == typeof(FizickoLice))
                             {
-                                FizickoLice f = (FizickoLice)d.Klijent;
-                                imeNaziv = f.Ime + " " + f.Prezime;
+                                FizickoLice f = session.Get<FizickoLice>(d.Klijent.ID);
+
+                                if (f != null)
+                                    klijentNaziv = f.Ime + " " + f.Prezime;
                             }
-                            else if (d.Klijent is PravnoLice)
+                            else if (tipKlijenta == typeof(PravnoLice))
                             {
-                                PravnoLice p = (PravnoLice)d.Klijent;
-                                imeNaziv = p.NazivFirme;
+                                PravnoLice p = session.Get<PravnoLice>(d.Klijent.ID);
+
+                                if (p != null)
+                                    klijentNaziv = p.NazivFirme;
                             }
                         }
 
-                        depozitInfos.Add(
-                            new DepozitPregled(
-                                d.Id,
-                                d.Iznos,
-                                d.DatumPocetka,
-                                d.Valuta,
-                                d.Status,
-                                imeNaziv
-                            )
-                        );
+                        DepozitPregled dp = new DepozitPregled();
+
+                        dp.Id = d.Id;
+                        dp.KlijentId = d.Klijent != null ? d.Klijent.ID : 0;
+                        dp.KlijentNaziv = klijentNaziv;
+                        dp.Iznos = d.Iznos;
+                        dp.DatumPocetka = d.DatumPocetka;
+                        dp.Valuta = d.Valuta ?? "";
+                        dp.Status = d.Status ?? "";
+
+                        depozitiInfo.Add(dp);
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.GetBaseException().Message, "Greška pri učitavanju depozita", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
@@ -1847,72 +1853,213 @@ namespace Banka
                     session.Close();
             }
 
-            return depozitInfos;
+            return depozitiInfo;
         }
 
-        public static async Task<DepozitBasic> GetDepozitBasic(int idDepozita)
+        public static DepozitBasic GetDepozitBasic(int id)
         {
-            DepozitBasic db = new DepozitBasic();
             ISession session = null;
 
             try
             {
                 session = DataLayer.GetSession();
 
-                if (session != null)
-                {
-                    Depozit d = await session.GetAsync<Depozit>(idDepozita);
+                if (session == null)
+                    return null;
 
-                    if (d != null)
-                    {
-                        db.Id = d.Id;
-                        db.Iznos = d.Iznos;
-                        db.Valuta = d.Valuta;
-                        db.KamatnaStopa = d.KamatnaStopa;
-                        db.PeriodOrocenja = d.PeriodOrocenja;
-                        db.DatumPocetka = d.DatumPocetka;
-                        db.DatumIsteka = d.DatumIsteka;
-                        db.Status = d.Status;
-                        db.OcekivanaKamata = d.OcekivanaKamata;
-                        db.Komentar = d.Komentar;
+                Depozit d = session.Get<Depozit>(id);
 
-                        if (d.Klijent != null)
-                        {
-                            db.KlijentId = d.Klijent.ID;
+                if (d == null)
+                    return null;
 
-                            if (d.Klijent is FizickoLice)
-                            {
-                                FizickoLice f = (FizickoLice)d.Klijent;
-                                db.KlijentImeNaziv = f.Ime + " " + f.Prezime;
-                            }
-                            else if (d.Klijent is PravnoLice)
-                            {
-                                PravnoLice p = (PravnoLice)d.Klijent;
-                                db.KlijentImeNaziv = p.NazivFirme;
-                            }
-                        }
+                DepozitBasic db = new DepozitBasic();
 
-                        if (d.Racun != null)
-                        {
-                            db.BrojRacuna = d.Racun.BrojRacuna;
-                        }
-                    }
-                }
+                db.Id = d.Id;
+                db.KlijentId = d.Klijent != null ? d.Klijent.ID : 0;
+                db.BrojRacuna = d.Racun != null ? d.Racun.BrojRacuna : "";
+                db.Iznos = d.Iznos;
+                db.Komentar = d.Komentar ?? "";
+                db.PeriodOrocenja = d.PeriodOrocenja;
+                db.DatumPocetka = d.DatumPocetka;
+                db.Valuta = d.Valuta ?? "";
+                db.OcekivanaKamata = d.OcekivanaKamata;
+                db.DatumIsteka = d.DatumIsteka;
+                db.Status = d.Status ?? "";
+                db.KamatnaStopa = d.KamatnaStopa;
+
+                return db;
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.GetBaseException().Message, "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
             }
             finally
             {
                 if (session != null)
                     session.Close();
             }
-
-            return db;
         }
 
+        public static async Task<bool> AddDepozit(DepozitBasic db)
+        {
+            ISession session = null;
+            ITransaction transaction = null;
 
+            try
+            {
+                session = DataLayer.GetSession();
+
+                if (session == null || db == null)
+                    return false;
+
+                transaction = session.BeginTransaction();
+
+                Klijent klijent = await session.GetAsync<Klijent>(db.KlijentId);
+                Racun racun = await session.GetAsync<Racun>(db.BrojRacuna);
+
+                if (klijent == null || racun == null)
+                    return false;
+
+                PredmetObracuna predmet = new PredmetObracuna();
+                await session.SaveAsync(predmet);
+
+                Depozit depozit = new Depozit();
+
+                depozit.Klijent = klijent;
+                depozit.Racun = racun;
+                depozit.PredmetObracuna = predmet;
+
+                depozit.Iznos = db.Iznos;
+                depozit.Komentar = db.Komentar;
+                depozit.PeriodOrocenja = db.PeriodOrocenja;
+                depozit.DatumPocetka = db.DatumPocetka;
+                depozit.Valuta = db.Valuta;
+                depozit.OcekivanaKamata = db.OcekivanaKamata;
+                depozit.DatumIsteka = db.DatumIsteka;
+                depozit.Status = db.Status;
+                depozit.KamatnaStopa = db.KamatnaStopa;
+
+                await session.SaveAsync(depozit);
+                await transaction.CommitAsync();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                if (transaction != null && transaction.IsActive)
+                    await transaction.RollbackAsync();
+
+                MessageBox.Show(ex.GetBaseException().Message, "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            finally
+            {
+                if (session != null)
+                    session.Close();
+            }
+        }
+
+        public static async Task<bool> UpdateDepozit(DepozitBasic db)
+        {
+            ISession session = null;
+            ITransaction transaction = null;
+
+            try
+            {
+                session = DataLayer.GetSession();
+
+                if (session == null || db == null)
+                    return false;
+
+                transaction = session.BeginTransaction();
+
+                Depozit depozit = await session.GetAsync<Depozit>(db.Id);
+
+                if (depozit == null)
+                    return false;
+
+                Klijent klijent = await session.GetAsync<Klijent>(db.KlijentId);
+                Racun racun = await session.GetAsync<Racun>(db.BrojRacuna);
+
+                if (klijent == null || racun == null)
+                    return false;
+
+                depozit.Klijent = klijent;
+                depozit.Racun = racun;
+                depozit.Iznos = db.Iznos;
+                depozit.Komentar = db.Komentar;
+                depozit.PeriodOrocenja = db.PeriodOrocenja;
+                depozit.DatumPocetka = db.DatumPocetka;
+                depozit.Valuta = db.Valuta;
+                depozit.OcekivanaKamata = db.OcekivanaKamata;
+                depozit.DatumIsteka = db.DatumIsteka;
+                depozit.Status = db.Status;
+                depozit.KamatnaStopa = db.KamatnaStopa;
+
+                await transaction.CommitAsync();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                if (transaction != null && transaction.IsActive)
+                    await transaction.RollbackAsync();
+
+                MessageBox.Show(ex.GetBaseException().Message, "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            finally
+            {
+                if (session != null)
+                    session.Close();
+            }
+        }
+
+        public static async Task<bool> DeleteDepozit(int id)
+        {
+            ISession session = null;
+            ITransaction transaction = null;
+
+            try
+            {
+                session = DataLayer.GetSession();
+
+                if (session == null)
+                    return false;
+
+                transaction = session.BeginTransaction();
+
+                Depozit depozit = await session.GetAsync<Depozit>(id);
+
+                if (depozit == null)
+                    return false;
+
+                PredmetObracuna predmet = depozit.PredmetObracuna;
+
+                await session.DeleteAsync(depozit);
+
+                if (predmet != null)
+                    await session.DeleteAsync(predmet);
+
+                await transaction.CommitAsync();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                if (transaction != null && transaction.IsActive)
+                    await transaction.RollbackAsync();
+
+                MessageBox.Show(ex.GetBaseException().Message, "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            finally
+            {
+                if (session != null)
+                    session.Close();
+            }
+        }
 
         //KREDIT
 
