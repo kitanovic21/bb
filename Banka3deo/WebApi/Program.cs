@@ -1,7 +1,7 @@
 using NHibernate;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
-using Banka.Entiteti; 
+using BankaLibrary.Entiteti; 
 using ISession = NHibernate.ISession;
 
 var builder = WebApplication.CreateBuilder(args);

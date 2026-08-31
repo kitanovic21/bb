@@ -1,4 +1,4 @@
-﻿using Banka.Entiteti;
+﻿using BankaLibrary.Entiteti;
 using FluentNHibernate.Mapping;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Banka.Mapiranja
+namespace BankaLibrary.Mapiranja
 {
     public class PovezaniPaketiUslugaMap : ClassMap<PovezaniPaketiUsluga>
     {

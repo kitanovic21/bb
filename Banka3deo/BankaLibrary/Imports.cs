@@ -1,0 +1,12 @@
+﻿global using System;
+global using System.Collections.Generic;
+global using System.Linq;
+global using System.Reflection;
+global using System.Threading.Tasks;
+global using System.Text;
+global using BankaLibrary.Entiteti;
+global using BankaLibrary.DTOs;
+global using NHibernate;
+global using static BankaLibrary.Extensions;
+global using System.Diagnostics.CodeAnalysis;
+global using NHibernate.Linq;

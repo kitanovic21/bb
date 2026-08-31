@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Banka.Entiteti
+namespace BankaLibrary.Entiteti
 {
     public class PravnoLice : Klijent
     {

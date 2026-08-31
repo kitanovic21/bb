@@ -1,4 +1,4 @@
-﻿using Banka.Entiteti;
+﻿using BankaLibrary.Entiteti;
 using FluentNHibernate.Mapping;
 using NHibernate.Mapping;
 using System;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Banka.Mapiranja
+namespace BankaLibrary.Mapiranja
 {
     class PravnoLiceMap : SubclassMap<PravnoLice>
     {

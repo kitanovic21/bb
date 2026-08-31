@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FluentNHibernate.Mapping;
-using Banka.Entiteti;
+using BankaLibrary.Entiteti;
 
-namespace Banka.Mapiranja
+namespace BankaLibrary.Mapiranja
 {
     class KlijentMap : ClassMap<Klijent>
     {

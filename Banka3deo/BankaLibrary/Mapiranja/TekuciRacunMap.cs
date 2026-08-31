@@ -1,4 +1,4 @@
-﻿using Banka.Entiteti;
+﻿using BankaLibrary.Entiteti;
 using FluentNHibernate.Conventions.Helpers;
 using FluentNHibernate.Mapping;
 using System;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Banka.Mapiranja
+namespace BankaLibrary.Mapiranja
 {
     class TekuciRacunMap : SubclassMap<TekuciRacun>
     {

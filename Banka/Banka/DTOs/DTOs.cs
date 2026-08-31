@@ -190,8 +190,6 @@ namespace Banka.DTOs
         public DateTime? Datum { get; set; }
         public string Vreme { get; set; }
         public string  BrojRacunaPrimalac { get; set; }
-
-        //nullable type shi
         public string Referenca { get; set; }
         public string PodacioOPrimaocu { get; set; }
         public string Komentar { get; set; }

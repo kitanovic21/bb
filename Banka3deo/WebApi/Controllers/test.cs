@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using NHibernate;
-using Banka.Entiteti; // Promeni ako se tvoj namespace zove drugačije
+using BankaLibrary.Entiteti; // Promeni ako se tvoj namespace zove drugačije
 using ISession = NHibernate.ISession;
 
 namespace WebApi.Controllers
