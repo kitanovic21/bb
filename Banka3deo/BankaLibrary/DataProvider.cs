@@ -707,6 +707,13 @@ public static class DataProvider
             {
                 racun.PredmetObracuna = await session.GetAsync<PredmetObracuna>(rv.PredmetObracunaID.Value);
             }
+            else
+            {
+                PredmetObracuna po = new PredmetObracuna();
+                await session.SaveAsync(po);
+                racun.PredmetObracuna = po;
+            }
+            
 
             await session.SaveAsync(racun);
             await transaction.CommitAsync();
@@ -755,7 +762,6 @@ public static class DataProvider
             r.Valuta = rv.Valuta;
             r.Komentar = rv.Komentar;
             r.KamatnaStopa = rv.KamatnaStopa;
-            // TrenutnoStanje se namerno ne menja ovde - to radi isključivo DataProvider.AddTransakcija/UpdateTransakcija
 
             switch (r)
             {
@@ -1187,7 +1193,11 @@ public static class DataProvider
 
             PredmetObracuna? predmetObracuna = await session.GetAsync<PredmetObracuna>(kv.PredmetObracunaID);
             if (predmetObracuna == null)
-                return "Predmet obračuna za kamatu ne postoji.".ToError(404);
+            {
+                predmetObracuna = new PredmetObracuna();
+                await session.SaveAsync(predmetObracuna);
+            }
+                
 
             Kamata kamata = kv.ToEntity();
             kamata.Id = 0; // ID generiše baza (Increment) - ignorišemo eventualno prosleđen ID
@@ -1409,7 +1419,10 @@ public static class DataProvider
 
             PredmetObracuna? predmetObracuna = await session.GetAsync<PredmetObracuna>(dv.PredmetObracunaID);
             if (predmetObracuna == null)
-                return "Predmet obračuna za depozit ne postoji.".ToError(404);
+            {
+                predmetObracuna = new PredmetObracuna();
+                await session.SaveAsync(predmetObracuna);
+            }
 
             Racun? racun = null;
             if (!string.IsNullOrWhiteSpace(dv.BrojRacuna))

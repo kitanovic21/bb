@@ -5,12 +5,9 @@ using BankaLibrary.Entiteti;
 
 namespace BankaLibrary.DTOs
 {
-    // Flat DTO za apstraktnu klasu Racun.
-    // TipRacuna je diskriminator ("TekuciRacun" | "StedniRacun" | "DevizniRacun" | "ZiroRacun")
-    // i govori koja grupa polja ispod treba da bude popunjena.
     public class RacunView
     {
-        // --- Zajednička polja (iz Racun) ---
+        //Zajednička polja
         public string BrojRacuna { get; set; } = string.Empty; // obavezno - PK, dodeljuje se ručno
         public string TipRacuna { get; set; } = string.Empty;  // obavezno - diskriminator
         public string? StatusRacuna { get; set; }
@@ -27,24 +24,24 @@ namespace BankaLibrary.DTOs
         public List<string> DozvoljeneValuteList { get; set; } = new();
         public List<string> PovezaniPaketiList { get; set; } = new();
 
-        // --- Samo za TekuciRacun ---
+        // tekuci
         public string? MogucnostPlatnihKartica { get; set; }
         public int? MesecniLimitTransakcija { get; set; }
 
-        // --- Samo za StedniRacun ---
+        // stedni
         public double? MinimalniIznosZaOtvaranje { get; set; }
         public string? UsloviPodizanjaSredstava { get; set; }
         public string? Frekvencija { get; set; }
         public double? BonusiZaDugorocnuStednju { get; set; }
 
-        // --- Zajedničko za DevizniRacun i ZiroRacun ---
+        // devizni i ziro
         public string? Namena { get; set; }
 
-        // --- Samo za DevizniRacun ---
+        // devizni
         public string? OgranicenjaDeviznihPropisa { get; set; }
         public double? KursnaRazlikaKonverzije { get; set; }
 
-        // --- Samo za ZiroRacun ---
+        // ziro
         public string? EBankarstvoZaFirme { get; set; }
         public double? LimitMasovnihPlacanja { get; set; }
         public string? Integracija { get; set; }
@@ -74,13 +71,13 @@ namespace BankaLibrary.DTOs
             switch (r)
             {
                 case TekuciRacun tr:
-                    TipRacuna = "TekuciRacun";
+                    TipRacuna = "tekuci";
                     MogucnostPlatnihKartica = tr.MogucnostPlatnihKartica;
                     MesecniLimitTransakcija = tr.MesecniLimitTransakcija;
                     break;
 
                 case StedniRacun sr:
-                    TipRacuna = "StedniRacun";
+                    TipRacuna = "stedni";
                     MinimalniIznosZaOtvaranje = sr.MinimalniIznosZaOtvaranje;
                     UsloviPodizanjaSredstava = sr.UsloviPodizanjaSredstava;
                     Frekvencija = sr.Frekvencija;
@@ -88,14 +85,14 @@ namespace BankaLibrary.DTOs
                     break;
 
                 case DevizniRacun dr:
-                    TipRacuna = "DevizniRacun";
+                    TipRacuna = "devizni";
                     Namena = dr.Namena;
                     OgranicenjaDeviznihPropisa = dr.OgranicenjaDeviznihPropisa;
                     KursnaRazlikaKonverzije = dr.KursnaRazlikaKonverzije;
                     break;
 
                 case ZiroRacun zr:
-                    TipRacuna = "ZiroRacun";
+                    TipRacuna = "ziro";
                     Namena = zr.Namena;
                     EBankarstvoZaFirme = zr.EBankarstvoZaFirme;
                     LimitMasovnihPlacanja = zr.LimitMasovnihPlacanja;
@@ -117,7 +114,7 @@ namespace BankaLibrary.DTOs
 
             switch (TipRacuna)
             {
-                case "TekuciRacun":
+                case "tekuci":
                     racun = new TekuciRacun
                     {
                         MogucnostPlatnihKartica = MogucnostPlatnihKartica,
@@ -125,7 +122,7 @@ namespace BankaLibrary.DTOs
                     };
                     break;
 
-                case "StedniRacun":
+                case "stedni":
                     racun = new StedniRacun
                     {
                         MinimalniIznosZaOtvaranje = MinimalniIznosZaOtvaranje ?? 0,
@@ -135,7 +132,7 @@ namespace BankaLibrary.DTOs
                     };
                     break;
 
-                case "DevizniRacun":
+                case "devizni":
                     racun = new DevizniRacun
                     {
                         Namena = Namena,
@@ -144,7 +141,7 @@ namespace BankaLibrary.DTOs
                     };
                     break;
 
-                case "ZiroRacun":
+                case "ziro":
                     racun = new ZiroRacun
                     {
                         Namena = Namena,
@@ -155,7 +152,7 @@ namespace BankaLibrary.DTOs
                     break;
 
                 default:
-                    throw new ArgumentException($"Nepoznat TipRacuna: '{TipRacuna}'. Očekivano 'TekuciRacun', 'StedniRacun', 'DevizniRacun' ili 'ZiroRacun'.");
+                    throw new ArgumentException($"Nepoznat TipRacuna: '{TipRacuna}'. Očekivano 'tekuci', 'stedni', 'tekuci' ili 'ziro'.");
             }
 
             racun.BrojRacuna = BrojRacuna;
