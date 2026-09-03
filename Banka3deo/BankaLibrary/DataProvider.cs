@@ -324,7 +324,7 @@ public static class DataProvider
             t.Vreme = tv.Vreme;
             t.Datum = tv.Datum;
 
-            await session.SaveAsync(t);
+            await session.UpdateAsync(t);
             await transaction.CommitAsync();
             return true;
         }

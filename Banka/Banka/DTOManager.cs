@@ -1143,97 +1143,93 @@ namespace Banka
             {
                 session = DataLayer.GetSession();
 
-                if (session == null)
+                if (!(session?.IsConnected ?? false))
+                { 
+                    MessageBox.Show("Nemoguće otvoriti sesiju.");
                     return false;
+                }
 
                 transaction = session.BeginTransaction();
 
-                Racun primalac = null;
-                if (tb.TipTransakcije != "Isplata")
+                Racun posiljalac = tb.BrojRacunaPosiljalac == null ? null : await session.GetAsync<Racun>(tb.BrojRacunaPosiljalac);
+                Racun primalac = tb.BrojRacunaPrimalac == null ? null : await session.GetAsync<Racun>(tb.BrojRacunaPrimalac);
+
+                if (posiljalac == null && tb.TipTransakcije != "Uplata")
                 {
-                    primalac = await session.GetAsync<Racun>(tb.BrojRacunaPrimalac);
-                    if (primalac == null)
-                    {
-                        MessageBox.Show("Izabrani primalac ne postoji.");
-                        return false;
-                    }
-                    else
-                    {
-                        if (primalac.Klijent.TipKlijenta == "fizicko")
-                        {
-                            FizickoLice fl = await session.GetAsync<FizickoLice>(primalac.Klijent.ID);
-                            if (fl == null)
-                            {
-                                MessageBox.Show("Greška pri pribavljanju informacija o fizičkom licu!");
-                                return false;
-                            }
-                            else
-                            {
-                                string imePrezime = $"{fl.Ime ?? ""} {fl.Prezime ?? ""}".Trim();
-                                if (imePrezime != tb.PodacioOPrimaocu)
-                                {
-                                    MessageBox.Show("Ime i prezime se ne poklapa sa vlasnikom računa!");
-                                    return false;
-                                }
-                            }
-                        }
-                        else
-                        {
-                            PravnoLice pl = await session.GetAsync<PravnoLice>(primalac.Klijent.ID);
-                            if (pl == null)
-                            {
-                                MessageBox.Show("Greška pri pribavljanju informacija o pravnom licu!");
-                                return false;
-                            }
-                            else if (pl.NazivFirme != tb.PodacioOPrimaocu)
-                            {
-                                MessageBox.Show("Naziv firme se ne poklapa sa vlasnikom računa!");
-                                return false;
-                            }
-                        }
-                    }
+                    MessageBox.Show("Izabrani posiljalac ne postoji.");
+                    return false;
                 }
-
-                Racun posiljalac = await session.GetAsync<Racun>(tb.BrojRacunaPosiljalac);
-
-                if (posiljalac == null)
+                if (primalac == null && tb.TipTransakcije != "Isplata")
                 {
-                    MessageBox.Show("Izabrani pošiljalac ne postoji.");
+                    MessageBox.Show("Račun primalaca ne postoji.");
                     return false;
                 }
 
-                // Konverzija se radi za istog klijenta ako je za razlicite to je onda vec neki vid transfera
-                if (tb.TipTransakcije == "Konverzija" && primalac.Klijent.ID != posiljalac.Klijent.ID)
-                {
-                    MessageBox.Show("Konverzija se ne moze vrsiti izmedju racuna sa razlicitim vlasnicima!");
-                    tb.Status = "Odbijena";
-                }
+                double iznosUValutiPosiljaoca = posiljalac != null ? KonvertujValutu(tb.Iznos, tb.Valuta, posiljalac.Valuta) : 0;
+                double iznosUValutiPrimaoca = primalac != null ? KonvertujValutu(tb.Iznos, tb.Valuta, primalac.Valuta) : 0;
 
-                // Ukoliko je transakcija odobrena promenice se stanje na racunima ukoliko ce se otici u nedozvoljeni minus transakcaij ce se cuvati kao
-                // odbijena
-                if (tb.Status == "Odobrena")
+                // 1 Kao na bankomatu unosi se samo BrojRacunaPrimalaca i tu se dodaje
+                if (tb.TipTransakcije == "Uplata")
                 {
-                    double kolikoSkinuti = KonvertujValutu(tb.Iznos, tb.Valuta, posiljalac.Valuta);
-                    double kolikoDodati = KonvertujValutu(tb.Iznos, tb.Valuta, primalac.Valuta); 
-
-                    if (posiljalac.TrenutnoStanje - kolikoSkinuti < -posiljalac.DozvoljeniMinus)
+                    if (tb.Status == "Odobrena")
                     {
-                        MessageBox.Show("Nema dovoljno sredstava na računu! Transakcija je Odbijena.");
-                        tb.Status = "Odbijena";
+                        primalac.TrenutnoStanje += iznosUValutiPrimaoca;
+                        await session.UpdateAsync(primalac);
                     }
-                    else
+                }
+                // 2 Kao na bankomatu unosti se samo BrojRacunaPosiljaoca i odatle se skida
+                else
+                {
+                    if (posiljalac.TrenutnoStanje - iznosUValutiPosiljaoca < -posiljalac.DozvoljeniMinus)
                     {
-                        posiljalac.TrenutnoStanje -= kolikoSkinuti;
-                        if(tb.TipTransakcije != "Isplata")
-                            primalac.TrenutnoStanje += kolikoDodati;
-                        await session.UpdateAsync(posiljalac);
-
-                        if (primalac.BrojRacuna != posiljalac.BrojRacuna)
+                        tb.Status = "Odbijena";
+                        tb.Komentar = "Posiljalac nije imao dovoljno stanja na racunu!";
+                    }
+                    if (tb.TipTransakcije != "Isplata")
+                    {
+                        if (primalac.Klijent is FizickoLice)
                         {
+                            FizickoLice fl = await session.GetAsync<FizickoLice>(primalac.Klijent.ID);
+
+                            string imePrezime = $"{fl.Ime ?? ""} {fl.Prezime ?? ""}".Trim();
+                            if (imePrezime != tb.PodacioOPrimaocu)
+                            {
+                                MessageBox.Show("Uneti podaci o primaocu se ne poklapaju sa imenom i prezimenom vlasnika racuna!");
+                                return false;
+                            }
+                        }
+                        else if (primalac.Klijent is PravnoLice)
+                        {
+                            PravnoLice pl = await session.GetAsync<PravnoLice>(primalac.Klijent.ID);
+
+                            if (pl.NazivFirme != tb.PodacioOPrimaocu)
+                            {
+                                MessageBox.Show("Uneti podaci o primaocu se ne poklapaju sa nazivom firme vlasnika racuna!");
+                                return false;
+                            }
+                        }
+
+                        if (tb.TipTransakcije == "Konverzija" &&
+                            posiljalac.Klijent.ID != primalac.Klijent.ID)
+                        {
+                            MessageBox.Show("Racuni ne pripadaju istom klijentu!");
+                            return false;
+                        }
+
+                        if (tb.Status == "Odobrena")
+                        {
+                            primalac.TrenutnoStanje += iznosUValutiPrimaoca;
                             await session.UpdateAsync(primalac);
                         }
                     }
+                    if (tb.Status == "Odobrena")
+                    {
+                        posiljalac.TrenutnoStanje -= iznosUValutiPosiljaoca;
+                        await session.UpdateAsync(posiljalac);
+                    }
                 }
+
+                posiljalac = posiljalac ?? primalac;
 
                 Transakcija transakcija = new Transakcija();
                 int maxKod = await session.Query<Transakcija>()
@@ -1257,21 +1253,23 @@ namespace Banka
 
                 await session.SaveAsync(transakcija);
                 await transaction.CommitAsync();
-
                 return true;
             }
             catch (Exception ex)
             {
                 if (transaction != null && transaction.IsActive)
+                {
                     await transaction.RollbackAsync();
+                }
 
-                MessageBox.Show(ex.GetBaseException().Message, "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Došlo je do greške prilikom obrade transakcije: {ex.Message}");
                 return false;
             }
             finally
             {
-                if (session != null)
-                    session.Close();
+                transaction?.Dispose();
+                session?.Close();
+                session?.Dispose();
             }
         }
 
@@ -1330,17 +1328,23 @@ namespace Banka
             {
                 session = DataLayer.GetSession();
 
-                if (session == null || tb == null)
+                if (!(session?.IsConnected ?? false))
+                {
+                    MessageBox.Show("Nemoguće otvoriti sesiju.");
                     return false;
+                }
 
                 transaction = session.BeginTransaction();
 
                 Transakcija t = await session.Query<Transakcija>()
                     .FirstOrDefaultAsync(x => x.KodTransakcije == tb.KodTransakcije
-                                           && x.Racun.BrojRacuna == tb.BrojRacunaPosiljalac);
-                if (t == null)
-                    return false;
+                           && x.Racun.BrojRacuna == tb.BrojRacunaPosiljalac);
 
+                if (t == null)
+                {
+                    MessageBox.Show("Transakcija ne postoji.");
+                    return false;
+                }
                 if (tb.TipTransakcije != t.TipTransakcije)
                 {
                     MessageBox.Show("Ne moze se menjati tip transakcije!");
@@ -1351,155 +1355,91 @@ namespace Banka
                     MessageBox.Show("Ne moze se menjati status transakcije!");
                     return false;
                 }
-
-                Racun primalac = null;
-                if (tb.TipTransakcije != "Isplata")
+                if (tb.Status == "Odbijena")
                 {
-                    primalac = await session.GetAsync<Racun>(tb.BrojRacunaPrimalac);
-                    if (primalac == null)
+                    MessageBox.Show("Ne moze se menjati odbijena transakcija!");
+                    return false;
+                }
+
+                Racun posiljalacStari = t.Racun ?? null;
+                Racun primalacStari = t.NaKojiRacun ?? null;
+                Racun posiljalacNovi = tb.BrojRacunaPosiljalac == null ? null : await session.GetAsync<Racun>(tb.BrojRacunaPosiljalac);
+                Racun primalacNovi = tb.BrojRacunaPrimalac == null ? null : await session.GetAsync<Racun>(tb.BrojRacunaPrimalac);
+
+                if (posiljalacNovi != posiljalacStari || primalacNovi != primalacStari)
+                {
+                    MessageBox.Show("Ne mogu se menjati posiljalac ni primalac!");
+                    return false;
+                }
+                if (tb.PodacioOPrimaocu != t.PodaciOPrimaocu)
+                {
+                    MessageBox.Show("Ne mogu se menjati Podaci o Primaocu");
+                    return false;
+                }
+
+                if (tb.Iznos != t.Iznos || tb.Valuta != t.Valuta)
+                {
+                    double iznosUValutiPosiljaoca = posiljalacNovi != null ? KonvertujValutu(tb.Iznos, tb.Valuta, posiljalacNovi.Valuta) : 0;
+                    double iznosUValutiPrimaoca = primalacNovi != null ? KonvertujValutu(tb.Iznos, tb.Valuta, primalacNovi.Valuta) : 0;
+                    double stariIznosUValutiPosiljaoca = posiljalacStari != null ? KonvertujValutu(t.Iznos, t.Valuta, posiljalacStari.Valuta) : 0;
+                    double stariIznosUValutiPrimaoca = primalacStari != null ? KonvertujValutu(t.Iznos, t.Valuta, primalacStari.Valuta) : 0;
+
+                    // 1 Kao na bankomatu unosi se samo BrojRacunaPrimalaca i tu se dodaje
+                    if (tb.TipTransakcije == "Uplata")
                     {
-                        MessageBox.Show("Izabrani primalac ne postoji.");
-                        return false;
+                        primalacNovi.TrenutnoStanje = primalacNovi.TrenutnoStanje + iznosUValutiPrimaoca - stariIznosUValutiPrimaoca;
+                        await session.UpdateAsync(primalacNovi);
                     }
+                    // 2 Kao na bankomatu unosti se samo BrojRacunaPosiljaoca i odatle se skida
                     else
                     {
-                        if (primalac.Klijent.TipKlijenta == "fizicko")
+                        if (posiljalacNovi.TrenutnoStanje - iznosUValutiPosiljaoca + stariIznosUValutiPosiljaoca < -posiljalacNovi.DozvoljeniMinus)
                         {
-                            FizickoLice fl = await session.GetAsync<FizickoLice>(primalac.Klijent.ID);
-                            if (fl == null)
-                            {
-                                MessageBox.Show("Greska pri pribavljanju informacija o fizickom licu!");
-                                return false;
-                            }
-                            else
-                            {
-                                string imePrezime = $"{fl.Ime ?? ""} {fl.Prezime ?? ""}".Trim();
-                                if (imePrezime != tb.PodacioOPrimaocu)
-                                {
-                                    MessageBox.Show("Ime i prezime se ne poklapa sa vlasnikom racuna!");
-                                    return false;
-                                }
-                            }
-                        }
-                        else
-                        {
-                            PravnoLice pl = await session.GetAsync<PravnoLice>(primalac.Klijent.ID);
-                            if (pl == null)
-                            {
-                                MessageBox.Show("Greska pri pribavljanju informacija o pravnom licu!");
-                                return false;
-                            }
-                            else if (pl.NazivFirme != tb.PodacioOPrimaocu)
-                            {
-                                MessageBox.Show("Naziv firme se ne poklapa sa vlasnikom racuna!");
-                                return false;
-                            }
-                        }
-                    }
-                }
-
-                Racun posiljalac = await session.GetAsync<Racun>(tb.BrojRacunaPosiljalac);
-
-                if (posiljalac == null)
-                {
-                    MessageBox.Show("Greska pri pribavljanju informacija o posiljaocu!");
-                    return false;
-                }
-
-                if (primalac == null)
-                    primalac = posiljalac;
-
-                if (posiljalac.BrojRacuna != tb.BrojRacunaPosiljalac)
-                {
-                    MessageBox.Show("Ne moze se menjati posiljalac!");
-                    return false;
-                }
-
-                if (tb.TipTransakcije == "Konverzija" && primalac.Klijent.ID != posiljalac.Klijent.ID)
-                {
-                    MessageBox.Show("Konverzija se ne moze vrsiti izmedju racuna sa razlicitim vlasnicima!");
-                    return false;
-                }
-
-                if (t.Status == "Odobrena")
-                {
-                    double kolikoJeBiloSkinuto = KonvertujValutu(t.Iznos, t.Valuta, posiljalac.Valuta);
-                    double kolikoJeBiloDodato = KonvertujValutu(t.Iznos, t.Valuta, primalac.Valuta);
-                    double kolikoSkinuti = KonvertujValutu(tb.Iznos, tb.Valuta, posiljalac.Valuta);
-                    double kolikoDodati = KonvertujValutu(tb.Iznos, tb.Valuta, primalac.Valuta);
-
-                    // Pri isplati (kad su posiljalac i primalac isti racun), podesavamo samo skidanje
-                    if (tb.TipTransakcije == "Isplata")
-                    {
-                        posiljalac.TrenutnoStanje = posiljalac.TrenutnoStanje + kolikoJeBiloSkinuto - kolikoSkinuti;
-                    }
-                    else
-                    {
-                        primalac.TrenutnoStanje = primalac.TrenutnoStanje - kolikoJeBiloDodato + kolikoDodati;
-                        posiljalac.TrenutnoStanje = posiljalac.TrenutnoStanje + kolikoJeBiloSkinuto - kolikoSkinuti;
-                    }
-
-                    if (posiljalac.TrenutnoStanje < -posiljalac.DozvoljeniMinus)
-                    {
-                        // Vracanje starog stanja u slucaju neuspeha
-                        if (tb.TipTransakcije == "Isplata")
-                        {
-                            posiljalac.TrenutnoStanje = posiljalac.TrenutnoStanje - kolikoJeBiloSkinuto + kolikoSkinuti;
-                        }
-                        else
-                        {
-                            primalac.TrenutnoStanje = primalac.TrenutnoStanje + kolikoJeBiloDodato - kolikoDodati;
-                            posiljalac.TrenutnoStanje = posiljalac.TrenutnoStanje - kolikoJeBiloSkinuto + kolikoSkinuti;
+                            MessageBox.Show("Nije moguce uciniti iznemu, posiljalac ce otici u nedozvoljeni minus!");
+                            return false;
                         }
 
-                        MessageBox.Show("Posiljalac nema dovoljno sredstava na racunu");
-                        return false;
-                    }
+                        if (tb.TipTransakcije != "Isplata")
+                        {
+                            primalacNovi.TrenutnoStanje = primalacNovi.TrenutnoStanje + iznosUValutiPrimaoca - stariIznosUValutiPrimaoca;
+                            await session.UpdateAsync(primalacNovi);
+                        }
 
-                    await session.UpdateAsync(posiljalac);
-                    if (primalac.BrojRacuna != posiljalac.BrojRacuna)
-                    {
-                        await session.UpdateAsync(primalac);
+                        posiljalacNovi.TrenutnoStanje = posiljalacNovi.TrenutnoStanje - iznosUValutiPosiljaoca + stariIznosUValutiPosiljaoca;
+                        await session.UpdateAsync(posiljalacNovi);
                     }
                 }
 
-                t.Racun = posiljalac;
-                t.NaKojiRacun = primalac;
-                t.TipTransakcije = tb.TipTransakcije;
+                posiljalacNovi = posiljalacNovi ?? primalacNovi;
+
                 t.Referenca = tb.Referenca;
                 t.Iznos = tb.Iznos;
-                t.PodaciOPrimaocu = tb.PodacioOPrimaocu;
                 t.Komentar = tb.Komentar;
                 t.Valuta = tb.Valuta;
                 t.Opis = tb.Opis;
                 t.Status = tb.Status;
-                t.Datum = tb.Datum;
                 t.Vreme = tb.Vreme;
+                t.Datum = tb.Datum;
 
                 await session.UpdateAsync(t);
-                await session.FlushAsync();
-
                 await transaction.CommitAsync();
-
                 return true;
             }
             catch (Exception ex)
             {
                 if (transaction != null && transaction.IsActive)
+                {
                     await transaction.RollbackAsync();
+                }
 
-                MessageBox.Show(
-                    ex.GetBaseException().Message,
-                    "Greška",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                MessageBox.Show($"Došlo je do greške prilikom obrade transakcije: {ex.Message}");
                 return false;
             }
             finally
             {
-                if (session != null)
-                    session.Close();
+                transaction?.Dispose();
+                session?.Close();
+                session?.Dispose();
             }
         }
         // KAMATA

@@ -53,7 +53,7 @@ namespace BankaLibrary.DTOs
             switch (k)
             {
                 case FizickoLice fl:
-                    TipKlijenta = "FizickoLice";
+                    TipKlijenta = "fizicko";
                     Ime = fl.Ime;
                     Prezime = fl.Prezime;
                     BrojLicneKarte = fl.BrojLicneKarte;
@@ -62,7 +62,7 @@ namespace BankaLibrary.DTOs
                     break;
 
                 case PravnoLice pl:
-                    TipKlijenta = "PravnoLice";
+                    TipKlijenta = "pravno";
                     NazivFirme = pl.NazivFirme;
                     PIB = pl.PIB;
                     break;
@@ -83,7 +83,7 @@ namespace BankaLibrary.DTOs
 
             switch (TipKlijenta)
             {
-                case "FizickoLice":
+                case "fizicko":
                     klijent = new FizickoLice
                     {
                         Ime = Ime,
@@ -94,7 +94,7 @@ namespace BankaLibrary.DTOs
                     };
                     break;
 
-                case "PravnoLice":
+                case "pravno":
                     klijent = new PravnoLice
                     {
                         NazivFirme = NazivFirme,
@@ -103,7 +103,7 @@ namespace BankaLibrary.DTOs
                     break;
 
                 default:
-                    throw new ArgumentException($"Nepoznat TipKlijenta: '{TipKlijenta}'. Očekivano 'FizickoLice' ili 'PravnoLice'.");
+                    throw new ArgumentException($"Nepoznat TipKlijenta: '{TipKlijenta}'. Očekivano 'fizicko' ili 'pravno'.");
             }
 
             klijent.ID = ID;
