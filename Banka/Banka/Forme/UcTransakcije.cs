@@ -131,9 +131,15 @@ namespace Banka.Forme
         private bool ValidacijaTransakcije()
         {
 
-            if (string.IsNullOrEmpty(cmbRacun.Text) && cmbTip.Text != "Isplata" && cmbTip.Text != "Konverzija")
+            if (string.IsNullOrEmpty(cmbRacun.Text) && cmbTip.Text != "Isplata")
             {
                 MessageBox.Show("Unesite Racun primaoca.");
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(cmbRacun.Text) && cmbTip.Text != "Uplata")
+            {
+                MessageBox.Show("Unesite Racun posiljaoca.");
                 return false;
             }
 
@@ -185,12 +191,6 @@ namespace Banka.Forme
                 return false;
             }
 
-            if (string.IsNullOrEmpty(cmbPoticeSa.Text))
-            {
-                MessageBox.Show("Unesite Racun posiljaoca.");
-                return false;
-            }
-
             return true;
         }
         private TransakcijaBasic ProcitajPodatkeSaForme()
@@ -218,7 +218,7 @@ namespace Banka.Forme
             tb.PodacioOPrimaocu = txtPrimalac.Text;
             tb.Status = cmbStatus.SelectedItem.ToString();
             tb.Referenca = txtReferenca.Text;
-            tb.BrojRacunaPosiljalac = cmbPoticeSa.SelectedItem.ToString();
+            tb.BrojRacunaPosiljalac = cmbPoticeSa.SelectedIndex != -1 ? cmbPoticeSa.SelectedItem.ToString() : null;
             tb.Opis = txtOpis.Text;
             tb.Komentar = txtKomentar.Text;
 
@@ -286,15 +286,25 @@ namespace Banka.Forme
 
         private void cmbTip_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cmbTip.Text == "Isplata")
+            if (cmbTip.SelectedIndex == 1)
             {
                 cmbRacun.Enabled = false;
                 cmbRacun.SelectedIndex = -1;
                 cmbRacun.Text = string.Empty;
+                cmbPoticeSa.Enabled = true;
+            }
+            else if(cmbTip.SelectedIndex == 0)
+            {
+                cmbPoticeSa.Enabled = false;
+                cmbPoticeSa.SelectedIndex = -1;
+                cmbPoticeSa.Text = string.Empty;
+                cmbRacun.Enabled = true;
+
             }
             else
             {
                 cmbRacun.Enabled = true;
+                cmbPoticeSa.Enabled = true;
             }
         }
         private async void btnObrisi_Click(object sender, EventArgs e)
