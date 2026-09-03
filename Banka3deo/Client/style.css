@@ -1,0 +1,11 @@
+body {
+    padding: 20px 60px 20px 60px;
+    background-color: #fafafa;
+    color: black;
+    text-align: center;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #9090b0;
+    color: white;
+}
