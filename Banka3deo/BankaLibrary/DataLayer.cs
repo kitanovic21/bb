@@ -8,9 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Banka
+namespace BankaLibrary
 {
-    class DataLayer
+    public class DataLayer
     {
         private static ISessionFactory _factory = null;
         private static object objLock = new object();
@@ -35,29 +35,32 @@ namespace Banka
         //konfiguracija i kreiranje session factory
         private static ISessionFactory CreateSessionFactory()
         {
-            try
-            {
-                var cfg = OracleManagedDataClientConfiguration.Oracle10
+            var cfg = OracleManagedDataClientConfiguration.Oracle10
                 .Dialect<NHibernate.Dialect.Oracle12cDialect>() // dodato zbog id auto inkrementa
                 .ShowSql()
                 .ConnectionString(c =>
                     c.Is("Data Source=gislab-oracle.elfak.ni.ac.rs:1521/SBP_PDB;User Id=S19693;Password=19693sifra"));
 
+
+            try
+            {
                 return Fluently.Configure()
                     .Database(cfg)
                     .Mappings(m => m.FluentMappings.AddFromAssemblyOf<KlijentMap>())
+                    // Isto podešavanje kao u Program.cs: zaobilazi .NET 10 bug sa
+                    // MemberwiseClone/internal klasama u NHibernate proxy validatoru.
+                    // Bez ovoga, svaki lazy-load/proxy (References, Fetch...) puca,
+                    // pa CRUD operacije u DataProvider-u ne rade.
+                    .ExposeConfiguration(c => c.SetProperty(NHibernate.Cfg.Environment.UseProxyValidator, "false"))
                     .BuildSessionFactory();
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
+                // Ne gutamo pravu grešku (kao ranije preko BadRequest -> NotImplementedException),
+                // nego je prosleđujemo dalje da bi se u DataProvider/kontroleru video pravi uzrok.
+                throw new InvalidOperationException(
+                    $"Neuspešno kreiranje NHibernate SessionFactory-ja: {e.Message}", e);
             }
-
-        }
-
-        private static ISessionFactory BadRequest(string message)
-        {
-            throw new NotImplementedException();
         }
     }
 }

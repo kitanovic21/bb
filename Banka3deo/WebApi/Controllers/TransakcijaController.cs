@@ -25,19 +25,19 @@ public class TransakcijaController : ControllerBase
     }
 
     [HttpGet]
-    [Route("UzmiTransakcijuPoIDju/{id}")]
+    [Route("UzmiTransakcijuPoIDju/{kodTransakcije}/{brojRacuna}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
-    public async Task<IActionResult> GetTransakcijaByID(int id)
+    public async Task<IActionResult> GetTransakcijaByID(int kodTransakcije, string brojRacuna)
     {
-        (bool isError, var transakcija, ErrorMessage? error) = await DataProvider.GetTransakcijaByID(id);
+        (bool isError, var transakcija, ErrorMessage? error) = await DataProvider.GetTransakcijaByID(kodTransakcije,brojRacuna);
         if (isError)
         {
             return StatusCode(error?.StatusCode ?? 400, error?.Message);
         }
 
-        return Ok(transakcija);
+        return Ok(transakcija); 
     }
 
     [HttpGet]
@@ -47,13 +47,25 @@ public class TransakcijaController : ControllerBase
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     public async Task<IActionResult> GetAllTransakcijeByRacun(string brojRacuna)
     {
+        /*
         (bool isError, var transakcija, ErrorMessage? error) = await DataProvider.GetTransakcijeByRacun(brojRacuna);
         if (isError)
         {
             return StatusCode(error?.StatusCode ?? 400, error?.Message);
         }
 
-        return Ok(transakcija);
+        return Ok(transakcija);*/
+        try
+        {
+            var transakcije = await DataProvider.GetTransakcijeByRacun(brojRacuna);
+            return Ok(transakcije);
+        }
+        catch (Exception ex)
+        {
+            // Vraćamo kompletan tekst greške da vidimo zašto puca
+            var poruka = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
+            return BadRequest($"DETALJI GREŠKE: {poruka} | STACK: {ex.StackTrace}");
+        }
     }
 
     [HttpPost]
